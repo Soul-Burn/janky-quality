@@ -6,6 +6,7 @@
   "factorio_version": "1.1",
   "description": "Implements a janky version of Factorio Space Age quality",
   "dependencies": [
-    "base >= 1.1.90"
+    "base >= 1.1.90",
+    "flib >= 0.12.9"
   ]
 }
