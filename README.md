@@ -11,3 +11,4 @@ TODO:
 * Recycler.
 * Quality enhanced buildings - fix icons. Add icons for placement. Add icons for quality on quality modules.
 * Quality overlay for equipment.
+* Technology unlocks
