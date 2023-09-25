@@ -19,6 +19,7 @@ for _, machine in pairs(data.raw["assembling-machine"]) do
             for i, cat in pairs(new_machine.crafting_categories) do
                 new_machine.crafting_categories[i] = lib.name_with_quality_module(cat, slots, q)
             end
+            new_machine.allowed_effects = {"consumption", "pollution"}
             new_machine.module_specification.module_slots = 0
             lib.add_prototype(new_machine)
 

@@ -1,3 +1,4 @@
+local flib_table = require("__flib__/table")
 local lib = require("__janky-quality__/lib/lib")
 
 -- Handle items without entities
@@ -11,18 +12,24 @@ for _, p in pairs(data.raw.item) do
     end
 end
 
-local all_cat = {
-    "accumulator", "artillery-turret", "beacon", "boiler", "burner-generator", "arithmetic-combinator", "decider-combinator", "constant-combinator",
-    "container", "logistic-container", "assembling-machine", "rocket-silo", "furnace", "combat-robot", "construction-robot",
-    "logistic-robot", "gate", "generator", "heat-interface", "heat-pipe", "inserter", "lab", "lamp", "land-mine", "mining-drill", "offshore-pump",
-    "pipe", "pipe-to-ground", "power-switch", "programmable-speaker", "pump", "radar",
-    "rail-chain-signal", "rail-signal", "reactor", "roboport", "solar-panel", "storage-tank", "train-stop", "splitter", "transport-belt",
-    "underground-belt", "turret", "ammo-turret", "electric-turret", "fluid-turret", "car", "artillery-wagon", "cargo-wagon", "fluid-wagon",
-    "locomotive", "spider-vehicle", "wall",
-    "active-defense-equipment", "battery-equipment", "belt-immunity-equipment", "energy-shield-equipment", "generator-equipment",
-    "movement-bonus-equipment", "night-vision-equipment", "roboport-equipment", "solar-panel-equipment", "capsule", "gun", "ammo", "armor",
-    "repair-tool", "tool", "loader", "loader-1x1", "spidertron-remote", "electric-energy-interface"
+local cat_without_bonuses = {
+    "arithmetic-combinator", "decider-combinator", "constant-combinator", "power-switch", "programmable-speaker",
+    "rail-chain-signal", "rail-signal", "train-stop", "heat-interface", "electric-energy-interface", "spidertron-remote"
 }
+
+local cat_without_sa_bonuses = {
+    "container", "logistic-container", "storage-tank", "pipe", "pipe-to-ground", "pump", "offshore-pump", "heat-pipe",
+    "splitter", "transport-belt", "underground-belt", "loader", "loader-1x1", "cargo-wagon", "fluid-wagon", "locomotive", "car",
+}
+
+local cat_with_sa_bonuses = {
+    "artillery-turret", "artillery-wagon", "boiler", "burner-generator", "combat-robot",
+    "generator", "land-mine", "radar", "reactor", "roboport", "wall", "gate",
+    "active-defense-equipment", "battery-equipment", "belt-immunity-equipment", "energy-shield-equipment", "generator-equipment",
+    "movement-bonus-equipment", "night-vision-equipment", "roboport-equipment", "solar-panel-equipment", "capsule", "ammo", "tool",
+}
+
+local all_cat = flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses })
 local all_cat_str = ";" .. table.concat(all_cat, ";") .. ";"
 
 -- Handle items with entities
