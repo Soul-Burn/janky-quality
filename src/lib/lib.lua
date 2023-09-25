@@ -55,6 +55,10 @@ function lib.name_with_quality_module(name, module_count, quality_module)
     return name .. "-qm-" .. module_count .. "x" .. quality_module.name
 end
 
+function lib.split_quality_modules(name)
+    return string.match(name, "(.+)-qm%-(%d)x(.+)")
+end
+
 lib.slot_counts = { 2, 3, 4 }
 
 function lib.copy_and_add_prototype(p, quality)

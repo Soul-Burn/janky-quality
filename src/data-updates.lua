@@ -5,6 +5,8 @@ for _, quality in pairs(lib.qualities) do
 end
 
 require("__janky-quality__/prototypes/quality_enhancing_machines")
+require("__janky-quality__/prototypes/quality_modules")
 require("__janky-quality__/prototypes/items_and_entities")
 require("__janky-quality__/prototypes/recipe_qualities")
 require("__janky-quality__/prototypes/recipes_with_quality_upgrades")
+require("__janky-quality__/prototypes/quality_enhancing_machine_programming")
