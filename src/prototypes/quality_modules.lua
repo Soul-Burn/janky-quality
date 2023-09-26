@@ -4,7 +4,7 @@ for i = 1, 3 do
     lib.add_prototype(
             {
                 category = "quality",
-                icon = "__janky-quality__/graphics/quality_module_" .. i .. ".png",
+                icon = jq_gfx .. "quality-module-" .. i .. ".png",
                 icon_size = 96,
                 localised_description = { "item-description.quality-module" },
                 name = "quality-module-" .. i,
@@ -50,8 +50,9 @@ lib.add_prototype(
 lib.add_prototype(
         {
             effects = { { recipe = "quality-module-1", type = "unlock-recipe" } },
-            icon = "__janky-quality__/graphics/quality_module_1.png",
-            icon_size = 96,
+            icon = jq_gfx .. "quality-module-1-tech.png",
+            icon_size = 256,
+            scale = 1,
             name = "quality-module",
             order = "i-i-a",
             prerequisites = { "modules" },
@@ -68,8 +69,8 @@ lib.add_prototype(
 lib.add_prototype(
         {
             effects = { { recipe = "quality-module-2", type = "unlock-recipe" } },
-            icon = "__janky-quality__/graphics/quality_module_2.png",
-            icon_size = 96,
+            icon = jq_gfx .. "quality-module-2-tech.png",
+            icon_size = 256,
             name = "quality-module-2",
             order = "i-i-b",
             prerequisites = { "quality-module", "advanced-electronics-2" },
@@ -90,8 +91,8 @@ lib.add_prototype(
                     type = "unlock-recipe"
                 }
             },
-            icon = "__janky-quality__/graphics/quality_module_3.png",
-            icon_size = 96,
+            icon = jq_gfx .. "quality-module-3-tech.png",
+            icon_size = 256,
             name = "quality-module-3",
             order = "i-i-c",
             prerequisites = { "quality-module-2", "production-science-pack" },

@@ -1,5 +1,9 @@
 local data_util = require("__flib__/data-util")
 
+jq_root = "__janky-quality__/"
+jq_prot = jq_root .. "prototypes/"
+jq_gfx = jq_root .. "graphics/"
+
 local lib = {}
 local new_prototypes = {}
 
@@ -15,11 +19,11 @@ function lib.flush_prototypes()
 end
 
 lib.qualities = {
-    { level = 1, modifier = 0, icon = "__janky-quality__/graphics/quality_1.png" },
-    { level = 2, modifier = 1, icon = "__janky-quality__/graphics/quality_2.png" },
-    { level = 3, modifier = 2, icon = "__janky-quality__/graphics/quality_3.png" },
-    { level = 4, modifier = 3, icon = "__janky-quality__/graphics/quality_4.png" },
-    { level = 5, modifier = 5, icon = "__janky-quality__/graphics/quality_5.png" },
+    { level = 1, modifier = 0, icon = jq_gfx .. "quality-1.png", icon_overlay = jq_gfx .. "quality-1-overlay.png" },
+    { level = 2, modifier = 1, icon = jq_gfx .. "quality-2.png", icon_overlay = jq_gfx .. "quality-2-overlay.png" },
+    { level = 3, modifier = 2, icon = jq_gfx .. "quality-3.png", icon_overlay = jq_gfx .. "quality-3-overlay.png" },
+    { level = 4, modifier = 3, icon = jq_gfx .. "quality-4.png", icon_overlay = jq_gfx .. "quality-4-overlay.png" },
+    { level = 5, modifier = 5, icon = jq_gfx .. "quality-5.png", icon_overlay = jq_gfx .. "quality-5-overlay.png" },
 }
 
 function lib.name_with_quality(name, quality)
@@ -38,34 +42,42 @@ function lib.find_quality(name)
 end
 
 lib.quality_modules = {
-    { name = "1@1", max_quality = 3, modifier = 0.01, icon = "__janky-quality__/graphics/quality_module_1.png" },
-    { name = "2@1", max_quality = 4, modifier = 0.0150, icon = "__janky-quality__/graphics/quality_module_2.png" },
+    { name = "1@1", max_quality = 3, modifier = 0.0100, icon = jq_gfx .. "quality-module-1-overlay.png" },
+    { name = "2@1", max_quality = 4, modifier = 0.0150, icon = jq_gfx .. "quality-module-2-overlay.png" },
 }
 
 for _, quality in pairs(lib.qualities) do
+    local name = "3@" .. quality.level
     table.insert(lib.quality_modules, {
-        name = "3@" .. quality.level,
+        name = name,
         max_quality = 5,
         modifier = 0.0248 * (1.0 + 0.3 * quality.modifier),
-        icon = "__janky-quality__/graphics/quality_module_3.png",
+        icon = jq_gfx .. "quality-module-" .. name .. "-overlay.png",
     })
 end
 
 function lib.name_with_quality_module(name, module_count, quality_module)
-    return name .. "-qm-" .. module_count .. "x" .. quality_module.name
+    return name .. "-qum-" .. module_count .. "x" .. quality_module.name
 end
 
 function lib.split_quality_modules(name)
-    return string.match(name, "(.+)-qm%-(%d)x(.+)")
+    return string.match(name, "(.+)-qum%-(%d)x(.+)")
 end
 
 lib.slot_counts = { 2, 3, 4 }
 
 function lib.copy_and_add_prototype(p, quality)
     local new_p = data_util.copy_prototype(p, lib.name_with_quality(p.name, quality))
-    new_p.icons = data_util.create_icons(p, { { icon = quality.icon, icon_size = 16, scale = 1, shift = { -6, 8 } } })
+    new_p.icons = data_util.create_icons(p, { { icon = quality.icon_overlay, icon_size = 64, scale = 1, icon_mipmaps = 0 } })
+    if new_p.icons ~= nil then
+        new_p.icons[1].scale = 1
+    end
+
     if new_p.placed_as_equipment_result then
         new_p.placed_as_equipment_result = lib.name_with_quality(p.name, quality)
+    end
+    if p.order then
+        new_p.order = lib.name_with_quality(p.order, quality)
     end
     lib.add_prototype(new_p)
     return new_p

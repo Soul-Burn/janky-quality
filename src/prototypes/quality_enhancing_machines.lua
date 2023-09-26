@@ -11,24 +11,31 @@ for _, recipe_category in pairs(data.raw["recipe-category"]) do
     end
 end
 
-for _, machine in pairs(data.raw["assembling-machine"]) do
-    if machine.module_specification and machine.module_specification.module_slots > 0 then
-        for _, q in pairs(lib.quality_modules) do
-            local slots = machine.module_specification.module_slots
-            local new_machine = data_util.copy_prototype(machine, lib.name_with_quality_module(machine.name, slots, q))
-            for i, cat in pairs(new_machine.crafting_categories) do
-                new_machine.crafting_categories[i] = lib.name_with_quality_module(cat, slots, q)
-            end
-            new_machine.allowed_effects = {"consumption", "pollution"}
-            new_machine.module_specification.module_slots = 0
-            lib.add_prototype(new_machine)
+local function handle_category(category_name)
+    for _, machine in pairs(data.raw[category_name]) do
+        if machine.module_specification and machine.module_specification.module_slots > 0 then
+            for _, qm in pairs(lib.quality_modules) do
+                local slots = machine.module_specification.module_slots
+                local new_machine = data_util.copy_prototype(machine, lib.name_with_quality_module(machine.name, slots, qm))
+                for i, cat in pairs(new_machine.crafting_categories) do
+                    new_machine.crafting_categories[i] = lib.name_with_quality_module(cat, slots, qm)
+                end
+                new_machine.allowed_effects = {"consumption", "pollution"}
+                new_machine.module_specification.module_slots = 0
+                lib.add_prototype(new_machine)
 
-            local item = data.raw.item[machine.name]
-            local new_item = data_util.copy_prototype(item, lib.name_with_quality_module(machine.name, slots, q))
-            new_item.icons = data_util.create_icons(item, { { icon = q.icon, icon_size = 96, scale = 0.25, shift = { 0, 6 } } })
-            lib.add_prototype(new_item)
+                local item = data.raw.item[machine.name]
+                local new_item = data_util.copy_prototype(item, lib.name_with_quality_module(machine.name, slots, qm), true)
+                new_item.icons = data_util.create_icons(item, { { icon = qm.icon, icon_size = 64, scale = 1, icon_mipmaps = 0 } })
+                new_item.icons[1].scale = 1
+                new_item.order = lib.name_with_quality_module(item.order, 0, qm)
+                lib.add_prototype(new_item)
+            end
         end
     end
 end
+
+handle_category("assembling-machine")
+handle_category("furnace")
 
 lib.flush_prototypes()
