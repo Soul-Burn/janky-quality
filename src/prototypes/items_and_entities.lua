@@ -20,17 +20,20 @@ local cat_without_bonuses = {
 local cat_without_sa_bonuses = {
     "container", "logistic-container", "storage-tank", "pipe", "pipe-to-ground", "pump", "offshore-pump", "heat-pipe",
     "splitter", "transport-belt", "underground-belt", "loader", "loader-1x1", "cargo-wagon", "fluid-wagon", "locomotive", "car",
+    "belt-immunity-equipment",
 }
 
 local cat_with_sa_bonuses = {
-    "artillery-turret", "artillery-wagon", "boiler", "burner-generator", "combat-robot",
+    "artillery-turret", "artillery-wagon", "boiler", "burner-generator", "combat-robot", "capsule", "ammo", "tool",
     "generator", "land-mine", "radar", "reactor", "roboport", "wall", "gate",
-    "active-defense-equipment", "battery-equipment", "belt-immunity-equipment", "energy-shield-equipment", "generator-equipment",
-    "movement-bonus-equipment", "night-vision-equipment", "roboport-equipment", "solar-panel-equipment", "capsule", "ammo", "tool",
+    "active-defense-equipment", "generator-equipment", "night-vision-equipment", "roboport-equipment",
 }
 
 local all_cat = flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses })
-local all_cat_str = ";" .. table.concat(all_cat, ";") .. ";"
+local all_cat_set = {}
+for _, cat in pairs(all_cat) do
+    all_cat_set[cat] = true
+end
 
 -- Handle items with entities
 local function handle_category(category_name, func)
@@ -42,7 +45,7 @@ local function handle_category(category_name, func)
                     new_entity.max_health = new_entity.max_health * (1 + 0.3 * quality.modifier)
                 end
                 if func then
-                    assert(string.find(all_cat_str, ";" .. category_name .. ";") == nil, "Category '" .. category_name .. "' appears in auto items")
+                    assert(all_cat_set[category_name] == nil, "Category '" .. category_name .. "' appears in auto items")
                     func(new_entity, quality)
                 end
                 for _, sub_category in pairs({ "item", "item-with-entity-data", "item-with-inventory" }) do

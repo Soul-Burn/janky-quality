@@ -37,8 +37,15 @@ return {
     ["fluid-turret"] = attack_parameters_modifier(0.1),
     ["beacon"] = power_modifier("energy_usage", -0.12),
     ["solar-panel"] = power_modifier("production", 0.3),
+    ["solar-panel-equipment"] = power_modifier("power", 0.3),
     ["construction-robot"] = power_modifier("max_energy", 0.3),
     ["logistic-robot"] = power_modifier("max_energy", 0.3),
+    ["energy-shield-equipment"] = mult_modifier({ max_shield_value = 0.3 }),
+    ["movement-bonus-equipment"] = mult_modifier({ movement_bonus = 0.3 }),
+    ["battery-equipment"] = function(p, quality)
+        local value, unit = data_util.get_energy_value(p.energy_source.buffer_capacity)
+        p.energy_source.buffer_capacity = (value * (1 + 0.3 * quality.modifier)) .. unit
+    end,
     ["accumulator"] = function(p, quality)
         local value, unit = data_util.get_energy_value(p.energy_source.buffer_capacity)
         p.energy_source.buffer_capacity = (value * (1 + 0.3 * quality.modifier)) .. unit
