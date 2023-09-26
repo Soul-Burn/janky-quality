@@ -72,6 +72,18 @@ function lib.copy_and_add_prototype(p, quality)
     if new_p.icons ~= nil then
         new_p.icons[1].scale = 1
     end
+    if string.find(p.type, "-equipment") and new_p.sprite then
+        if new_p.sprite.layers == nil then
+            new_p.sprite.layers = { table.deepcopy(new_p.sprite) }
+            new_p.sprite.height = nil
+            new_p.sprite.width = nil
+            new_p.sprite.scale = nil
+            new_p.sprite.priority = nil
+            new_p.sprite.hr_version = nil
+            new_p.sprite.filename = nil
+        end
+        table.insert(new_p.sprite.layers, { filename = quality.icon, height = 16, width = 16 })
+    end
 
     if new_p.placed_as_equipment_result then
         new_p.placed_as_equipment_result = lib.name_with_quality(p.name, quality)

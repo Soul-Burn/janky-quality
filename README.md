@@ -8,5 +8,4 @@ TODO:
 
 * More quality bonuses
 * Recycler
-* Quality overlay for equipment
 * Localized names
