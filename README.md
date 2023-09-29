@@ -9,3 +9,4 @@ TODO:
 * More quality bonuses
 * Recycler
 * Localized names
+* Better libs - "canonize recipe"/"delete recipe"

@@ -20,13 +20,12 @@ local cat_without_bonuses = {
 local cat_without_sa_bonuses = {
     "container", "logistic-container", "storage-tank", "pipe", "pipe-to-ground", "pump", "offshore-pump", "heat-pipe",
     "splitter", "transport-belt", "underground-belt", "loader", "loader-1x1", "cargo-wagon", "fluid-wagon", "locomotive", "car",
-    "belt-immunity-equipment",
+    "belt-immunity-equipment", "combat-robot", "capsule",
 }
 
 local cat_with_sa_bonuses = {
-    "artillery-turret", "artillery-wagon", "boiler", "burner-generator", "combat-robot", "capsule", "ammo", "tool",
-    "generator", "land-mine", "radar", "reactor", "roboport", "wall", "gate",
-    "active-defense-equipment", "generator-equipment", "night-vision-equipment", "roboport-equipment",
+    "boiler", "burner-generator", "ammo", "generator", "land-mine", "radar", "reactor", "wall", "gate",
+    "active-defense-equipment", "generator-equipment", "night-vision-equipment",
 }
 
 local all_cat = flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses })

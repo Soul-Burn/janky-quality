@@ -7,6 +7,14 @@ jq_gfx = jq_root .. "graphics/"
 local lib = {}
 local new_prototypes = {}
 
+function lib.split(str, sep)
+    local res = {}
+    for cn in string.gmatch(str, "([^" .. sep .. "]+)") do
+        table.insert(res, cn)
+    end
+    return res
+end
+
 function lib.add_prototype(prototype)
     table.insert(new_prototypes, prototype)
 end
