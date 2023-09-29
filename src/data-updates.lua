@@ -1,4 +1,4 @@
-local lib = require("__janky-quality__/lib/lib")
+lib = require("__janky-quality__/lib/lib")
 
 for _, quality in pairs(lib.qualities) do
     lib.add_prototype({ type = "sprite", name = "jq_quality_icon_" .. quality.level, filename = quality.icon, size = 16 })

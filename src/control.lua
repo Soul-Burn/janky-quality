@@ -1,4 +1,4 @@
-local lib = require("__janky-quality__/lib/lib")
+lib = require("__janky-quality__/lib/lib")
 
 --on_entity_died,
 --on_player_mined_entity,

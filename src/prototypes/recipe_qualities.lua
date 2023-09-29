@@ -1,5 +1,3 @@
-local lib = require("__janky-quality__/lib/lib")
-
 for _, p in pairs(data.raw.recipe) do
     for _, quality in pairs(lib.qualities) do
         if quality.level ~= 1 then

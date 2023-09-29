@@ -1,6 +1,3 @@
-local data_util = require("__flib__/data-util")
-local lib = require("__janky-quality__/lib/lib")
-
 lib.add_prototype({ name = "quality-module-programming", type = "recipe-category" })
 
 for _, recipe_category in pairs(data.raw["recipe-category"]) do

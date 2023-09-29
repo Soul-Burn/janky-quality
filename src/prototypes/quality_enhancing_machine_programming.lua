@@ -1,6 +1,3 @@
-local data_util = require("__flib__/data-util")
-local lib = require("__janky-quality__/lib/lib")
-
 local subgroups = {}
 
 local function handle_category(category_name)

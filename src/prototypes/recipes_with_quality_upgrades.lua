@@ -1,5 +1,3 @@
-local lib = require("__janky-quality__/lib/lib")
-
 local function make_probabilities(effective_quality, max_quality)
     if max_quality <= 1 then
         return { 1.0 }

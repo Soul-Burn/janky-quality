@@ -1,4 +1,5 @@
-local data_util = require("__flib__/data-util")
+data_util = require("__flib__/data-util")
+flib_table = require("__flib__/table")
 
 jq_root = "__janky-quality__/"
 jq_prot = jq_root .. "prototypes/"

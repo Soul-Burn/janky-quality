@@ -1,5 +1,3 @@
-local lib = require("__janky-quality__/lib/lib")
-
 for _, grid in pairs(data.raw["equipment-grid"]) do
     for _, quality in pairs(lib.qualities) do
         if quality.level ~= 1 then

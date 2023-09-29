@@ -1,5 +1,3 @@
-local lib = require("__janky-quality__/lib/lib")
-
 for i = 1, 3 do
     lib.add_prototype(
             {
