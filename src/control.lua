@@ -22,7 +22,7 @@ local function handle_build(event)
         found_slots = tonumber(found_slots)
         local bb = ent.bounding_box
         local off_y = (bb.right_bottom.y - bb.left_top.y) * 0.25
-        for i=1, found_slots do
+        for i = 1, found_slots do
             local off_x = 0.5 * (i - 0.5 * found_slots - 0.5)
             rendering.draw_sprite { target = ent, surface = ent.surface, sprite = ("jq_quality_module_icon_" .. found_module), target_offset = { off_x, off_y } }
         end
@@ -33,3 +33,26 @@ local events = { "on_built_entity", "on_robot_built_entity", "on_entity_cloned",
 for _, event in pairs(events) do
     script.on_event(defines.events[event], handle_build)
 end
+
+local function handle_research(event)
+    local tech = event.research
+    local force = tech.force
+
+    if tech.effects then
+        for _, effect in pairs(tech.effects) do
+            if effect.type == "unlock-recipe" then
+                for _, quality in pairs(lib.qualities) do
+                    local name = lib.name_with_quality(effect.recipe, quality)
+                    force.recipes[name].enabled = true
+                    for _, quality_module in pairs(lib.quality_modules) do
+                        for _, module_count in pairs(lib.slot_counts) do
+                            force.recipes[lib.name_with_quality_module(name, module_count, quality_module)].enabled = true
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+script.on_event(defines.events.on_research_finished, handle_research)
