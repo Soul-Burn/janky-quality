@@ -40,8 +40,8 @@ handle_category("furnace")
 
 for subgroup_name, _ in pairs(subgroups) do
     local subgroup = data.raw["item-subgroup"][subgroup_name]
-    lib.add_prototype({ group = "quality-programming", name = "quality-programming-" .. subgroup_name, order = subgroup.order, type = "item-subgroup" })
-    lib.add_prototype({ group = "quality-programming", name = "quality-deprogramming-" .. subgroup_name, order = subgroup.order, type = "item-subgroup" })
+    lib.add_prototype({ group = "quality-programming", name = "quality-programming-" .. subgroup_name, order = "a-" .. subgroup.order, type = "item-subgroup" })
+    lib.add_prototype({ group = "quality-programming", name = "quality-deprogramming-" .. subgroup_name, order = "b-" .. subgroup.order, type = "item-subgroup" })
 end
 
 lib.add_prototype(
