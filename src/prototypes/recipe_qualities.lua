@@ -13,21 +13,21 @@ for _, p in pairs(data.raw.recipe) do
                 for _, part in pairs(parts) do
                     if part.type == "fluid" then
                         part.name = lib.name_without_quality(part.name)
-                    elseif part.type == "item" or part.name then
+                    elseif part.type == "item" then
                         part.name = lib.name_with_quality(lib.name_without_quality(part.name), quality)
                     else
-                        part[1] = lib.name_with_quality(lib.name_without_quality(part[1]), quality)
+                        log(serpent.block(p))
+                        log(serpent.block(parts))
+                        error("Invalid recipe")
                     end
                 end
             end
 
             for _, recipe_root in pairs({ new_recipe, new_recipe.normal, new_recipe.expensive }) do
                 if recipe_root then
+                    recipe_root.ingredients, recipe_root.results = lib.get_canonic_recipe(recipe_root)
                     handle_recipe_part(recipe_root.ingredients)
                     handle_recipe_part(recipe_root.results)
-                    if recipe_root.result then
-                        recipe_root.result = lib.name_with_quality(lib.name_without_quality(recipe_root.result), quality)
-                    end
                     recipe_root.hide_from_player_crafting = true
                     recipe_root.allow_as_intermediate = false
                 end

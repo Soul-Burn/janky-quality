@@ -16,6 +16,32 @@ function lib.split(str, sep)
     return res
 end
 
+function lib.get_canonic_parts(parts)
+    if parts == nil then
+        return nil
+    end
+    local new_parts = {}
+    for _, part in ipairs(parts) do
+        if part.name == nil then
+            table.insert(new_parts, { type = "item", name = part[1], amount = part[2] })
+        else
+            local new_result = table.deepcopy(part)
+            new_result.type = new_result.type or "item"
+            table.insert(new_parts, new_result)
+        end
+    end
+    return new_parts
+end
+
+function lib.get_canonic_recipe(recipe_root)
+    local ingredients = lib.get_canonic_parts(recipe_root.ingredients)
+    local results = lib.get_canonic_parts(recipe_root.results)
+    if recipe_root.results == nil and recipe_root.result then
+        results = { { type = "item", name = recipe_root.result, amount = recipe_root.result_count or 1 } }
+    end
+    return ingredients, results
+end
+
 function lib.add_prototype(prototype)
     table.insert(new_prototypes, prototype)
 end
