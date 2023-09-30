@@ -17,8 +17,15 @@ local function handle_category(category_name)
                 for i, cat in pairs(new_machine.crafting_categories) do
                     new_machine.crafting_categories[i] = lib.name_with_quality_module(cat, slots, qm)
                 end
-                new_machine.allowed_effects = {"consumption", "pollution"}
+                new_machine.allowed_effects = { "consumption", "pollution" }
                 new_machine.module_specification.module_slots = 0
+
+                new_machine.localised_name = {
+                    "jq.with-qm",
+                    {machine.localised_name or "entity-name." .. machine.name},
+                    { "jq.with-quality", { "jq.quality-module-" .. qm.mod_level }, { "jq.quality-" .. qm.mod_quality } },
+                }
+
                 lib.add_prototype(new_machine)
 
                 local item = data.raw.item[machine.name]
@@ -26,6 +33,7 @@ local function handle_category(category_name)
                 new_item.icons = data_util.create_icons(item, { { icon = qm.icon, icon_size = 64, scale = 1, icon_mipmaps = 0 } })
                 new_item.icons[1].scale = 1
                 new_item.order = lib.name_with_quality_module(item.order, 0, qm)
+                new_item.localised_name = new_machine.localised_name
                 lib.add_prototype(new_item)
             end
         end

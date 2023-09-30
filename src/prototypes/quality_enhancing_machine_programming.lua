@@ -14,6 +14,7 @@ local function handle_category(category_name)
                         icons = data_util.create_icons(assembler),
                         ingredients = { { module_item_name, module_count }, { assembler_name_with_quality, 1 } },
                         name = "programming-quality-" .. item.name,
+                        localised_name = {"jq.programming", assembler.localised_name},
                         result = item.name,
                         type = "recipe",
                         subgroup = "quality-programming-" .. item.subgroup,
@@ -25,6 +26,7 @@ local function handle_category(category_name)
                         icons = data_util.create_icons(assembler), -- todo "X"
                         ingredients = { { item.name, 1 } },
                         name = "deprogramming-quality-" .. item.name,
+                        localised_name = {"jq.deprogramming", assembler.localised_name},
                         results = { { module_item_name, module_count }, { assembler_name_with_quality, 1 } },
                         type = "recipe",
                         subgroup = "quality-deprogramming-" .. item.subgroup,
@@ -49,6 +51,7 @@ lib.add_prototype(
             icon = jq_gfx .. "quality-module-1.png",
             icon_size = 96,
             name = "quality-programming",
+            localised_name = {"jq.quality-programming"},
             order = "z",
             type = "item-group",
         }

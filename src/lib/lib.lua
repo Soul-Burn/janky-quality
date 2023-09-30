@@ -77,8 +77,8 @@ function lib.find_quality(name)
 end
 
 lib.quality_modules = {
-    { name = "1@1", max_quality = 3, modifier = 0.0100, icon = jq_gfx .. "quality-module-1-overlay.png" },
-    { name = "2@1", max_quality = 4, modifier = 0.0150, icon = jq_gfx .. "quality-module-2-overlay.png" },
+    { name = "1@1", mod_level = 1, mod_quality = 1, max_quality = 3, modifier = 0.0100, icon = jq_gfx .. "quality-module-1-overlay.png" },
+    { name = "2@1", mod_level = 2, mod_quality = 1, max_quality = 4, modifier = 0.0150, icon = jq_gfx .. "quality-module-2-overlay.png" },
 }
 
 for _, quality in pairs(lib.qualities) do
@@ -86,6 +86,8 @@ for _, quality in pairs(lib.qualities) do
     table.insert(lib.quality_modules, {
         name = name,
         max_quality = 5,
+        mod_level = 3,
+        mod_quality = quality.level,
         modifier = 0.0248 * (1.0 + 0.3 * quality.modifier),
         icon = jq_gfx .. "quality-module-" .. name .. "-overlay.png",
     })
@@ -103,6 +105,11 @@ lib.slot_counts = { 2, 3, 4 }
 
 function lib.copy_and_add_prototype(p, quality)
     local new_p = data_util.copy_prototype(p, lib.name_with_quality(p.name, quality))
+    local mid_name = { "?", { "item-name." .. p.name }, { "entity-name." .. p.name }, { "fluid-name." .. p.name }, p.name }
+    if p.localised_name then
+        mid_name = { "", p.localised_name }
+    end
+    new_p.localised_name = { "jq.with-quality", mid_name, { "jq.quality-" .. quality.level } }
     new_p.icons = data_util.create_icons(p, { { icon = quality.icon_overlay, icon_size = 64, scale = 1, icon_mipmaps = 0 } })
     if new_p.icons ~= nil then
         new_p.icons[1].scale = 1
