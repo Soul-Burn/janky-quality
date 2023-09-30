@@ -11,7 +11,7 @@ local function handle_category(category_name)
             lib.add_prototype(
                     {
                         enabled = true,
-                        icons = data_util.create_icons(assembler),
+                        icons = table.deepcopy(item.icons),
                         ingredients = { { module_item_name, module_count }, { assembler_name_with_quality, 1 } },
                         name = "programming-quality-" .. item.name,
                         localised_name = {"jq.programming", assembler.localised_name},
@@ -23,7 +23,7 @@ local function handle_category(category_name)
             lib.add_prototype(
                     {
                         enabled = true,
-                        icons = data_util.create_icons(assembler), -- todo "X"
+                        icons = table.deepcopy(item.icons), -- todo "X"
                         ingredients = { { item.name, 1 } },
                         name = "deprogramming-quality-" .. item.name,
                         localised_name = {"jq.deprogramming", assembler.localised_name},

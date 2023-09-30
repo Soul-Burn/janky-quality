@@ -110,9 +110,9 @@ function lib.copy_and_add_prototype(p, quality)
         mid_name = { "", p.localised_name }
     end
     new_p.localised_name = { "jq.with-quality", mid_name, { "jq.quality-" .. quality.level } }
-    new_p.icons = data_util.create_icons(p, { { icon = quality.icon_overlay, icon_size = 64, scale = 1, icon_mipmaps = 0 } })
-    if new_p.icons ~= nil then
-        new_p.icons[1].scale = 1
+    new_p.icons = data_util.create_icons(p, { { icon = quality.icon_overlay, icon_size = 64, scale = 0.5, icon_mipmaps = 0 } })
+    if new_p.icons and #new_p.icons == 3 then
+        new_p.icons[1].scale = 0.5 -- This is a hack that makes icons actually stack correctly. No idea why it works.
     end
     if string.find(p.type, "-equipment") and new_p.sprite then
         if new_p.sprite.layers == nil then
