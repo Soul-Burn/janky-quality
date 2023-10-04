@@ -6,7 +6,8 @@ See mod on the [Mod portal](https://mods.factorio.com/mod/janky-quality)
 
 TODO:
 
-* More quality bonuses
+* Rethink how to do programming
 * Recycler
-* Localized names
-* Better libs - "canonize recipe"/"delete recipe"
+* More quality bonuses
+* Split quality bonuses to vanilla and extra (with option)
+* Miners

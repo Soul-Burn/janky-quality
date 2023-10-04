@@ -26,10 +26,7 @@ local cat_with_sa_bonuses = {
 }
 
 local all_cat = flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses })
-local all_cat_set = {}
-for _, cat in pairs(all_cat) do
-    all_cat_set[cat] = true
-end
+local all_cat_set = lib.as_set(all_cat)
 
 -- Handle items with entities
 local function handle_category(category_name, func)

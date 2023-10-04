@@ -8,6 +8,29 @@ jq_gfx = jq_root .. "graphics/"
 local lib = {}
 local new_prototypes = {}
 
+function lib.as_set(t)
+    local new = {}
+    for _, v in pairs(t) do
+        new[v] = true
+    end
+    return new
+end
+
+function lib.extend(t, t2)
+    for k, v in pairs(t2) do
+        t[k] = v
+    end
+end
+
+function lib.find_by_predicate(t, predicate)
+    for _, item in pairs(t) do
+        if predicate(item) then
+            return item
+        end
+    end
+    return nil
+end
+
 function lib.split(str, sep)
     local res = {}
     for cn in string.gmatch(str, "([^" .. sep .. "]+)") do

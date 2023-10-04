@@ -8,6 +8,7 @@ for _, qm in pairs(lib.quality_modules) do
     lib.add_prototype({ type = "sprite", name = "jq_quality_module_icon_" .. qm.name, filename = qm.icon, size = 64, scale = 0.5 })
 end
 
+require(jq_prot .. "recycling")
 require(jq_prot .. "quality_enhancing_machines")
 require(jq_prot .. "quality_modules")
 require(jq_prot .. "equipment_grid")
