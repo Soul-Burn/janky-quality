@@ -18,6 +18,7 @@ local function handle_category(category_name)
                         result = item.name,
                         type = "recipe",
                         subgroup = "quality-programming-" .. item.subgroup,
+                        enabled = false,
                     }
             )
             lib.add_prototype(
@@ -30,6 +31,7 @@ local function handle_category(category_name)
                         results = { { module_item_name, module_count }, { assembler_name_with_quality, 1 } },
                         type = "recipe",
                         subgroup = "quality-deprogramming-" .. item.subgroup,
+                        enabled = false,
                     }
             )
             subgroups[item.subgroup] = true

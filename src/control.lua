@@ -34,9 +34,36 @@ for _, event in pairs(events) do
     script.on_event(defines.events[event], handle_build)
 end
 
+local function get_max_quality_mod_level(force)
+    if force.technologies["quality-module-3"].researched then
+        return 3
+    end
+    if force.technologies["quality-module-2"].researched then
+        return 2
+    end
+    if force.technologies["quality-module"].researched then
+        return 1
+    end
+    return 0
+end
+
 local function handle_research(event)
     local tech = event.research
     local force = tech.force
+    local max_quality_level = get_max_quality_mod_level(force)
+
+    if string.match(tech.name, "quality%-module") then
+        for _, recipe in pairs(force.recipes) do
+            local assembler_name = string.match(recipe.name, "programming%-quality%-(.+)%-qum%-")
+            if not recipe.enabled and assembler_name and force.recipes[assembler_name] and force.recipes[assembler_name].enabled then
+                local _, _, found_module = lib.split_quality_modules(lib.name_without_quality(recipe.name))
+                local level, _ = string.match(found_module, "(%d)@(%d)")
+                if tonumber(level) <= max_quality_level then
+                    recipe.enabled = true
+                end
+            end
+        end
+    end
 
     if tech.effects then
         for _, effect in pairs(tech.effects) do
@@ -47,6 +74,11 @@ local function handle_research(event)
                     for _, quality_module in pairs(lib.quality_modules) do
                         for _, module_count in pairs(lib.slot_counts) do
                             force.recipes[lib.name_with_quality_module(name, module_count, quality_module)].enabled = true
+                            local qem_name = lib.name_with_quality(lib.name_with_quality_module(effect.recipe, module_count, quality_module), quality)
+                            if quality_module.mod_level <= max_quality_level and force.recipes["programming-quality-" .. qem_name] then
+                                force.recipes["programming-quality-" .. qem_name].enabled = true
+                                force.recipes["deprogramming-quality-" .. qem_name].enabled = true
+                            end
                         end
                     end
                 end
