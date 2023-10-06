@@ -9,9 +9,10 @@ entity.localised_name = "jq.recycler"
 entity.next_upgrade = nil
 entity.type = "furnace"
 entity.source_inventory_size = 1
-entity.result_inventory_size = 10
+entity.result_inventory_size = 50
 entity.allowed_effects = { "speed", "consumption", "pollution" }
 entity.module_specification = { module_slots = 4 }
+entity.cant_insert_at_source_message_key = "jq.cant_recycle",
 lib.add_prototype(entity)
 
 lib.add_prototype({
@@ -19,13 +20,12 @@ lib.add_prototype({
     icon_mipmaps = 4,
     icon_size = 64,
     name = "jq-recycler",
-    localised_name = {"jq.recycler"},
+    localised_name = { "jq.recycler" },
     order = "z[recycler]",
     place_result = "jq-recycler",
     stack_size = 50,
     subgroup = "production-machine",
     type = "item",
-    cant_insert_at_source_message_key = "jq.cant_recycle",
 })
 
 lib.add_prototype({ name = "jq-recycling", type = "recipe-category" })
@@ -70,9 +70,10 @@ function handle_item(item)
     local recipe = data.raw.recipe[item.name]
     if recipe == nil or (recipe.category and recyclable_categories[recipe.category] == nil) then
         new_recipe.ingredients = new_ingredients
-        new_recipe.results = { { type = "item", name = item.name, amount = 1, probability = recycling_probability } }
+        new_recipe.results = { lib.normalize_probability({ type = "item", name = item.name, amount = 1, probability = recycling_probability }) }
         return
     end
+    new_recipe.order = recipe.order
 
     function handle_root(root)
         if root == nil or (root.result == nil and root.results == nil) then
@@ -92,7 +93,9 @@ function handle_item(item)
         new_root.results = {}
         for _, ingredient in pairs(ingredients) do
             if ingredient.type == "item" then
-                local new_i = { type = "item", name = ingredient.name, amount = ingredient.amount, probability = recycling_probability / results[1].amount }
+                local new_i = lib.normalize_probability({
+                    type = "item", name = ingredient.name, amount = ingredient.amount, probability = recycling_probability / results[1].amount
+                })
                 table.insert(new_root.results, new_i)
             end
         end
@@ -104,7 +107,7 @@ function handle_item(item)
     new_recipe.expensive = handle_root(recipe.expensive)
 end
 
-for _, category in pairs({"item", "capsule", "item-with-entity-data"}) do
+for _, category in pairs({ "item", "capsule", "item-with-entity-data" }) do
     for _, item in pairs(data.raw[category]) do
         handle_item(item)
     end

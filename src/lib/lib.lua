@@ -65,6 +65,20 @@ function lib.get_canonic_recipe(recipe_root)
     return ingredients, results
 end
 
+function lib.normalize_probability(part)
+    if not part.probability then
+        return table.deepcopy(part)
+    end
+    local amount = part.amount
+    if part.amount_min and part.amount_max then
+        amount = (part.amount_min + part.amount_max) / 2.0
+    end
+    local v = amount * part.probability
+    local vc = math.ceil(v)
+    local spread = math.min(vc, (part.amount_max or part.amount) - vc)
+    return { type = part.type, name = part.name, amount_min = vc - spread, amount_max = vc + spread, probability = v/vc }
+end
+
 function lib.add_prototype(prototype)
     table.insert(new_prototypes, prototype)
 end
