@@ -12,7 +12,10 @@ local function make_probabilities(effective_quality, max_quality)
     return probabilities
 end
 
-for _, recipe in pairs(data.raw.recipe) do
+local function handle_recipe(recipe)
+    if recipe.subgroup and (recipe.subgroup == "fill-barrel" or recipe.subgroup == "empty-barrel") then
+        return
+    end
     for _, quality_module in pairs(lib.quality_modules) do
         for _, module_count in pairs(lib.slot_counts) do
             local effective_quality = module_count * quality_module.modifier
@@ -63,6 +66,10 @@ for _, recipe in pairs(data.raw.recipe) do
             end
         end
     end
+end
+
+for _, recipe in pairs(data.raw.recipe) do
+    handle_recipe(recipe)
 end
 
 lib.flush_prototypes()
