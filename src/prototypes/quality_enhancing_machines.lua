@@ -22,7 +22,7 @@ local function handle_category(category_name)
 
                 new_machine.localised_name = {
                     "jq.with-qm",
-                    {machine.localised_name or "entity-name." .. machine.name},
+                    machine.localised_name or { "entity-name." .. machine.name },
                     { "jq.with-quality", { "jq.quality-module-" .. qm.mod_level }, { "jq.quality-" .. qm.mod_quality } },
                 }
 
