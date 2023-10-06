@@ -2,8 +2,8 @@
 
 Quality modules inspired by FFF-375, but very janky!
 
-* Quality modules as items
-* Various assembler variations with baked in quality modules
+* Quality modules as items - not actually modules you can put in machines
+* Various crafting machine variations with baked in quality modules, assemble from machine and modules 
 * Quality upgrades for many items, inspired by the FFF
 * Recycling
 
