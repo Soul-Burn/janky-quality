@@ -39,7 +39,9 @@ lib.add_prototype({
     type = "item-group"
 })
 
-local recyclable_categories = lib.as_set({ "crafting", "basic-crafting", "advanced-crafting" })
+lib.flush_prototypes()
+
+local recyclable_categories = lib.as_set({ "crafting", "basic-crafting", "advanced-crafting", "crafting-with-fluid" })
 local recycling_probability = 0.25
 
 local items_to_skip = lib.as_set({
@@ -53,7 +55,6 @@ function handle_item(item)
     end
     local new_recipe = {
         enabled = true,
-        energy_required = 15,
         name = "jq-recycling-" .. item.name,
         localised_name = { "jq.recycling", item.localised_name or item.name },
         icon = "__core__/graphics/cancel.png",
@@ -63,9 +64,9 @@ function handle_item(item)
         category = "jq-recycling",
         hide_from_player_crafting = true,
         allow_as_intermediate = false,
-        energy_required = 0.5,
     }
     lib.add_prototype(new_recipe)
+
     local new_ingredients = { { type = "item", name = item.name, amount = 1 } }
     local recipe = data.raw.recipe[item.name]
     if recipe == nil or (recipe.category and recyclable_categories[recipe.category] == nil) then
