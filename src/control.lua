@@ -15,7 +15,7 @@ local function handle_build(event)
         local bb = ent.bounding_box
         local off_x = (bb.left_top.x - bb.right_bottom.x) / 2 + 0.15
         local off_y = (bb.right_bottom.y - bb.left_top.y) / 2 - 0.15
-        rendering.draw_sprite { target = ent, surface = ent.surface, sprite = ("jq_quality_icon_" .. found_quality), target_offset = { off_x, off_y } }
+        rendering.draw_sprite { target = ent, surface = ent.surface, sprite = ("jq_quality_icon_" .. found_quality), target_offset = { off_x, off_y }, only_in_alt_mode = true }
     end
     local _, found_slots, found_module = lib.split_quality_modules(lib.name_without_quality(ent.name))
     if found_slots and found_module then
@@ -24,7 +24,7 @@ local function handle_build(event)
         local off_y = (bb.right_bottom.y - bb.left_top.y) * 0.25
         for i = 1, found_slots do
             local off_x = 0.5 * (i - 0.5 * found_slots - 0.5)
-            rendering.draw_sprite { target = ent, surface = ent.surface, sprite = ("jq_quality_module_icon_" .. found_module), target_offset = { off_x, off_y } }
+            rendering.draw_sprite { target = ent, surface = ent.surface, sprite = ("jq_quality_module_icon_" .. found_module), target_offset = { off_x, off_y }, only_in_alt_mode = true }
         end
     end
 end
