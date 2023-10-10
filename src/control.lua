@@ -47,24 +47,34 @@ local function get_max_quality_mod_level(force)
     return 0
 end
 
-local function handle_research(event)
-    local tech = event.research
-    local force = tech.force
+local function quality_unlock(force)
     local max_quality_level = get_max_quality_mod_level(force)
-
-    if string.match(tech.name, "quality%-module") then
-        for _, recipe in pairs(force.recipes) do
-            local assembler_name = string.match(recipe.name, "programming%-quality%-(.+)%-qum%-")
-            if not recipe.enabled and assembler_name and force.recipes[assembler_name] and force.recipes[assembler_name].enabled then
-                local _, _, found_module = lib.split_quality_modules(lib.name_without_quality(recipe.name))
-                local level, _ = string.match(found_module, "(%d)@(%d)")
-                if tonumber(level) <= max_quality_level then
-                    recipe.enabled = true
-                end
+    for _, recipe in pairs(force.recipes) do
+        local assembler_name = string.match(recipe.name, "programming%-quality%-(.+)%-qum%-")
+        if not recipe.enabled and assembler_name and force.recipes[assembler_name] and force.recipes[assembler_name].enabled then
+            local _, _, found_module = lib.split_quality_modules(lib.name_without_quality(recipe.name))
+            local level, _ = string.match(found_module, "(%d)@(%d)")
+            if tonumber(level) <= max_quality_level then
+                recipe.enabled = true
             end
         end
     end
+end
 
+
+local function handle_technology_rest(event)
+    quality_unlock(event.force)
+end
+
+local function handle_research(event)
+    local tech = event.research
+    local force = tech.force
+
+    if string.match(tech.name, "quality%-module") then
+        quality_unlock(force)
+    end
+
+    local max_quality_level = get_max_quality_mod_level(force)
     if tech.effects then
         for _, effect in pairs(tech.effects) do
             if effect.type == "unlock-recipe" then
@@ -88,3 +98,4 @@ local function handle_research(event)
 end
 
 script.on_event(defines.events.on_research_finished, handle_research)
+script.on_event(defines.events.on_technology_effects_reset, handle_technology_rest)
