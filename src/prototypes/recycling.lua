@@ -2,6 +2,7 @@ local entity = table.deepcopy(data.raw["assembling-machine"]["assembling-machine
 local tint = { r = 0, g = 1, b = 0, a = 1 }
 entity.animation.layers[1].tint = tint
 entity.animation.layers[1].hr_version.tint = tint
+entity.icon = jq_gfx .. "recycle.png"
 entity.crafting_categories = { "jq-recycling" }
 entity.minable.result = "jq-recycler"
 entity.name = "jq-recycler"
@@ -21,7 +22,7 @@ lib.add_prototype({
     icon_size = 64,
     name = "jq-recycler",
     localised_name = { "jq.recycler" },
-    order = "z[recycler]",
+    order = "d[recycler]",
     place_result = "jq-recycler",
     stack_size = 50,
     subgroup = "production-machine",
@@ -38,6 +39,41 @@ lib.add_prototype({
     order = "z",
     type = "item-group"
 })
+
+lib.add_prototype(
+        {
+            enabled = false,
+            energy_required = 0.5,
+            ingredients = {
+                { "steel-plate", 5 },
+                { "advanced-circuit", 5 },
+                { "iron-gear-wheel", 10 },
+            },
+            name = "jq-recycler",
+            result = "jq-recycler",
+            type = "recipe"
+        }
+)
+
+lib.add_prototype(
+        {
+            effects = { { recipe = "jq-recycler", type = "unlock-recipe" } },
+            icon = jq_gfx .. "recycle.png",
+            icon_size = 64,
+            scale = 1,
+            name = "jq-recycler",
+            localised_name = {"jq.recycler"},
+            order = "a-b-d",
+            prerequisites = { "quality-module", "advanced-electronics-2" },
+            type = "technology",
+            unit = {
+                count = 75,
+                ingredients = { { "automation-science-pack", 1 }, { "logistic-science-pack", 1 }, { "chemical-science-pack", 1 } },
+                time = 30
+            },
+            upgrade = true
+        }
+)
 
 lib.flush_prototypes()
 
