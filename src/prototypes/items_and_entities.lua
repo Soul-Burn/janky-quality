@@ -1,9 +1,9 @@
 -- Handle items without entities
 for _, p in pairs(data.raw.item) do
     if p.place_result == nil and p.placed_as_equipment_result == nil then
-        for _, quality in pairs(lib.qualities) do
+        for _, quality in pairs(libq.qualities) do
             if quality.level ~= 1 then
-                lib.copy_and_add_prototype(p, quality)
+                libq.copy_and_add_prototype(p, quality)
             end
         end
     end
@@ -31,9 +31,9 @@ local all_cat_set = lib.as_set(all_cat)
 -- Handle items with entities
 local function handle_category(category_name, func)
     for _, p in pairs(data.raw[category_name]) do
-        for _, quality in pairs(lib.qualities) do
+        for _, quality in pairs(libq.qualities) do
             if quality.level ~= 1 then
-                local new_entity = lib.copy_and_add_prototype(p, quality)
+                local new_entity = libq.copy_and_add_prototype(p, quality)
                 if new_entity.max_health then
                     new_entity.max_health = new_entity.max_health * (1 + 0.3 * quality.modifier)
                 end
@@ -44,7 +44,7 @@ local function handle_category(category_name, func)
                 for _, sub_category in pairs({ "item", "item-with-entity-data", "item-with-inventory" }) do
                     local item = data.raw[sub_category][p.name]
                     if item then
-                        lib.copy_and_add_prototype(item, quality)
+                        libq.copy_and_add_prototype(item, quality)
                         break
                     end
                 end

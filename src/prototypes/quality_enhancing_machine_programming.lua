@@ -3,11 +3,11 @@ local subgroups = {}
 local function handle_category(category_name)
     for _, assembler in pairs(data.raw[category_name]) do
         local item = data.raw.item[assembler.name]
-        local name, module_count, module_name = lib.split_quality_modules(item.name)
+        local name, module_count, module_name = libq.split_quality_modules(item.name)
         if name ~= nil and module_count ~= nil and module_name ~= nil then
-            local assembler_name_with_quality = lib.name_with_quality(name, { level = lib.find_quality(item.name) })
+            local assembler_name_with_quality = libq.name_with_quality(name, { level = libq.find_quality(item.name) })
             local tier, quality_level = string.match(module_name, "(%d)@(%d)")
-            local module_item_name = lib.name_with_quality("quality-module-" .. tier, { level = tonumber(quality_level) })
+            local module_item_name = libq.name_with_quality("quality-module-" .. tier, { level = tonumber(quality_level) })
             lib.add_prototype(
                     {
                         enabled = true,

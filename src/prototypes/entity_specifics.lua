@@ -35,7 +35,7 @@ function m.energy(modifier)
 end
 
 function m.with_quality(value, quality)
-    return value and lib.name_with_quality(value, quality)
+    return value and libq.name_with_quality(value, quality)
 end
 
 local function default_mod(name)
@@ -83,9 +83,9 @@ return {
         if p.limitation then
             local new_limitations = {}
             for _, limitation in pairs(p.limitation) do
-                for _, q in pairs(lib.qualities) do
+                for _, q in pairs(libq.qualities) do
                     if q.level ~= 1 then
-                        table.insert(new_limitations, lib.name_with_quality(limitation, q))
+                        table.insert(new_limitations, libq.name_with_quality(limitation, q))
                     end
                 end
             end
