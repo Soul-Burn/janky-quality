@@ -18,9 +18,9 @@ local function handle_category(category_name)
                     for i, cat in pairs(new_machine.crafting_categories) do
                         new_machine.crafting_categories[i] = libq.name_with_quality_module(cat, slots, qm)
                     end
-                elseif new_machine.mining_categories then
-                    if new_machine.mining_categories[1] == "basic-solid" then
-                        table.insert(new_machine.mining_categories, libq.name_with_quality_module("basic-solid", miner_slots, qm))
+                elseif new_machine.resource_categories then
+                    if new_machine.resource_categories[1] == "basic-solid" then
+                        table.insert(new_machine.resource_categories, libq.name_with_quality_module("basic-solid", slots, qm))
                     end
                 end
                 new_machine.allowed_effects = { "consumption", "pollution" }

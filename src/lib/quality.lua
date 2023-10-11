@@ -80,6 +80,44 @@ function libq.copy_and_add_prototype(p, quality)
     if p.order then
         new_p.order = libq.name_with_quality(p.order, quality)
     end
-    libq.add_prototype(new_p)
+    lib.add_prototype(new_p)
     return new_p
 end
+
+local function make_probabilities(effective_quality, max_quality)
+    if max_quality <= 1 then
+        return { 1.0 }
+    end
+    local probabilities = { 1.0 - effective_quality }
+    local left = effective_quality
+    for i = 2, (max_quality - 1) do
+        probabilities[i] = left * 0.9
+        left = left * 0.1
+    end
+    probabilities[max_quality] = left
+    return probabilities
+end
+
+function libq.transform_results_with_probabilities(results, module_count, quality_module)
+    if results == nil then
+        return
+    end
+    local new_results = {}
+    for _, part in pairs(results) do
+        if part.type == "fluid" then
+            table.insert(new_results, part)
+        else
+            local found_quality = libq.find_quality(part.name)
+            local probabilities = make_probabilities(module_count * quality_module.modifier, quality_module.max_quality - found_quality + 1)
+            for i, prob in pairs(probabilities) do
+                local new_part = table.deepcopy(part)
+                new_part.name = libq.name_with_quality(libq.name_without_quality(new_part.name), { level = found_quality - 1 + i })
+                new_part.probability = prob * (part.probability or 1.0)
+                table.insert(new_results, new_part)
+            end
+        end
+    end
+    return new_results
+end
+
+return libq
