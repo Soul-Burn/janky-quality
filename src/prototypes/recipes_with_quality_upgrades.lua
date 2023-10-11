@@ -1,55 +1,18 @@
-local function make_probabilities(effective_quality, max_quality)
-    if max_quality <= 1 then
-        return { 1.0 }
-    end
-    local probabilities = { 1.0 - effective_quality }
-    local left = effective_quality
-    for i = 2, (max_quality - 1) do
-        probabilities[i] = left * 0.9
-        left = left * 0.1
-    end
-    probabilities[max_quality] = left
-    return probabilities
-end
-
 local function handle_recipe(recipe)
     if recipe.subgroup and (recipe.subgroup == "fill-barrel" or recipe.subgroup == "empty-barrel") then
         return
     end
     for _, quality_module in pairs(libq.quality_modules) do
         for _, module_count in pairs(libq.slot_counts) do
-            local effective_quality = module_count * quality_module.modifier
             local new_recipe = table.deepcopy(recipe)
             lib.add_prototype(new_recipe)
             new_recipe.name = libq.name_with_quality_module(new_recipe.name, module_count, quality_module)
             new_recipe.category = libq.name_with_quality_module((new_recipe.category or "crafting"), module_count, quality_module)
 
-            local function handle_recipe_part(results)
-                if results == nil then
-                    return
-                end
-                local new_results = {}
-                for _, part in pairs(results) do
-                    if part.type == "fluid" then
-                        table.insert(new_results, part)
-                    else
-                        local found_quality = libq.find_quality(part.name)
-                        local probabilities = make_probabilities(effective_quality, quality_module.max_quality - found_quality + 1)
-                        for i, prob in pairs(probabilities) do
-                            local new_part = table.deepcopy(part)
-                            new_part.name = libq.name_with_quality(libq.name_without_quality(new_part.name), { level = found_quality - 1 + i })
-                            new_part.probability = prob * (part.probability or 1.0)
-                            table.insert(new_results, new_part)
-                        end
-                    end
-                end
-                return new_results
-            end
-
             for _, recipe_root in pairs({ new_recipe, new_recipe.normal, new_recipe.expensive }) do
                 if recipe_root then
                     recipe_root.ingredients, recipe_root.results = lib.get_canonic_recipe(recipe_root)
-                    recipe_root.results = handle_recipe_part(recipe_root.results)
+                    recipe_root.results = libq.transform_results_with_probabilities(recipe_root.results, module_count, quality_module)
                     recipe_root.hide_from_player_crafting = true
                     recipe_root.allow_as_intermediate = false
 
