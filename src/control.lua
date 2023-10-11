@@ -1,9 +1,60 @@
 lib = require("__janky-quality__/lib/lib")
 
---on_entity_died,
---on_player_mined_entity,
---on_robot_mined_entity,
---script_raised_destroy,
+local function make_area(bounding_box, radius)
+    local bb = bounding_box
+    local center_x, center_y = (bb.right_bottom.x + bb.left_top.x) / 2, (bb.right_bottom.y + bb.left_top.y) / 2
+    return { { center_x - radius, center_y - radius }, { center_x + radius, center_y + radius } }
+end
+
+local function should_set_resource(quality_module, res_qm_name)
+    if quality_module and res_qm_name then
+        return quality_module.name > res_qm_name
+    end
+    return quality_module or res_qm_name
+end
+
+local function set_resources_around_miner(entity, module_count, quality_module)
+    local search_area = make_area(entity.bounding_box, entity.prototype.mining_drill_radius)
+    for _, resource in pairs(entity.surface.find_entities_filtered { area = search_area, type = "resource" }) do
+        if string.match(resource.prototype.resource_category, "basic%-solid") then
+            local name, _, res_qm_name = lib.split_quality_modules(resource.name)
+            if not name then
+                name = resource.name
+            end
+            if quality_module then
+                name = lib.name_with_quality_module(name, module_count, quality_module)
+            end
+            if should_set_resource(quality_module, res_qm_name) then
+                local new_resource = resource.surface.create_entity { name = name, amount = resource.amount, position = resource.position }
+                new_resource.graphics_variation = resource.graphics_variation
+                resource.destroy()
+            end
+        end
+    end
+end
+
+local function handle_removal(event)
+    local entity = event.entity
+    if entity == nil then
+        return
+    end
+    if entity.type == "mining-drill" then
+        set_resources_around_miner(entity)
+
+        local search_area = make_area(entity.bounding_box, entity.prototype.mining_drill_radius + 1)
+        for _, miner in pairs(entity.surface.find_entities_filtered { area = search_area, type = "mining-drill" }) do
+            if miner ~= entity then
+                local _, found_slots, found_module = lib.split_quality_modules(lib.name_without_quality(miner.name))
+                if found_slots and found_module then
+                    local qm = lib.find_by_predicate(lib.quality_modules, function(item)
+                        return item.name == found_module
+                    end)
+                    set_resources_around_miner(miner, found_slots, qm)
+                end
+            end
+        end
+    end
+end
 
 local function handle_build(event)
     local ent = event.created_entity or event.entity or event.destination
@@ -27,11 +78,23 @@ local function handle_build(event)
             rendering.draw_sprite { target = ent, surface = ent.surface, sprite = ("jq_quality_module_icon_" .. found_module), target_offset = { off_x, off_y }, only_in_alt_mode = true }
         end
     end
+
+    if ent.type == "mining-drill" then
+        if found_slots and found_module then
+            local qm = lib.find_by_predicate(lib.quality_modules, function(item)
+                return item.name == found_module
+            end)
+            set_resources_around_miner(ent, found_slots, qm)
+        end
+    end
 end
 
-local events = { "on_built_entity", "on_robot_built_entity", "on_entity_cloned", "script_raised_built", "script_raised_revive" }
-for _, event in pairs(events) do
+for _, event in pairs({ "on_built_entity", "on_robot_built_entity", "on_entity_cloned", "script_raised_built", "script_raised_revive" }) do
     script.on_event(defines.events[event], handle_build)
+end
+
+for _, event in pairs({ "on_entity_died", "on_player_mined_entity", "on_robot_mined_entity", "script_raised_destroy" }) do
+    script.on_event(defines.events[event], handle_removal)
 end
 
 local function get_max_quality_mod_level(force)
@@ -60,7 +123,6 @@ local function quality_unlock(force)
         end
     end
 end
-
 
 local function handle_technology_rest(event)
     quality_unlock(event.force)

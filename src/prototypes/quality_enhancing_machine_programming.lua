@@ -41,6 +41,7 @@ end
 
 handle_category("assembling-machine")
 handle_category("furnace")
+handle_category("mining-drill")
 
 for subgroup_name, _ in pairs(subgroups) do
     local subgroup = data.raw["item-subgroup"][subgroup_name]

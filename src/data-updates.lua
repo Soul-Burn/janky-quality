@@ -9,6 +9,7 @@ for _, qm in pairs(lib.quality_modules) do
 end
 
 require(jq_prot .. "recycling")
+require(jq_prot .. "resources")
 require(jq_prot .. "quality_enhancing_machines")
 require(jq_prot .. "quality_modules")
 require(jq_prot .. "equipment_grid")

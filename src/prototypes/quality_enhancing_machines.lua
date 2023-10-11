@@ -14,8 +14,14 @@ local function handle_category(category_name)
             for _, qm in pairs(lib.quality_modules) do
                 local slots = machine.module_specification.module_slots
                 local new_machine = data_util.copy_prototype(machine, lib.name_with_quality_module(machine.name, slots, qm))
-                for i, cat in pairs(new_machine.crafting_categories) do
-                    new_machine.crafting_categories[i] = lib.name_with_quality_module(cat, slots, qm)
+                if new_machine.crafting_categories then
+                    for i, cat in pairs(new_machine.crafting_categories) do
+                        new_machine.crafting_categories[i] = lib.name_with_quality_module(cat, slots, qm)
+                    end
+                elseif new_machine.mining_categories then
+                    if new_machine.mining_categories[1] == "basic-solid" then
+                        table.insert(new_machine.mining_categories, lib.name_with_quality_module("basic-solid", miner_slots, qm))
+                    end
                 end
                 new_machine.allowed_effects = { "consumption", "pollution" }
                 new_machine.module_specification.module_slots = 0
@@ -41,5 +47,6 @@ end
 
 handle_category("assembling-machine")
 handle_category("furnace")
+handle_category("mining-drill")
 
 lib.flush_prototypes()
