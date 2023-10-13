@@ -42,7 +42,7 @@ local function handle_category(category_name, func)
                     new_entity.max_health = new_entity.max_health * (1 + 0.3 * quality.modifier)
                 end
                 if func then
-                    assert(all_cat_set[category_name] == nil, "Category '" .. category_name .. "' appears in auto items")
+                    assert(not all_cat_set[category_name], "Category '" .. category_name .. "' appears in auto items")
                     func(new_entity, quality)
                 end
                 for _, sub_category in pairs({ "item", "item-with-entity-data", "item-with-inventory" }) do
@@ -58,8 +58,8 @@ local function handle_category(category_name, func)
 end
 
 for category, func in pairs(jq_entity_mods.entity_mods) do
+    all_cat_set[category] = nil
     handle_category(category, func)
-    all_cat[category] = nil
 end
 
 for _, category in pairs(all_cat) do
