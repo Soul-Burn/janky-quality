@@ -129,6 +129,8 @@ local function handle_technology_rest(event)
     quality_unlock(event.force)
 end
 
+local ignored_subgroups = lib.as_set({"fill-barrel", "empty-barrel"})
+
 local function handle_research(event)
     local tech = event.research
     local force = tech.force
@@ -143,14 +145,17 @@ local function handle_research(event)
             if effect.type == "unlock-recipe" then
                 for _, quality in pairs(libq.qualities) do
                     local name = libq.name_with_quality(effect.recipe, quality)
-                    force.recipes[name].enabled = true
-                    for _, quality_module in pairs(libq.quality_modules) do
-                        for _, module_count in pairs(libq.slot_counts) do
-                            force.recipes[libq.name_with_quality_module(name, module_count, quality_module)].enabled = true
-                            local qem_name = libq.name_with_quality(libq.name_with_quality_module(effect.recipe, module_count, quality_module), quality)
-                            if quality_module.mod_level <= max_quality_level and force.recipes["programming-quality-" .. qem_name] then
-                                force.recipes["programming-quality-" .. qem_name].enabled = true
-                                force.recipes["deprogramming-quality-" .. qem_name].enabled = true
+                    local recipe = force.recipes[name]
+                    recipe.enabled = true
+                    if not ignored_subgroups[recipe.subgroup.name] then
+                        for _, quality_module in pairs(libq.quality_modules) do
+                            for _, module_count in pairs(libq.slot_counts) do
+                                force.recipes[libq.name_with_quality_module(name, module_count, quality_module)].enabled = true
+                                local qem_name = libq.name_with_quality(libq.name_with_quality_module(effect.recipe, module_count, quality_module), quality)
+                                if quality_module.mod_level <= max_quality_level and force.recipes["programming-quality-" .. qem_name] then
+                                    force.recipes["programming-quality-" .. qem_name].enabled = true
+                                    force.recipes["deprogramming-quality-" .. qem_name].enabled = true
+                                end
                             end
                         end
                     end
