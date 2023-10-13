@@ -1,8 +1,10 @@
+local lib = require("__janky-quality__/lib/lib")
+
 local entity = table.deepcopy(data.raw["assembling-machine"]["assembling-machine-1"])
 local tint = { r = 0, g = 1, b = 0, a = 1 }
 entity.animation.layers[1].tint = tint
 entity.animation.layers[1].hr_version.tint = tint
-entity.icon = jq_gfx .. "recycle.png"
+entity.icon = lib.p.gfx .. "recycle.png"
 entity.crafting_categories = { "jq-recycling" }
 entity.minable.result = "jq-recycler"
 entity.name = "jq-recycler"
@@ -17,7 +19,7 @@ entity.cant_insert_at_source_message_key = "jq.cant_recycle",
 lib.add_prototype(entity)
 
 lib.add_prototype({
-    icon = jq_gfx .. "recycle.png",
+    icon = lib.p.gfx .. "recycle.png",
     icon_mipmaps = 4,
     icon_size = 64,
     name = "jq-recycler",
@@ -32,7 +34,7 @@ lib.add_prototype({
 lib.add_prototype({ name = "jq-recycling", type = "recipe-category" })
 lib.add_prototype({ group = "jq-recycling", name = "jq-recycling", type = "item-subgroup" })
 lib.add_prototype({
-    icon = jq_gfx .. "recycle.png",
+    icon = lib.p.gfx .. "recycle.png",
     icon_size = 64,
     name = "jq-recycling",
     localised_name = { "jq.recycling" },
@@ -58,7 +60,7 @@ lib.add_prototype(
 lib.add_prototype(
         {
             effects = { { recipe = "jq-recycler", type = "unlock-recipe" } },
-            icon = jq_gfx .. "recycle.png",
+            icon = lib.p.gfx .. "recycle.png",
             icon_size = 64,
             scale = 1,
             name = "jq-recycler",

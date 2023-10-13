@@ -1,3 +1,7 @@
+local flib_table = require("__flib__/table")
+local lib = require("__janky-quality__/lib/lib")
+local libq = require("__janky-quality__/lib/quality")
+
 -- Handle items without entities
 for _, p in pairs(data.raw.item) do
     if p.place_result == nil and p.placed_as_equipment_result == nil then

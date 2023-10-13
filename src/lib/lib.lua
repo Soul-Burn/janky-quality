@@ -1,11 +1,10 @@
-data_util = require("__flib__/data-util")
-flib_table = require("__flib__/table")
-
-jq_root = "__janky-quality__/"
-jq_prot = jq_root .. "prototypes/"
-jq_gfx = jq_root .. "graphics/"
-
 local lib = {}
+lib.p = {
+    root = "__janky-quality__/",
+    prot = "__janky-quality__/prototypes/",
+    gfx = "__janky-quality__/graphics/",
+}
+
 local new_prototypes = {}
 
 function lib.as_set(t)
@@ -76,7 +75,7 @@ function lib.normalize_probability(part)
     local v = amount * part.probability
     local vc = math.ceil(v)
     local spread = math.min(vc, (part.amount_max or part.amount) - vc)
-    return { type = part.type, name = part.name, amount_min = vc - spread, amount_max = vc + spread, probability = v/vc }
+    return { type = part.type, name = part.name, amount_min = vc - spread, amount_max = vc + spread, probability = v / vc }
 end
 
 function lib.add_prototype(prototype)

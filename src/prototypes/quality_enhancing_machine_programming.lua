@@ -1,3 +1,6 @@
+local lib = require("__janky-quality__/lib/lib")
+local libq = require("__janky-quality__/lib/quality")
+
 local subgroups = {}
 
 local function handle_category(category_name)
@@ -51,7 +54,7 @@ end
 
 lib.add_prototype(
         {
-            icon = jq_gfx .. "quality-module-1.png",
+            icon = lib.p.gfx .. "quality-module-1.png",
             icon_size = 96,
             name = "quality-programming",
             localised_name = {"jq.quality-programming"},

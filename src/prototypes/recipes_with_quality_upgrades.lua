@@ -1,3 +1,6 @@
+local lib = require("__janky-quality__/lib/lib")
+local libq = require("__janky-quality__/lib/quality")
+
 local function handle_recipe(recipe)
     if recipe.subgroup and (recipe.subgroup == "fill-barrel" or recipe.subgroup == "empty-barrel") then
         return

@@ -1,5 +1,5 @@
-lib = require("__janky-quality__/lib/lib")
-libq = require("__janky-quality__/lib/quality")
+local lib = require("__janky-quality__/lib/lib")
+local libq = require("__janky-quality__/lib/quality")
 
 local function make_area(bounding_box, radius)
     local bb = bounding_box

@@ -1,3 +1,6 @@
+local lib = require("__janky-quality__/lib/lib")
+local libq = require("__janky-quality__/lib/quality")
+
 local miner_slots = 3
 
 for _, qm in pairs(libq.quality_modules) do

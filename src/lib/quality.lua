@@ -1,11 +1,14 @@
+local lib = require("__janky-quality__/lib/lib")
+local data_util = require("__flib__/data-util")
+
 local libq = {}
 
 libq.qualities = {
-    { level = 1, modifier = 0, icon = jq_gfx .. "quality-1.png", icon_overlay = jq_gfx .. "quality-1-overlay.png" },
-    { level = 2, modifier = 1, icon = jq_gfx .. "quality-2.png", icon_overlay = jq_gfx .. "quality-2-overlay.png" },
-    { level = 3, modifier = 2, icon = jq_gfx .. "quality-3.png", icon_overlay = jq_gfx .. "quality-3-overlay.png" },
-    { level = 4, modifier = 3, icon = jq_gfx .. "quality-4.png", icon_overlay = jq_gfx .. "quality-4-overlay.png" },
-    { level = 5, modifier = 5, icon = jq_gfx .. "quality-5.png", icon_overlay = jq_gfx .. "quality-5-overlay.png" },
+    { level = 1, modifier = 0, icon = lib.p.gfx .. "quality-1.png", icon_overlay = lib.p.gfx .. "quality-1-overlay.png" },
+    { level = 2, modifier = 1, icon = lib.p.gfx .. "quality-2.png", icon_overlay = lib.p.gfx .. "quality-2-overlay.png" },
+    { level = 3, modifier = 2, icon = lib.p.gfx .. "quality-3.png", icon_overlay = lib.p.gfx .. "quality-3-overlay.png" },
+    { level = 4, modifier = 3, icon = lib.p.gfx .. "quality-4.png", icon_overlay = lib.p.gfx .. "quality-4-overlay.png" },
+    { level = 5, modifier = 5, icon = lib.p.gfx .. "quality-5.png", icon_overlay = lib.p.gfx .. "quality-5-overlay.png" },
 }
 
 function libq.name_with_quality(name, quality)
@@ -24,8 +27,8 @@ function libq.find_quality(name)
 end
 
 libq.quality_modules = {
-    { name = "1@1", mod_level = 1, mod_quality = 1, max_quality = 3, modifier = 0.0100, icon = jq_gfx .. "quality-module-1-overlay.png" },
-    { name = "2@1", mod_level = 2, mod_quality = 1, max_quality = 4, modifier = 0.0150, icon = jq_gfx .. "quality-module-2-overlay.png" },
+    { name = "1@1", mod_level = 1, mod_quality = 1, max_quality = 3, modifier = 0.0100, icon = lib.p.gfx .. "quality-module-1-overlay.png" },
+    { name = "2@1", mod_level = 2, mod_quality = 1, max_quality = 4, modifier = 0.0150, icon = lib.p.gfx .. "quality-module-2-overlay.png" },
 }
 
 for _, quality in pairs(libq.qualities) do
@@ -36,7 +39,7 @@ for _, quality in pairs(libq.qualities) do
         mod_level = 3,
         mod_quality = quality.level,
         modifier = 0.0248 * (1.0 + 0.3 * quality.modifier),
-        icon = jq_gfx .. "quality-module-" .. name .. "-overlay.png",
+        icon = lib.p.gfx .. "quality-module-" .. name .. "-overlay.png",
     })
 end
 

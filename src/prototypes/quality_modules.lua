@@ -1,8 +1,10 @@
+local lib = require("__janky-quality__/lib/lib")
+
 for i = 1, 3 do
     lib.add_prototype(
             {
                 category = "quality",
-                icon = jq_gfx .. "quality-module-" .. i .. "-icon.png",
+                icon = lib.p.gfx .. "quality-module-" .. i .. "-icon.png",
                 icon_size = 64,
                 localised_name = {"jq.quality-module-" .. i},
                 localised_description = { "item-description.quality-module" },
@@ -49,7 +51,7 @@ lib.add_prototype(
 lib.add_prototype(
         {
             effects = { { recipe = "quality-module-1", type = "unlock-recipe" } },
-            icon = jq_gfx .. "quality-module-1-tech.png",
+            icon = lib.p.gfx .. "quality-module-1-tech.png",
             icon_size = 256,
             scale = 1,
             name = "quality-module",
@@ -69,7 +71,7 @@ lib.add_prototype(
 lib.add_prototype(
         {
             effects = { { recipe = "quality-module-2", type = "unlock-recipe" } },
-            icon = jq_gfx .. "quality-module-2-tech.png",
+            icon = lib.p.gfx .. "quality-module-2-tech.png",
             icon_size = 256,
             name = "quality-module-2",
             localised_name = {"jq.quality-module-2"},
@@ -87,7 +89,7 @@ lib.add_prototype(
 lib.add_prototype(
         {
             effects = { { recipe = "quality-module-3", type = "unlock-recipe" } },
-            icon = jq_gfx .. "quality-module-3-tech.png",
+            icon = lib.p.gfx .. "quality-module-3-tech.png",
             icon_size = 256,
             name = "quality-module-3",
             localised_name = {"jq.quality-module-3"},
