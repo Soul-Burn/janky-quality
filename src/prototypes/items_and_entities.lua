@@ -21,7 +21,7 @@ local cat_without_bonuses = {
 local cat_without_sa_bonuses = {
     "container", "logistic-container", "storage-tank", "pipe", "pipe-to-ground", "pump", "offshore-pump", "heat-pipe",
     "splitter", "transport-belt", "underground-belt", "loader", "loader-1x1", "cargo-wagon", "fluid-wagon", "locomotive", "car",
-    "belt-immunity-equipment", "combat-robot", "capsule",
+    "belt-immunity-equipment", "combat-robot", "capsule", "lamp",
 }
 
 local cat_with_sa_bonuses = {
@@ -57,8 +57,9 @@ local function handle_category(category_name, func)
     end
 end
 
-for category, func in pairs(require("__janky-quality__/prototypes/entity_specifics.lua")) do
+for category, func in pairs(jq_entity_mods.entity_mods) do
     handle_category(category, func)
+    all_cat[category] = nil
 end
 
 for _, category in pairs(all_cat) do

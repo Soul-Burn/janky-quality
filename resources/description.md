@@ -16,5 +16,3 @@ Quality modules inspired by FFF-375, but very janky!
 
 * Better creation of assemblers with quality modules
 * More quality bonuses
-* Interface for modding more quality bonuses
-* Configuration options
