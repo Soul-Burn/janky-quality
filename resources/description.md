@@ -12,6 +12,10 @@ Quality modules inspired by FFF-375, but very janky!
 * Vanilla
 * Wasn't tested and probably won't work with any overhauls
 
+#Modding interface
+
+This mod has a modding interface, for simple addition of new quality bonuses. See source code page for more details. 
+
 #Future plans
 
 * Better creation of assemblers with quality modules
