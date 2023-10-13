@@ -5,6 +5,7 @@ local tint = { r = 0, g = 1, b = 0, a = 1 }
 entity.animation.layers[1].tint = tint
 entity.animation.layers[1].hr_version.tint = tint
 entity.icon = lib.p.gfx .. "recycle.png"
+entity.icon_mipmaps = 0
 entity.crafting_categories = { "jq-recycling" }
 entity.minable.result = "jq-recycler"
 entity.name = "jq-recycler"
@@ -20,7 +21,6 @@ lib.add_prototype(entity)
 
 lib.add_prototype({
     icon = lib.p.gfx .. "recycle.png",
-    icon_mipmaps = 4,
     icon_size = 64,
     name = "jq-recycler",
     localised_name = { "jq.recycler" },
