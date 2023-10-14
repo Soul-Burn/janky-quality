@@ -7,7 +7,6 @@ return {
     ["assembling-machine"] = m.default_mod("crafting_speed"),
     ["furnace"] = m.default_mod("crafting_speed"),
     ["rocket-silo"] = m.default_mod("crafting_speed"),
-    ["mining-drill"] = m.default_mod("mining_speed"),
     ["inserter"] = m.mod({ rotation_speed = m.mult(0.3), extension_speed = m.mult(0.3) }),
     ["repair-tool"] = m.default_mod("durability"),
     ["tool"] = m.default_mod("durability"),

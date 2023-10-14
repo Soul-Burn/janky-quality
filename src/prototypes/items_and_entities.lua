@@ -29,8 +29,7 @@ local cat_with_sa_bonuses = {
     "active-defense-equipment", "generator-equipment", "night-vision-equipment",
 }
 
-local all_cat = flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses })
-local all_cat_set = lib.as_set(all_cat)
+local all_cat_set = lib.as_set(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses }))
 
 -- Handle items with entities
 local function handle_category(category_name, func)
@@ -62,7 +61,7 @@ for category, func in pairs(jq_entity_mods.entity_mods) do
     handle_category(category, func)
 end
 
-for _, category in pairs(all_cat) do
+for category, _ in pairs(all_cat_set) do
     handle_category(category, nil)
 end
 
