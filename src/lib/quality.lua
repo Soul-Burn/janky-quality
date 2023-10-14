@@ -64,6 +64,18 @@ function libq.copy_and_add_prototype(p, quality)
     if new_p.icons and #new_p.icons == 3 then
         new_p.icons[1].scale = 0.5 -- This is a hack that makes icons actually stack correctly. No idea why it works.
     end
+
+    local picture_overlay = { filename = quality.icon_overlay, size = 64, scale = 0.25, mipmap_count = 0 }
+    if new_p.type == "item" and new_p.pictures then
+        if new_p.pictures.layers then
+            table.insert(new_p.pictures.layers, picture_overlay)
+        else
+            for i, picture in pairs(new_p.pictures) do
+                new_p.pictures[i] = { layers = { table.deepcopy(picture), picture_overlay } }
+            end
+        end
+    end
+
     if string.find(p.type, "-equipment") and new_p.sprite then
         if new_p.sprite.layers == nil then
             new_p.sprite.layers = { table.deepcopy(new_p.sprite) }
