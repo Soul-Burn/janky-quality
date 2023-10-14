@@ -22,6 +22,7 @@ local function handle_category(category_name)
                         type = "recipe",
                         subgroup = "quality-programming-" .. item.subgroup,
                         enabled = false,
+                        allow_as_intermediate = false,
                     }
             )
             lib.add_prototype(
@@ -35,6 +36,7 @@ local function handle_category(category_name)
                         type = "recipe",
                         subgroup = "quality-deprogramming-" .. item.subgroup,
                         enabled = false,
+                        allow_as_intermediate = false,
                     }
             )
             subgroups[item.subgroup] = true
