@@ -146,7 +146,7 @@ function handle_item(item)
     new_recipe.expensive = handle_root(recipe.expensive)
 end
 
-for _, category in pairs({ "item", "capsule", "item-with-entity-data" }) do
+for _, category in pairs({ "item", "capsule", "item-with-entity-data", "armor", "gun" }) do
     for _, item in pairs(data.raw[category]) do
         handle_item(item)
     end
