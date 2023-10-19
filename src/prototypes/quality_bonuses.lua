@@ -36,8 +36,9 @@ return {
             local new_limitations = {}
             for _, limitation in pairs(p.limitation) do
                 for _, q in pairs(libq.qualities) do
-                    if q.level ~= 1 then
-                        table.insert(new_limitations, libq.name_with_quality(limitation, q))
+                    local limitation_name = libq.name_with_quality(limitation, q)
+                    if q.level ~= 1 and data.raw.recipe[limitation_name] then
+                        table.insert(new_limitations, limitation_name)
                     end
                 end
             end

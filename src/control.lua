@@ -146,6 +146,9 @@ local function handle_research(event)
                 for _, quality in pairs(libq.qualities) do
                     local name = libq.name_with_quality(effect.recipe, quality)
                     local recipe = force.recipes[name]
+                    if not recipe then
+                        break
+                    end
                     recipe.enabled = true
                     if not ignored_subgroups[recipe.subgroup.name] then
                         for _, quality_module in pairs(libq.quality_modules) do

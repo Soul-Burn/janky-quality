@@ -80,6 +80,7 @@ end
 
 function lib.add_prototype(prototype)
     table.insert(new_prototypes, prototype)
+    return prototype
 end
 
 function lib.flush_prototypes()

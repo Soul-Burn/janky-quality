@@ -53,7 +53,7 @@ end
 
 libq.slot_counts = { 2, 3, 4 }
 
-function libq.copy_and_add_prototype(p, quality)
+function libq.copy_prototype(p, quality)
     local new_p = data_util.copy_prototype(p, libq.name_with_quality(p.name, quality))
     local mid_name = { "?", { "item-name." .. p.name }, { "entity-name." .. p.name }, { "fluid-name." .. p.name }, p.name }
     if p.localised_name then
@@ -95,7 +95,6 @@ function libq.copy_and_add_prototype(p, quality)
     if p.order then
         new_p.order = libq.name_with_quality(p.order, quality)
     end
-    lib.add_prototype(new_p)
     return new_p
 end
 
