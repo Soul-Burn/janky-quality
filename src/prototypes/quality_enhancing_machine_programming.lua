@@ -13,7 +13,6 @@ local function handle_category(category_name)
             local module_item_name = libq.name_with_quality("quality-module-" .. tier, { level = tonumber(quality_level) })
             lib.add_prototype(
                     {
-                        enabled = true,
                         icons = table.deepcopy(item.icons),
                         ingredients = { { module_item_name, module_count }, { assembler_name_with_quality, 1 } },
                         name = "programming-quality-" .. item.name,
@@ -23,11 +22,12 @@ local function handle_category(category_name)
                         subgroup = "quality-programming-" .. item.subgroup,
                         enabled = false,
                         allow_as_intermediate = false,
+                        allow_intermediates = false,
+                        hide_from_stats = true,
                     }
             )
             lib.add_prototype(
                     {
-                        enabled = true,
                         icons = table.deepcopy(item.icons), -- todo "X"
                         ingredients = { { item.name, 1 } },
                         name = "deprogramming-quality-" .. item.name,
@@ -37,6 +37,8 @@ local function handle_category(category_name)
                         subgroup = "quality-deprogramming-" .. item.subgroup,
                         enabled = false,
                         allow_as_intermediate = false,
+                        allow_intermediates = false,
+                        hide_from_stats = true,
                     }
             )
             subgroups[item.subgroup] = true
