@@ -30,6 +30,12 @@ function lib.find_by_predicate(t, predicate)
     return nil
 end
 
+function lib.find_by_prop(t, name, value)
+    return lib.find_by_predicate(t, function(item)
+        return item[name] == value
+    end)
+end
+
 function lib.split(str, sep)
     local res = {}
     for cn in string.gmatch(str, "([^" .. sep .. "]+)") do

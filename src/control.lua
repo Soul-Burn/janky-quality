@@ -47,9 +47,7 @@ local function handle_removal(event)
             if miner ~= entity then
                 local _, found_slots, found_module = libq.split_quality_modules(libq.name_without_quality(miner.name))
                 if found_slots and found_module then
-                    local qm = lib.find_by_predicate(libq.quality_modules, function(item)
-                        return item.name == found_module
-                    end)
+                    local qm = lib.find_by_prop(libq.quality_modules, "name", found_module)
                     set_resources_around_miner(miner, found_slots, qm)
                 end
             end
@@ -82,9 +80,7 @@ local function handle_build(event)
 
     if ent.type == "mining-drill" then
         if found_slots and found_module then
-            local qm = lib.find_by_predicate(libq.quality_modules, function(item)
-                return item.name == found_module
-            end)
+            local qm = lib.find_by_prop(libq.quality_modules, "name", found_module)
             set_resources_around_miner(ent, found_slots, qm)
         end
     end
