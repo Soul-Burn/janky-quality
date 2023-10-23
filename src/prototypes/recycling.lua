@@ -109,7 +109,7 @@ function handle_item(item)
     local recipe = data.raw.recipe[item.name]
     if recipe == nil or (recipe.category and recyclable_categories[recipe.category] == nil) then
         new_recipe.ingredients = new_ingredients
-        new_recipe.results = { lib.normalize_probability({ type = "item", name = item.name, amount = 1, probability = recycling_probability }) }
+        new_recipe.results = { lib.normalize_probability({ type = "item", name = item.name, amount = 1, probability = recycling_probability, catalyst_amount = 0 }) }
         return
     end
     new_recipe.order = recipe.order
@@ -133,7 +133,7 @@ function handle_item(item)
         for _, ingredient in pairs(ingredients) do
             if ingredient.type == "item" then
                 local new_i = lib.normalize_probability({
-                    type = "item", name = ingredient.name, amount = ingredient.amount, probability = recycling_probability / results[1].amount
+                    type = "item", name = ingredient.name, amount = ingredient.amount, probability = recycling_probability / results[1].amount, catalyst_amount = 0
                 })
                 table.insert(new_root.results, new_i)
             end

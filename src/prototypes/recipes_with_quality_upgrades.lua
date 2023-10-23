@@ -8,14 +8,24 @@ local function handle_recipe(recipe)
     for _, quality_module in pairs(libq.quality_modules) do
         for _, module_count in pairs(libq.slot_counts) do
             local new_recipe = table.deepcopy(recipe)
-            lib.add_prototype(new_recipe)
             new_recipe.name = libq.name_with_quality_module(new_recipe.name, module_count, quality_module)
             new_recipe.category = libq.name_with_quality_module((new_recipe.category or "crafting"), module_count, quality_module)
 
             for _, recipe_root in pairs({ new_recipe, new_recipe.normal, new_recipe.expensive }) do
                 if recipe_root then
                     recipe_root.ingredients, recipe_root.results = lib.get_canonic_recipe(recipe_root)
-                    recipe_root.results = libq.transform_results_with_probabilities(recipe_root.results, module_count, quality_module)
+                    if recipe_root.ingredients and recipe_root.results then
+                        local non_catalyst_results, catalyst_results = lib.split_by_catalysts(recipe_root)
+                        if not lib.find_by_prop(non_catalyst_results, "type", "item") then
+                            -- To get quality upgrades, recipes must have at least one non-catalyst non-fluid result item
+                            return
+                        end
+                        recipe_root.results = catalyst_results
+                        for _, result in pairs(libq.transform_results_with_probabilities(non_catalyst_results, module_count, quality_module)) do
+                            table.insert(recipe_root.results, result)
+                        end
+                    end
+
                     recipe_root.hide_from_player_crafting = true
                     recipe_root.allow_as_intermediate = false
 
@@ -30,6 +40,8 @@ local function handle_recipe(recipe)
                     end
                 end
             end
+
+            lib.add_prototype(new_recipe)
         end
     end
 end

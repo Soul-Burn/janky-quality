@@ -70,6 +70,43 @@ function lib.get_canonic_recipe(recipe_root)
     return ingredients, results
 end
 
+function lib.split_by_catalysts(recipe_root)
+    local non_catalysts = {}
+    local catalysts = {}
+    for _, part in pairs(recipe_root.results) do
+        local catalyst_amount = part.catalyst_amount or (lib.find_by_prop(recipe_root.ingredients, "name", part.name) or { amount = 0 }).amount
+        if catalyst_amount == 0 then
+            -- No catalyst
+            table.insert(non_catalysts, part)
+        elseif (part.amount and part.amount <= catalyst_amount) or (part.amount_max and part.amount_max <= catalyst_amount) then
+            -- All catalyst
+            table.insert(catalysts, part)
+        elseif part.amount then
+            -- Partial catalyst (amount)
+            local cata_part = table.deepcopy(part)
+            cata_part.amount = catalyst_amount
+            table.insert(catalysts, cata_part)
+            local non_cata_part = table.deepcopy(part)
+            non_cata_part.amount = part.amount - catalyst_amount
+            table.insert(non_catalysts, non_cata_part)
+        elseif part.amount_min and part.amount_max then
+            -- Partial catalyst (amount min and max)
+            local cata_part = table.deepcopy(part)
+            if catalyst_amount < part.amount_min then
+                cata_part.amount = catalyst_amount
+            else
+                cata_part.amount_max = catalyst_amount
+            end
+            table.insert(catalysts, cata_part)
+            local non_cata_part = table.deepcopy(part)
+            non_cata_part.amount_min = non_cata_part.amount_min - catalyst_amount
+            non_cata_part.amount_max = non_cata_part.amount_max - catalyst_amount
+            table.insert(catalysts, non_cata_part)
+        end
+    end
+    return non_catalysts, catalysts
+end
+
 function lib.normalize_probability(part)
     if not part.probability then
         return table.deepcopy(part)
@@ -81,7 +118,7 @@ function lib.normalize_probability(part)
     local v = amount * part.probability
     local vc = math.ceil(v)
     local spread = math.min(vc, (part.amount_max or part.amount) - vc)
-    return { type = part.type, name = part.name, amount_min = vc - spread, amount_max = vc + spread, probability = v / vc }
+    return { type = part.type, name = part.name, amount_min = vc - spread, amount_max = vc + spread, probability = v / vc, catalyst_amount = part.catalyst_amount }
 end
 
 function lib.add_prototype(prototype)
