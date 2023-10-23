@@ -91,7 +91,7 @@ for _, event in pairs({ "on_built_entity", "on_robot_built_entity", "on_entity_c
 end
 
 for _, event in pairs({ "on_entity_died", "on_player_mined_entity", "on_robot_mined_entity", "script_raised_destroy" }) do
-    script.on_event(defines.events[event], handle_removal)
+    script.on_event(defines.events[event], handle_removal, { { filter = "type", type = "mining-drill" } })
 end
 
 local function get_max_quality_mod_level(force)
