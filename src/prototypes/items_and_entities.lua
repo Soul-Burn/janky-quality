@@ -24,10 +24,7 @@ local cat_without_sa_bonuses = {
     "belt-immunity-equipment", "combat-robot", "capsule", "lamp",
 }
 
-local cat_with_sa_bonuses = {
-    "boiler", "burner-generator", "ammo", "generator", "land-mine", "radar", "reactor", "wall", "gate",
-    "active-defense-equipment", "generator-equipment", "night-vision-equipment",
-}
+local cat_with_sa_bonuses = { "ammo", "land-mine", "wall", "gate" }
 
 local all_cat_set = lib.as_set(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses }))
 
