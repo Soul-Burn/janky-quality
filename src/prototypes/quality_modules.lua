@@ -12,7 +12,22 @@ for i = 1, 3 do
                 order = "c[quality]-a[quality-module-" .. i .. "]",
                 stack_size = 50,
                 subgroup = "module",
-                type = "item"
+                type = "selection-tool",
+
+                selection_mode = "upgrade",
+                selection_color = {1, 1, 1},
+                selection_cursor_box_type = "entity",
+                entity_type_filters = {"assembling-machine", "furnace", "mining-drill"},
+
+                alt_selection_mode = "nothing",
+                alt_selection_color = {1, 0, 0},
+                alt_selection_cursor_box_type = "entity",
+                alt_entity_type_filters = {},
+
+                reverse_selection_mode = "downgrade",
+                reverse_selection_color = {0.5, 0.5, 0.5},
+                reverse_selection_cursor_box_type = "entity",
+                reverse_entity_type_filters = {"assembling-machine", "furnace", "mining-drill"},
             }
     )
 end

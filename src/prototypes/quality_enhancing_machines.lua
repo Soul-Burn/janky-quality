@@ -29,6 +29,9 @@ local function handle_category(category_name)
                 end
                 new_machine.allowed_effects = { "consumption", "pollution" }
                 new_machine.module_specification.module_slots = 0
+                if new_machine.result_inventory_size then
+                    new_machine.result_inventory_size = new_machine.result_inventory_size * qm.max_quality
+                end
 
                 new_machine.localised_name = {
                     "jq.with-qm",

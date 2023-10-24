@@ -18,5 +18,4 @@ This mod has a modding interface, for simple addition of new quality bonuses. Se
 
 #Future plans
 
-* Better creation of assemblers with quality modules
 * More quality bonuses

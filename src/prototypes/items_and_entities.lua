@@ -2,14 +2,26 @@ local flib_table = require("__flib__/table")
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
-local cat_weird = {
-    "player-port", "simple-entity-with-force", "simple-entity-with-owner", "infinity-container", "infinity-pipe", "linked-container", "linked-belt",
-}
+-- Handle items without entities
+local function handle_item_without_entity(category)
+    for _, p in pairs(data.raw[category]) do
+        if p.place_result == nil and p.placed_as_equipment_result == nil then
+            for _, quality in pairs(libq.qualities) do
+                if quality.level ~= 1 then
+                    lib.add_prototype(libq.copy_prototype(p, quality))
+                end
+            end
+        end
+    end
+end
+
+for _, category in pairs({"item", "selection-tool"}) do
+    handle_item_without_entity(category)
+end
 
 local cat_without_bonuses = {
     "arithmetic-combinator", "decider-combinator", "constant-combinator", "power-switch", "programmable-speaker",
-    "rail-chain-signal", "rail-signal", "train-stop", "heat-interface", "electric-energy-interface", "spidertron-remote",
-    "item", "item-with-entity-data", "item-with-inventory", "selection-tool"
+    "rail-chain-signal", "rail-signal", "train-stop", "heat-interface", "electric-energy-interface", "spidertron-remote"
 }
 
 local cat_without_sa_bonuses = {
@@ -20,8 +32,9 @@ local cat_without_sa_bonuses = {
 
 local cat_with_sa_bonuses = { "ammo", "land-mine", "wall", "gate" }
 
-local all_cat_set = lib.as_set(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses, cat_weird }))
+local all_cat_set = lib.as_set(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses }))
 
+-- Handle items with entities
 local function handle_category(category_name, func)
     for _, p in pairs(data.raw[category_name]) do
         for _, quality in pairs(libq.qualities) do
@@ -30,12 +43,16 @@ local function handle_category(category_name, func)
                 if new_entity.max_health then
                     new_entity.max_health = new_entity.max_health * (1 + 0.3 * quality.modifier)
                 end
-                if new_entity.rocket_launch_product then
-                    new_entity.rocket_launch_product[1] = libq.name_with_quality(new_entity.rocket_launch_product[1], quality)
-                end
                 if func then
                     assert(not all_cat_set[category_name], "Category '" .. category_name .. "' appears in auto items")
                     func(new_entity, quality)
+                end
+                for _, sub_category in pairs({ "item", "item-with-entity-data", "item-with-inventory" }) do
+                    local item = data.raw[sub_category][p.name]
+                    if item then
+                        lib.add_prototype(libq.copy_prototype(item, quality))
+                        break
+                    end
                 end
             end
         end

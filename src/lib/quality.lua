@@ -12,10 +12,8 @@ libq.qualities = {
 }
 
 function libq.name_with_quality(name, quality)
-    if quality.level == 1 then
-        return name
-    end
-    return name .. "-quality-" .. quality.level
+    local level = type(quality) == "table" and quality.level or quality
+    return level == 1 and name or name .. "-quality-" .. level
 end
 
 function libq.name_without_quality(name)

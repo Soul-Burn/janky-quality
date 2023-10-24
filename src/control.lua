@@ -144,7 +144,7 @@ local function handle_research(event)
                         break
                     end
                     recipe.enabled = true
-                    (function ()
+                    (function()
                         for _, quality_module in pairs(libq.quality_modules) do
                             for _, module_count in pairs(libq.slot_counts) do
                                 local q_recipe = force.recipes[libq.name_with_quality_module(name, module_count, quality_module)]
@@ -168,3 +168,157 @@ end
 
 script.on_event(defines.events.on_research_finished, handle_research)
 script.on_event(defines.events.on_technology_effects_reset, handle_technology_rest)
+
+local allowed_quality_module_types = lib.as_set({ "furnace", "assembling-machine", "mining-drill" })
+
+local function selected_upgrade(event)
+    local quality = libq.find_quality(event.item)
+    local tier = string.match(libq.name_without_quality(event.item), "quality%-module%-(%d)")
+    if not tier or not quality then
+        return
+    end
+    local player = game.get_player(event.player_index)
+    local quality_module = lib.find_by_prop(libq.quality_modules, "name", tier .. "@" .. quality)
+    if not quality_module then
+        player.create_local_flying_text { text = { "jq.missing-quality-module-upgrade", game.item_prototypes[event.item].localised_name }, create_at_cursor = true }
+        return
+    end
+    local inventory = player.get_main_inventory()
+    for _, entity in pairs(event.entities) do
+        local is_crafter = entity.type ~= "mining-drill"
+        if allowed_quality_module_types[entity.type] and not libq.split_quality_modules(libq.name_without_quality(entity.name)) then
+            local module_inventory = entity.get_module_inventory()
+            if module_inventory and module_inventory.is_empty() then
+                if inventory.get_item_count(event.item) + player.cursor_stack.count < #module_inventory then
+                    player.create_local_flying_text { text = { "jq.not-enough-modules" }, create_at_cursor = true }
+                    return
+                end
+                local recipe = is_crafter and entity.get_recipe()
+                if player.cursor_stack.count >= #module_inventory then
+                    player.cursor_stack.count = player.cursor_stack.count - #module_inventory
+                else
+                    inventory.remove({ name = event.item, count = #module_inventory - player.cursor_stack.count })
+                    player.cursor_stack.count = 0
+                    local new_stack, _ = inventory.find_item_stack(event.item) -- TODO: is this correct??
+                    if new_stack then
+                        player.cursor_stack.swap_stack(new_stack)
+                    end
+                end
+                local new_entity = entity.surface.create_entity {
+                    name = libq.name_with_quality(
+                            libq.name_with_quality_module(libq.name_without_quality(entity.name), #module_inventory, quality_module),
+                            libq.find_quality(entity.name)
+                    ),
+                    position = entity.position,
+                    direction = entity.direction,
+                    recipe = recipe and libq.name_with_quality_module(
+                            libq.name_with_quality(libq.name_without_quality(recipe.name), libq.find_quality(recipe.name)),
+                            #module_inventory, quality_module
+                    ) or nil,
+                    force = player.force,
+                    player = player,
+                    raise_built = true,
+                    create_build_effect_smoke = false,
+                }
+                if is_crafter then
+                    new_entity.crafting_progress = entity.crafting_progress
+                    if entity.type == "furnace" and recipe then
+                        local new_inventory = new_entity.get_inventory(defines.inventory.assembling_machine_input)
+                        for _, part in pairs(recipe.ingredients) do
+                            new_inventory.insert { name = part.name, count = part.amount }
+                        end
+                    end
+                    for _, define in pairs({ defines.inventory.assembling_machine_input, defines.inventory.assembling_machine_output }) do
+                        local new_inventory = new_entity.get_inventory(define)
+                        for item, count in pairs(entity.get_inventory(define).get_contents()) do
+                            new_inventory.insert { name = item, count = count }
+                        end
+                    end
+                end
+                if player.opened == entity then
+                    player.opened = new_entity
+                end
+                entity.destroy { raise_destroy = true }
+            end
+        end
+    end
+end
+
+local function try_insert_to_inventory(inventory, items)
+    local over_item = nil
+    for item, count in pairs(items) do
+        local inserted = inventory.insert { name = item, count = count }
+        if inserted < count then
+            if inserted > 0 then
+                inventory.remove { name = item, count = inserted }
+            end
+            over_item = item
+            break
+        end
+    end
+    if not over_item then
+        return true
+    end
+    for item, count in pairs(items) do
+        if item == over_item then
+            break
+        end
+        inventory.remove { name = item, count = count }
+    end
+    return false
+end
+
+local function selected_downgrade(event)
+    if not string.match(libq.name_without_quality(event.item), "quality%-module%-(%d)") then
+        return
+    end
+
+    local player = game.get_player(event.player_index)
+    local inventory = player.get_main_inventory()
+    for _, entity in pairs(event.entities) do
+        local is_crafter = entity.type ~= "mining-drill"
+        local entity_name, module_count, quality_module = libq.split_quality_modules(libq.name_without_quality(entity.name))
+        if allowed_quality_module_types[entity.type] and quality_module then
+            local to_insert = is_crafter and entity.get_inventory(defines.inventory.assembling_machine_output).get_contents() or {}
+            local module_tier, module_quality = string.match(quality_module, "(%d)@(%d)")
+            local qm_name = libq.name_with_quality("quality-module-" .. module_tier, tonumber(module_quality))
+            to_insert[qm_name] = (to_insert[qm_name] or 0) + module_count
+            if not try_insert_to_inventory(inventory, to_insert) then
+                player.create_local_flying_text { text = { "inventory-full-message.main" }, create_at_cursor = true }
+                return
+            end
+
+            local recipe = is_crafter and entity.get_recipe()
+            local new_entity = entity.surface.create_entity {
+                name = entity_name,
+                position = entity.position,
+                direction = entity.direction,
+                recipe = recipe and libq.split_quality_modules(recipe.name) or nil,
+                force = player.force,
+                player = player,
+                raise_built = true,
+                create_build_effect_smoke = false,
+            }
+            if is_crafter then
+                new_entity.crafting_progress = entity.crafting_progress
+                if entity.type == "furnace" and recipe then
+                    local new_inventory = new_entity.get_inventory(defines.inventory.assembling_machine_input)
+                    for _, part in pairs(recipe.ingredients) do
+                        new_inventory.insert { name = part.name, count = part.amount }
+                    end
+                end
+                local new_inventory = new_entity.get_inventory(defines.inventory.assembling_machine_input)
+                for item, count in pairs(entity.get_inventory(defines.inventory.assembling_machine_input).get_contents()) do
+                    new_inventory.insert { name = item, count = count }
+                end
+            end
+            if player.opened == entity then
+                player.opened = new_entity
+            end
+            entity.destroy { raise_destroy = true }
+        end
+    end
+end
+
+script.on_event(defines.events.on_player_selected_area, selected_upgrade)
+script.on_event(defines.events.on_player_reverse_selected_area, selected_downgrade)

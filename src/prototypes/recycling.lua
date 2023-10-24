@@ -16,7 +16,7 @@ entity.source_inventory_size = 1
 entity.result_inventory_size = 50
 entity.allowed_effects = { "speed", "consumption", "pollution" }
 entity.module_specification = { module_slots = 4 }
-entity.cant_insert_at_source_message_key = "jq.cant_recycle",
+entity.cant_insert_at_source_message_key = "jq.cant-recycle",
 lib.add_prototype(entity)
 
 lib.add_prototype({
