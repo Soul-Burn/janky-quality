@@ -33,6 +33,11 @@ local function handle_category(category_name)
                     new_machine.result_inventory_size = new_machine.result_inventory_size * qm.max_quality
                 end
 
+                new_machine.minable.results = {
+                    { type = "item", name = libq.qm_name_to_module_item(qm.name), amount = slots },
+                    { type = "item", name = machine.name, amount = 1 },
+                }
+
                 new_machine.localised_name = {
                     "jq.with-qm",
                     machine.localised_name or { "entity-name." .. machine.name },
