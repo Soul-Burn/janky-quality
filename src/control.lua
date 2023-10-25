@@ -181,6 +181,7 @@ local function selected_upgrade(event)
     local quality_module = lib.find_by_prop(libq.quality_modules, "name", tier .. "@" .. quality)
     if not quality_module then
         player.create_local_flying_text { text = { "jq.missing-quality-module-upgrade", game.item_prototypes[event.item].localised_name }, create_at_cursor = true }
+        player.play_sound { path = "utility/cannot_build" }
         return
     end
     local inventory = player.get_main_inventory()
@@ -191,6 +192,7 @@ local function selected_upgrade(event)
             if module_inventory and module_inventory.is_empty() then
                 if inventory.get_item_count(event.item) + player.cursor_stack.count < #module_inventory then
                     player.create_local_flying_text { text = { "jq.not-enough-modules" }, create_at_cursor = true }
+                    player.play_sound { path = "utility/cannot_build" }
                     return
                 end
                 local recipe = is_crafter and entity.get_recipe()
@@ -199,7 +201,7 @@ local function selected_upgrade(event)
                 else
                     inventory.remove({ name = event.item, count = #module_inventory - player.cursor_stack.count })
                     player.cursor_stack.count = 0
-                    local new_stack, _ = inventory.find_item_stack(event.item) -- TODO: is this correct??
+                    local new_stack, _ = inventory.find_item_stack(event.item)
                     if new_stack then
                         player.cursor_stack.swap_stack(new_stack)
                     end
@@ -242,6 +244,7 @@ local function selected_upgrade(event)
             end
         end
     end
+    player.play_sound { path = "utility/inventory_move" }
 end
 
 local function try_insert_to_inventory(inventory, items)
@@ -284,6 +287,7 @@ local function selected_downgrade(event)
             to_insert[qm_name] = (to_insert[qm_name] or 0) + module_count
             if not try_insert_to_inventory(inventory, to_insert) then
                 player.create_local_flying_text { text = { "inventory-full-message.main" }, create_at_cursor = true }
+                player.play_sound { path = "utility/cannot_build" }
                 return
             end
 
@@ -317,6 +321,7 @@ local function selected_downgrade(event)
             entity.destroy { raise_destroy = true }
         end
     end
+    player.play_sound { path = "utility/inventory_move" }
 end
 
 script.on_event(defines.events.on_player_selected_area, selected_upgrade)
