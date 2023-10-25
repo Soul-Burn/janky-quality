@@ -25,6 +25,7 @@ return {
     ["solar-panel"] = m.default_energy_mod("production"),
     ["solar-panel-equipment"] = m.default_energy_mod("power"),
     ["generator-equipment"] = m.default_energy_mod("power"),
+    ["equipment-grid"] = m.mod{width = m.add(1), height = m.add(1)},
     ["construction-robot"] = m.default_energy_mod("max_energy"),
     ["logistic-robot"] = m.default_energy_mod("max_energy"),
     ["roboport"] = m.default_energy_mod("charging_energy"),
