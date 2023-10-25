@@ -25,8 +25,8 @@ function libq.find_quality(name)
 end
 
 libq.quality_modules = {
-    { name = "1@1", mod_level = 1, mod_quality = 1, max_quality = 3, modifier = 0.0100, icon = lib.p.gfx .. "quality-module-1-overlay.png" },
-    { name = "2@1", mod_level = 2, mod_quality = 1, max_quality = 4, modifier = 0.0150, icon = lib.p.gfx .. "quality-module-2-overlay.png" },
+    { name = "1@1", mod_level = 1, mod_quality = 1, max_quality = 3, modifier = 0.0100, icon = lib.p.gfx .. "quality-module-1@1-overlay.png" },
+    { name = "2@1", mod_level = 2, mod_quality = 1, max_quality = 4, modifier = 0.0150, icon = lib.p.gfx .. "quality-module-2@1-overlay.png" },
 }
 
 for _, quality in pairs(libq.qualities) do
