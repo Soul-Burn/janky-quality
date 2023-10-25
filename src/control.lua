@@ -280,8 +280,7 @@ local function selected_downgrade(event)
         local entity_name, module_count, quality_module = libq.split_quality_modules(libq.name_without_quality(entity.name))
         if allowed_quality_module_types[entity.type] and quality_module then
             local to_insert = is_crafter and entity.get_inventory(defines.inventory.assembling_machine_output).get_contents() or {}
-            local module_tier, module_quality = string.match(quality_module, "(%d)@(%d)")
-            local qm_name = libq.name_with_quality("quality-module-" .. module_tier, tonumber(module_quality))
+            local qm_name = libq.qm_name_to_module_item(quality_module)
             to_insert[qm_name] = (to_insert[qm_name] or 0) + module_count
             if not try_insert_to_inventory(inventory, to_insert) then
                 player.create_local_flying_text { text = { "inventory-full-message.main" }, create_at_cursor = true }

@@ -49,6 +49,11 @@ function libq.split_quality_modules(name)
     return string.match(name, "(.+)-qum%-(%d)x(.+)")
 end
 
+function libq.qm_name_to_module_item(qm_name)
+    local module_tier, module_quality = string.match(qm_name, "(%d)@(%d)")
+    return libq.name_with_quality("quality-module-" .. module_tier, tonumber(module_quality))
+end
+
 libq.slot_counts = { 2, 3, 4 }
 
 function libq.copy_prototype(p, quality)
@@ -123,7 +128,7 @@ function libq.transform_results_with_probabilities(results, module_count, qualit
             local probabilities = make_probabilities(module_count * quality_module.modifier, quality_module.max_quality - found_quality + 1)
             for i, prob in pairs(probabilities) do
                 local new_part = table.deepcopy(part)
-                new_part.name = libq.name_with_quality(libq.name_without_quality(new_part.name), { level = found_quality - 1 + i })
+                new_part.name = libq.name_with_quality(libq.name_without_quality(new_part.name), found_quality - 1 + i)
                 new_part.probability = prob * (part.probability or 1.0)
                 table.insert(new_results, new_part)
             end
