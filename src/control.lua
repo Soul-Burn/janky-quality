@@ -201,9 +201,10 @@ local function selected_upgrade(event)
                 else
                     inventory.remove({ name = event.item, count = #module_inventory - player.cursor_stack.count })
                     player.cursor_stack.count = 0
-                    local new_stack, _ = inventory.find_item_stack(event.item)
+                    local new_stack, inventory_slot = inventory.find_item_stack(event.item)
                     if new_stack then
                         player.cursor_stack.swap_stack(new_stack)
+                        player.hand_location = { inventory = defines.inventory.character_main, slot = inventory_slot }
                     end
                 end
                 local new_entity = entity.surface.create_entity {
