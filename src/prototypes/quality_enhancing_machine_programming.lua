@@ -3,6 +3,8 @@ local libq = require("__janky-quality__/lib/quality")
 
 local subgroups = {}
 
+local hide_player_programming_recipes = not settings.startup["jq-show-player-programming-recipes"].value
+
 local function handle_category(category_name)
     for _, assembler in pairs(data.raw[category_name]) do
         local item = data.raw.item[assembler.name]
@@ -23,6 +25,7 @@ local function handle_category(category_name)
                         allow_as_intermediate = false,
                         allow_intermediates = false,
                         hide_from_stats = true,
+                        hide_from_player_crafting = hide_player_programming_recipes,
                     }
             )
             lib.add_prototype(
@@ -38,6 +41,7 @@ local function handle_category(category_name)
                         allow_as_intermediate = false,
                         allow_intermediates = false,
                         hide_from_stats = true,
+                        hide_from_player_crafting = hide_player_programming_recipes,
                     }
             )
             subgroups[item.subgroup] = true
@@ -52,7 +56,7 @@ handle_category("mining-drill")
 for subgroup_name, _ in pairs(subgroups) do
     local subgroup = data.raw["item-subgroup"][subgroup_name]
     lib.add_prototype({ group = "quality-programming", name = "quality-programming-" .. subgroup_name, order = "a-" .. subgroup.order, type = "item-subgroup" })
-    lib.add_prototype({ group = "quality-programming", name = "quality-deprogramming-" .. subgroup_name, order = "b-" .. subgroup.order, type = "item-subgroup" })
+    lib.add_prototype({ group = "quality-deprogramming", name = "quality-deprogramming-" .. subgroup_name, order = "b-" .. subgroup.order, type = "item-subgroup" })
 end
 
 lib.add_prototype(
@@ -61,7 +65,17 @@ lib.add_prototype(
             icon_size = 96,
             name = "quality-programming",
             localised_name = { "jq.quality-programming" },
-            order = "z",
+            order = "z1",
+            type = "item-group",
+        }
+)
+lib.add_prototype(
+        {
+            icon = lib.p.gfx .. "quality-module-1.png",
+            icon_size = 96,
+            name = "quality-deprogramming",
+            localised_name = { "jq.quality-deprogramming" },
+            order = "z2",
             type = "item-group",
         }
 )
