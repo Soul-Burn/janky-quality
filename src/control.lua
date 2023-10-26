@@ -170,6 +170,22 @@ end
 script.on_event(defines.events.on_research_finished, handle_research)
 script.on_event(defines.events.on_technology_effects_reset, handle_technology_rest)
 
+local function transfer_from_entity_to_entity_or_player_or_spill(old_entity, new_entity, player)
+    local inventory = player.get_main_inventory()
+    for _, define in pairs({ defines.inventory.assembling_machine_input, defines.inventory.assembling_machine_output }) do
+        local new_inventory = new_entity.get_inventory(define)
+        for item, count in pairs(old_entity.get_inventory(define).get_contents()) do
+            local count_left = count - new_inventory.insert { name = item, count = count }
+            if count_left > 0 then
+                count_left = count_left - inventory.insert { name = item, count = count_left }
+                if count_left > 0 then
+                    player.surface.spill_item_stack(player.position, { name = item, count = count_left }, true, player.force, false)
+                end
+            end
+        end
+    end
+end
+
 local allowed_quality_module_types = util.list_to_map({ "furnace", "assembling-machine", "mining-drill" })
 
 local function selected_upgrade(event)
@@ -199,7 +215,7 @@ local function selected_upgrade(event)
             local module_inventory = entity.get_module_inventory()
             if module_inventory and module_inventory.is_empty() then
                 if inventory.get_item_count(event.item) + player.cursor_stack.count < #module_inventory then
-                    player.create_local_flying_text { text = { "jq.not-enough-modules" }, create_at_cursor = true }
+                    player.create_local_flying_text { text = { "jq.not-enough-modules" }, position = entity.position }
                     player.play_sound { path = "utility/cannot_build" }
                     return
                 end
@@ -239,12 +255,7 @@ local function selected_upgrade(event)
                             new_inventory.insert { name = part.name, count = part.amount }
                         end
                     end
-                    for _, define in pairs({ defines.inventory.assembling_machine_input, defines.inventory.assembling_machine_output }) do
-                        local new_inventory = new_entity.get_inventory(define)
-                        for item, count in pairs(entity.get_inventory(define).get_contents()) do
-                            new_inventory.insert { name = item, count = count }
-                        end
-                    end
+                    transfer_from_entity_to_entity_or_player_or_spill(entity, new_entity, player)
                 else
                     new_entity.mining_progress = entity.mining_progress
                 end
@@ -264,37 +275,12 @@ local function selected_upgrade(event)
     end
 end
 
-local function try_insert_to_inventory(inventory, items)
-    local over_item = nil
-    for item, count in pairs(items) do
-        local inserted = inventory.insert { name = item, count = count }
-        if inserted < count then
-            if inserted > 0 then
-                inventory.remove { name = item, count = inserted }
-            end
-            over_item = item
-            break
-        end
-    end
-    if not over_item then
-        return true
-    end
-    for item, count in pairs(items) do
-        if item == over_item then
-            break
-        end
-        inventory.remove { name = item, count = count }
-    end
-    return false
-end
-
 local function selected_downgrade(event)
     if not string.match(libq.name_without_quality(event.item), "quality%-module%-(%d)") then
         return
     end
 
     local player = game.get_player(event.player_index)
-    local inventory = player.get_main_inventory()
     local any_modified = false
     local any_too_far = false
     for _, entity in pairs(event.entities) do
@@ -309,12 +295,6 @@ local function selected_downgrade(event)
             local to_insert = is_crafter and entity.get_inventory(defines.inventory.assembling_machine_output).get_contents() or {}
             local qm_name = libq.qm_name_to_module_item(quality_module)
             to_insert[qm_name] = (to_insert[qm_name] or 0) + module_count
-            if not try_insert_to_inventory(inventory, to_insert) then
-                player.create_local_flying_text { text = { "inventory-full-message.main" }, create_at_cursor = true }
-                player.play_sound { path = "utility/cannot_build" }
-                return
-            end
-
             local recipe = is_crafter and entity.get_recipe()
             local new_entity = entity.surface.create_entity {
                 name = entity_name,
@@ -334,10 +314,7 @@ local function selected_downgrade(event)
                         new_inventory.insert { name = part.name, count = part.amount }
                     end
                 end
-                local new_inventory = new_entity.get_inventory(defines.inventory.assembling_machine_input)
-                for item, count in pairs(entity.get_inventory(defines.inventory.assembling_machine_input).get_contents()) do
-                    new_inventory.insert { name = item, count = count }
-                end
+                transfer_from_entity_to_entity_or_player_or_spill(entity, new_entity, player)
             else
                 new_entity.mining_progress = entity.mining_progress
             end
