@@ -186,9 +186,16 @@ local function selected_upgrade(event)
         return
     end
     local inventory = player.get_main_inventory()
+    local any_modified = false
+    local any_too_far = false
     for _, entity in pairs(event.entities) do
         local is_crafter = entity.type ~= "mining-drill"
-        if allowed_quality_module_types[entity.type] and not libq.split_quality_modules(libq.name_without_quality(entity.name)) then
+        local can_reach = player.can_reach_entity(entity)
+        if not can_reach then
+            player.create_local_flying_text { text = { "cant-reach" }, position = entity.position }
+            any_too_far = true
+        end
+        if allowed_quality_module_types[entity.type] and not libq.split_quality_modules(libq.name_without_quality(entity.name)) and can_reach then
             local module_inventory = entity.get_module_inventory()
             if module_inventory and module_inventory.is_empty() then
                 if inventory.get_item_count(event.item) + player.cursor_stack.count < #module_inventory then
@@ -243,10 +250,16 @@ local function selected_upgrade(event)
                     player.opened = new_entity
                 end
                 entity.destroy { raise_destroy = true }
+                any_modified = true
             end
         end
     end
-    player.play_sound { path = "utility/inventory_move" }
+    if any_modified then
+        player.play_sound { path = "utility/inventory_move" }
+    end
+    if any_too_far then
+        player.play_sound { path = "utility/cannot_build" }
+    end
 end
 
 local function try_insert_to_inventory(inventory, items)
@@ -280,10 +293,17 @@ local function selected_downgrade(event)
 
     local player = game.get_player(event.player_index)
     local inventory = player.get_main_inventory()
+    local any_modified = false
+    local any_too_far = false
     for _, entity in pairs(event.entities) do
+        local can_reach = player.can_reach_entity(entity)
+        if not can_reach then
+            player.create_local_flying_text { text = { "cant-reach" }, position = entity.position }
+            any_too_far = true
+        end
         local is_crafter = entity.type ~= "mining-drill"
         local entity_name, module_count, quality_module = libq.split_quality_modules(libq.name_without_quality(entity.name))
-        if allowed_quality_module_types[entity.type] and quality_module then
+        if allowed_quality_module_types[entity.type] and quality_module and player.can_reach_entity(entity) then
             local to_insert = is_crafter and entity.get_inventory(defines.inventory.assembling_machine_output).get_contents() or {}
             local qm_name = libq.qm_name_to_module_item(quality_module)
             to_insert[qm_name] = (to_insert[qm_name] or 0) + module_count
@@ -321,9 +341,15 @@ local function selected_downgrade(event)
                 player.opened = new_entity
             end
             entity.destroy { raise_destroy = true }
+            any_modified = true
         end
     end
-    player.play_sound { path = "utility/inventory_move" }
+    if any_modified then
+        player.play_sound { path = "utility/inventory_move" }
+    end
+    if any_too_far then
+        player.play_sound { path = "utility/cannot_build" }
+    end
 end
 
 script.on_event(defines.events.on_player_selected_area, selected_upgrade)
