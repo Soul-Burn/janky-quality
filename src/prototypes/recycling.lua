@@ -1,11 +1,21 @@
 local lib = require("__janky-quality__/lib/lib")
 
+local max_ingredients = 1
+for _, recipe in pairs(data.raw.recipe) do
+    for _, recipe_root in pairs({recipe, recipe.normal, recipe.expensive}) do
+        if recipe_root.ingredients and #recipe_root.ingredients > max_ingredients then
+            max_ingredients = #recipe_root.ingredients
+        end
+    end
+end
+
 local entity = table.deepcopy(data.raw["assembling-machine"]["assembling-machine-1"])
 local tint = { r = 0, g = 1, b = 0, a = 1 }
 entity.animation.layers[1].tint = tint
 entity.animation.layers[1].hr_version.tint = tint
 entity.icon = lib.p.gfx .. "recycle.png"
 entity.icon_mipmaps = 0
+entity.crafting_speed = 1
 entity.crafting_categories = { "jq-recycling" }
 entity.minable.result = "jq-recycler"
 entity.name = "jq-recycler"
@@ -13,7 +23,7 @@ entity.localised_name = {"jq.recycler"}
 entity.next_upgrade = nil
 entity.type = "furnace"
 entity.source_inventory_size = 1
-entity.result_inventory_size = 50
+entity.result_inventory_size = max_ingredients
 entity.allowed_effects = { "speed", "consumption", "pollution" }
 entity.module_specification = { module_slots = 4 }
 entity.cant_insert_at_source_message_key = "jq.cant-recycle",
