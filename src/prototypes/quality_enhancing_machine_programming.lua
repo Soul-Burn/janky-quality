@@ -30,7 +30,7 @@ local function handle_category(category_name)
             )
             lib.add_prototype(
                     {
-                        icons = table.deepcopy(item.icons), -- todo "X"
+                        icons = table.deepcopy(item.icons),
                         ingredients = { { item.name, 1 } },
                         name = "deprogramming-quality-" .. item.name,
                         localised_name = { "jq.deprogramming", assembler.localised_name },
