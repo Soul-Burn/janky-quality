@@ -245,6 +245,8 @@ local function selected_upgrade(event)
                             new_inventory.insert { name = item, count = count }
                         end
                     end
+                else
+                    new_entity.mining_progress = entity.mining_progress
                 end
                 if player.opened == entity then
                     player.opened = new_entity
@@ -336,6 +338,8 @@ local function selected_downgrade(event)
                 for item, count in pairs(entity.get_inventory(defines.inventory.assembling_machine_input).get_contents()) do
                     new_inventory.insert { name = item, count = count }
                 end
+            else
+                new_entity.mining_progress = entity.mining_progress
             end
             if player.opened == entity then
                 player.opened = new_entity
