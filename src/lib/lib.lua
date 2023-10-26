@@ -7,14 +7,6 @@ lib.p = {
 
 local new_prototypes = {}
 
-function lib.as_set(t)
-    local new = {}
-    for _, v in pairs(t) do
-        new[v] = true
-    end
-    return new
-end
-
 function lib.extend(t, t2)
     for k, v in pairs(t2) do
         t[k] = v
@@ -34,14 +26,6 @@ function lib.find_by_prop(t, name, value)
     return lib.find_by_predicate(t, function(item)
         return item[name] == value
     end)
-end
-
-function lib.split(str, sep)
-    local res = {}
-    for cn in string.gmatch(str, "([^" .. sep .. "]+)") do
-        table.insert(res, cn)
-    end
-    return res
 end
 
 function lib.get_canonic_parts(parts)

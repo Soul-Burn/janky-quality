@@ -32,7 +32,7 @@ local cat_without_sa_bonuses = {
 
 local cat_with_sa_bonuses = { "ammo", "land-mine", "wall", "gate" }
 
-local all_cat_set = lib.as_set(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses }))
+local all_cat_set = util.list_to_map(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses }))
 
 -- Handle items with entities
 local function handle_category(category_name, func)

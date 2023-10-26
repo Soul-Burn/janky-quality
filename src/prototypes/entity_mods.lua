@@ -1,5 +1,4 @@
 local data_util = require("__flib__/data-util")
-local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
 local m = {}
@@ -10,7 +9,7 @@ function m.mod(names_and_modifiers)
     return function(p, quality)
         for name, modifier in pairs(names_and_modifiers) do
             local op = p
-            local path = lib.split(name, ".")
+            local path = util.split(name, ".")
             for i = 1, #path - 1 do
                 op = op[path[i]]
             end

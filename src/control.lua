@@ -1,3 +1,4 @@
+require("util")
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
@@ -169,7 +170,7 @@ end
 script.on_event(defines.events.on_research_finished, handle_research)
 script.on_event(defines.events.on_technology_effects_reset, handle_technology_rest)
 
-local allowed_quality_module_types = lib.as_set({ "furnace", "assembling-machine", "mining-drill" })
+local allowed_quality_module_types = util.list_to_map({ "furnace", "assembling-machine", "mining-drill" })
 
 local function selected_upgrade(event)
     local quality = libq.find_quality(event.item)

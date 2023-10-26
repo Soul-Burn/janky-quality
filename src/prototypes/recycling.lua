@@ -79,10 +79,10 @@ lib.add_prototype(
 
 lib.flush_prototypes()
 
-local recyclable_categories = lib.as_set({ "crafting", "basic-crafting", "advanced-crafting", "crafting-with-fluid" })
+local recyclable_categories = util.list_to_map({ "crafting", "basic-crafting", "advanced-crafting", "crafting-with-fluid" })
 local recycling_probability = 0.25
 
-local items_to_skip = lib.as_set({
+local items_to_skip = util.list_to_map({
     "player-port", "simple-entity-with-force", "simple-entity-with-owner", "simple-entity",
     "infinity-chest", "infinity-pipe", "linked-chest", "linked-belt",
 })
