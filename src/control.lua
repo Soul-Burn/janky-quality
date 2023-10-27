@@ -203,23 +203,22 @@ local function selected_upgrade(event)
     end
     local inventory = player.get_main_inventory()
     local any_modified = false
-    local any_too_far = false
+    local any_cant_build = false
     for _, entity in pairs(event.entities) do
         local is_crafter = entity.type ~= "mining-drill"
         local can_reach = player.can_reach_entity(entity)
         if not can_reach then
             player.create_local_flying_text { text = { "cant-reach" }, position = entity.position }
-            any_too_far = true
+            any_cant_build = true
         end
         if allowed_quality_module_types[entity.type] and not libq.split_quality_modules(libq.name_without_quality(entity.name)) and can_reach then
             local module_inventory = entity.get_module_inventory()
             if module_inventory and module_inventory.is_empty() then
                 if inventory.get_item_count(event.item) + player.cursor_stack.count < #module_inventory then
                     player.create_local_flying_text { text = { "jq.not-enough-modules" }, position = entity.position }
-                    player.play_sound { path = "utility/cannot_build" }
-                    return
+                    any_cant_build = true
+                    break
                 end
-                local recipe = is_crafter and entity.get_recipe()
                 if player.cursor_stack.count >= #module_inventory then
                     player.cursor_stack.count = player.cursor_stack.count - #module_inventory
                 else
@@ -231,6 +230,7 @@ local function selected_upgrade(event)
                         player.hand_location = { inventory = defines.inventory.character_main, slot = inventory_slot }
                     end
                 end
+                local recipe = is_crafter and entity.get_recipe()
                 local new_entity = entity.surface.create_entity {
                     name = libq.name_with_quality(
                             libq.name_with_quality_module(libq.name_without_quality(entity.name), #module_inventory, quality_module),
@@ -270,7 +270,7 @@ local function selected_upgrade(event)
     if any_modified then
         player.play_sound { path = "utility/inventory_move" }
     end
-    if any_too_far then
+    if any_cant_build then
         player.play_sound { path = "utility/cannot_build" }
     end
 end
@@ -282,19 +282,28 @@ local function selected_downgrade(event)
 
     local player = game.get_player(event.player_index)
     local any_modified = false
-    local any_too_far = false
+    local any_cant_build = false
     for _, entity in pairs(event.entities) do
         local can_reach = player.can_reach_entity(entity)
         if not can_reach then
             player.create_local_flying_text { text = { "cant-reach" }, position = entity.position }
-            any_too_far = true
+            any_cant_build = true
         end
         local is_crafter = entity.type ~= "mining-drill"
         local entity_name, module_count, quality_module = libq.split_quality_modules(libq.name_without_quality(entity.name))
         if allowed_quality_module_types[entity.type] and quality_module and player.can_reach_entity(entity) then
-            local to_insert = is_crafter and entity.get_inventory(defines.inventory.assembling_machine_output).get_contents() or {}
             local qm_name = libq.qm_name_to_module_item(quality_module)
-            to_insert[qm_name] = (to_insert[qm_name] or 0) + module_count
+            module_count = tonumber(module_count)
+            local modules_inserted = player.insert { name = qm_name, count = module_count }
+            if modules_inserted < module_count then
+                if modules_inserted > 0 then
+                    player.remove_item { name = qm_name, count = modules_inserted }
+                end
+                player.create_local_flying_text { text = { "inventory-full-message.main" }, create_at_cursor = true }
+                player.play_sound { path = "utility/console_message" }
+                any_cant_build = true
+                break
+            end
             local recipe = is_crafter and entity.get_recipe()
             local new_entity = entity.surface.create_entity {
                 name = entity_name,
@@ -328,7 +337,7 @@ local function selected_downgrade(event)
     if any_modified then
         player.play_sound { path = "utility/inventory_move" }
     end
-    if any_too_far then
+    if any_cant_build then
         player.play_sound { path = "utility/cannot_build" }
     end
 end
