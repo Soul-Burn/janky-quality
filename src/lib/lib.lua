@@ -63,7 +63,7 @@ function lib.get_canonic_recipe(recipe_root)
     local ingredients = lib.get_canonic_parts(recipe_root.ingredients)
     local results = lib.get_canonic_parts(recipe_root.results)
     if recipe_root.results == nil and recipe_root.result then
-        results = { { type = "item", name = recipe_root.result, amount = recipe_root.result_count or 1 } }
+        results = { { type = "item", name = recipe_root.result, amount = recipe_root.result_count or recipe_root.count or 1 } }
     end
     return ingredients, results
 end
