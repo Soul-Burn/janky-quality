@@ -15,9 +15,15 @@ function lib.table_size(t)
     return size
 end
 
-function lib.extend(t, t2)
+function lib.table_update(t, t2)
     for k, v in pairs(t2) do
         t[k] = v
+    end
+end
+
+function lib.table_extend(t, t2)
+    for _, v in ipairs(t2) do
+        t[#t + 1] = v
     end
 end
 

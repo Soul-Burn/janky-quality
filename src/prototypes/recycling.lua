@@ -151,7 +151,7 @@ function handle_item(item)
         return new_root
     end
 
-    lib.extend(new_recipe, handle_root(recipe) or {})
+    lib.table_update(new_recipe, handle_root(recipe) or {})
     new_recipe.normal = handle_root(recipe.normal)
     new_recipe.expensive = handle_root(recipe.expensive)
 end
