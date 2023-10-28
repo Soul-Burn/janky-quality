@@ -30,13 +30,19 @@ libq.quality_modules = {
     { name = "3@1", mod_level = 3, mod_quality = 1, max_quality = 5, modifier = 0.0248, icon = lib.p.gfx .. "quality-module-3@1-overlay.png" },
 }
 
-for _, quality in pairs(libq.qualities) do
-    local new_qm = table.deepcopy(libq.quality_modules[3])
-    new_qm.name = new_qm.mod_level .. "@" .. quality.level
-    new_qm.modifier = new_qm.modifier * (1.0 + 0.3 * quality.modifier)
-    new_qm.icon = lib.p.gfx .. "quality-module-" .. new_qm.name .. "-overlay.png",
-    table.insert(libq.quality_modules, new_qm)
+local qm_to_add = {}
+for _, qm in pairs(libq.quality_modules) do
+    for _, quality in pairs(libq.qualities) do
+        if quality.level ~= 1 then
+            local new_qm = table.deepcopy(qm)
+            new_qm.name = new_qm.mod_level .. "@" .. quality.level
+            new_qm.modifier = new_qm.modifier * (1.0 + 0.3 * quality.modifier)
+            new_qm.icon = lib.p.gfx .. "quality-module-" .. new_qm.name .. "-overlay.png",
+            table.insert(qm_to_add, new_qm)
+        end
+    end
 end
+lib.table_extend(libq.quality_modules, qm_to_add)
 
 function libq.name_with_quality_module(name, module_count, quality_module)
     return name .. "-qum-" .. module_count .. "x" .. quality_module.name
