@@ -94,15 +94,43 @@ function libq.get_recipe_category_to_slots()
 end
 
 function libq.copy_prototype(p, quality)
-    local new_p = data_util.copy_prototype(p, libq.name_with_quality(p.name, quality))
-    local mid_name = { "?", { "item-name." .. p.name }, { "entity-name." .. p.name }, { "fluid-name." .. p.name }, p.name }
-    if p.localised_name then
-        mid_name = { "", p.localised_name }
+    local new_p = table.deepcopy(p)
+    local mid_name = { "?", { "item-name." .. new_p.name }, { "entity-name." .. new_p.name }, { "fluid-name." .. new_p.name }, new_p.name }
+    if new_p.localised_name then
+        mid_name = { "", new_p.localised_name }
     end
     new_p.localised_name = { "jq.with-quality", mid_name, { "jq.quality-" .. quality.level } }
-    new_p.icons = data_util.create_icons(p, { { icon = quality.icon_overlay, icon_size = 64, scale = 0.5, icon_mipmaps = 0 } })
+    new_p.name = libq.name_with_quality(new_p.name, quality)
+
+    new_p.icons = data_util.create_icons(new_p, { { icon = quality.icon_overlay, icon_size = 64, scale = 0.5, icon_mipmaps = 0 } })
     if new_p.icons and #new_p.icons == 3 then
         new_p.icons[1].scale = 0.5 -- This is a hack that makes icons actually stack correctly. No idea why it works.
+    end
+
+    if new_p.place_result then
+        new_p.place_result = libq.name_with_quality(new_p.place_result, quality)
+    end
+
+    if new_p.placed_as_equipment_result then
+        new_p.placed_as_equipment_result = libq.name_with_quality(new_p.placed_as_equipment_result, quality)
+    end
+
+    if new_p.placeable_by then
+        for _, item_to_place in pairs(new_p.placeable_by.item and { new_p.placeable_by } or new_p.placeable_by) do
+            item_to_place.item = libq.name_with_quality(item_to_place.item, quality)
+        end
+    end
+
+    if new_p.minable then
+        local _, results = lib.get_canonic_recipe(new_p.minable)
+        if results then
+            for _, result in pairs(results) do
+                if result.name == p.name then
+                    result.name = libq.name_with_quality(result.name, quality)
+                end
+            end
+            new_p.minable.results = results
+        end
     end
 
     local picture_overlay = { filename = quality.icon_overlay, size = 64, scale = 0.25, mipmap_count = 0 }
@@ -116,7 +144,7 @@ function libq.copy_prototype(p, quality)
         end
     end
 
-    if string.find(p.type, "-equipment") and new_p.sprite then
+    if string.find(new_p.type, "-equipment") and new_p.sprite then
         if new_p.sprite.layers == nil then
             new_p.sprite.layers = { table.deepcopy(new_p.sprite) }
             new_p.sprite.height = nil
@@ -129,12 +157,10 @@ function libq.copy_prototype(p, quality)
         table.insert(new_p.sprite.layers, { filename = quality.icon, height = 16, width = 16 })
     end
 
-    if new_p.placed_as_equipment_result then
-        new_p.placed_as_equipment_result = libq.name_with_quality(p.name, quality)
+    if new_p.order then
+        new_p.order = libq.name_with_quality(new_p.order, quality)
     end
-    if p.order then
-        new_p.order = libq.name_with_quality(p.order, quality)
-    end
+
     return new_p
 end
 
