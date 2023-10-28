@@ -2,16 +2,6 @@ local data_util = require("__flib__/data-util")
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
-lib.add_prototype({ name = "quality-module-programming", type = "recipe-category" })
-
-for _, recipe_category in pairs(data.raw["recipe-category"]) do
-    for _, q in pairs(libq.quality_modules) do
-        for _, module_count in pairs(libq.slot_counts) do
-            lib.add_prototype({ name = libq.name_with_quality_module(recipe_category.name, module_count, q), type = "recipe-category" })
-        end
-    end
-end
-
 local function handle_category(category_name)
     for _, machine in pairs(data.raw[category_name]) do
         if machine.module_specification and machine.module_specification.module_slots > 0 then

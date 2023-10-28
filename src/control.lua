@@ -126,6 +126,14 @@ local function handle_technology_rest(event)
     quality_unlock(event.force)
 end
 
+local recipe_category_to_slots_cache
+local function get_recipe_category_to_slots()
+    if not recipe_category_to_slots_cache then
+        recipe_category_to_slots_cache = libq.get_recipe_category_to_slots()
+    end
+    return recipe_category_to_slots_cache
+end
+
 local function handle_research(event)
     local tech = event.research
     local force = tech.force
@@ -146,8 +154,12 @@ local function handle_research(event)
                     end
                     recipe.enabled = true
                     (function()
+                        local recipe_category_to_slots = get_recipe_category_to_slots()
+                        if not recipe_category_to_slots[recipe.category] then
+                            return
+                        end
                         for _, quality_module in pairs(libq.quality_modules) do
-                            for _, module_count in pairs(libq.slot_counts) do
+                            for module_count, _ in pairs(recipe_category_to_slots[recipe.category]) do
                                 local q_recipe = force.recipes[libq.name_with_quality_module(name, module_count, quality_module)]
                                 if not q_recipe then
                                     return

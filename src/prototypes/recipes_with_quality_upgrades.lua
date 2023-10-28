@@ -1,15 +1,26 @@
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
+local recipe_category_to_slots = libq.get_recipe_category_to_slots()
+
+for recipe_category, slots_counts in pairs(recipe_category_to_slots) do
+    for _, q in pairs(libq.quality_modules) do
+        for slot_count, _ in pairs(slots_counts) do
+            lib.add_prototype({ name = libq.name_with_quality_module(recipe_category, slot_count, q), type = "recipe-category" })
+        end
+    end
+end
+
 local function handle_recipe(recipe)
-    if recipe.subgroup and (recipe.subgroup == "fill-barrel" or recipe.subgroup == "empty-barrel") then
+    local recipe_category = recipe.category or "crafting"
+    if not recipe_category_to_slots[recipe_category] then
         return
     end
     for _, quality_module in pairs(libq.quality_modules) do
-        for _, module_count in pairs(libq.slot_counts) do
+        for module_count, _ in pairs(recipe_category_to_slots[recipe_category]) do
             local new_recipe = table.deepcopy(recipe)
             new_recipe.name = libq.name_with_quality_module(new_recipe.name, module_count, quality_module)
-            new_recipe.category = libq.name_with_quality_module((new_recipe.category or "crafting"), module_count, quality_module)
+            new_recipe.category = libq.name_with_quality_module(recipe_category, module_count, quality_module)
 
             for _, recipe_root in pairs({ new_recipe, new_recipe.normal, new_recipe.expensive }) do
                 if recipe_root then

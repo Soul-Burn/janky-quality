@@ -51,7 +51,41 @@ function libq.qm_name_to_module_item(qm_name)
     return libq.name_with_quality("quality-module-" .. module_tier, tonumber(module_quality))
 end
 
-libq.slot_counts = { 2, 3, 4 }
+function libq.get_recipe_category_to_slots()
+    local crafting_machines = util.list_to_map({ "assembling-machine", "furnace" })
+    local recipe_category_to_slots = {}
+
+    local function add_to_category_to_slots(category, slots)
+        if slots > 0 then
+            if not recipe_category_to_slots[category] then
+                recipe_category_to_slots[category] = {}
+            end
+            recipe_category_to_slots[category][slots] = true
+        end
+    end
+
+    if data then
+        for machine_category, _ in pairs(crafting_machines) do
+            for _, machine in pairs(data.raw[machine_category]) do
+                for _, crafting_category in pairs(machine.crafting_categories) do
+                    if machine.module_specification then
+                        add_to_category_to_slots(crafting_category, machine.module_specification.module_slots)
+                    end
+                end
+            end
+        end
+    elseif game then
+        for _, entity in pairs(game.entity_prototypes) do
+            if crafting_machines[entity.type] and entity.module_inventory_size and entity.module_inventory_size > 0 then
+                for category, _ in pairs(entity.crafting_categories) do
+                    add_to_category_to_slots(category, entity.module_inventory_size or 0)
+                end
+            end
+        end
+    end
+
+    return recipe_category_to_slots
+end
 
 function libq.copy_prototype(p, quality)
     local new_p = data_util.copy_prototype(p, libq.name_with_quality(p.name, quality))
