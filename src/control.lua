@@ -122,7 +122,7 @@ local function quality_unlock(force)
     end
 end
 
-local function handle_technology_rest(event)
+local function handle_technology_reset(event)
     quality_unlock(event.force)
 end
 
@@ -180,7 +180,7 @@ local function handle_research(event)
 end
 
 script.on_event(defines.events.on_research_finished, handle_research)
-script.on_event(defines.events.on_technology_effects_reset, handle_technology_rest)
+script.on_event(defines.events.on_technology_effects_reset, handle_technology_reset)
 
 local function transfer_from_entity_to_entity_or_player_or_spill(old_entity, new_entity, player)
     local inventory = player.get_main_inventory()
