@@ -64,7 +64,13 @@ return {
         end
     end,
     ["rail-planner"] = function(p, quality)
-        p.place_result = nil
-        p.type = "item"
+        p.straight_rail = libq.name_with_quality(p.straight_rail, quality)
+        p.curved_rail = libq.name_with_quality(p.curved_rail, quality)
+    end,
+    ["straight-rail"] = function(p, quality)
+        p.minable.results[1].name = libq.name_with_quality("rail", quality)
+    end,
+    ["curved-rail"] = function(p, quality)
+        p.minable.results[1].name = libq.name_with_quality("rail", quality)
     end,
 }
