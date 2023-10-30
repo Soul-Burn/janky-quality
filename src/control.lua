@@ -153,16 +153,13 @@ local function handle_research(event)
                         break
                     end
                     recipe.enabled = true
-                    (function()
-                        local recipe_category_to_slots = get_recipe_category_to_slots()
-                        if not recipe_category_to_slots[recipe.category] then
-                            return
-                        end
+                    local recipe_category_to_slots = get_recipe_category_to_slots()
+                    if recipe_category_to_slots[recipe.category] then
                         for _, quality_module in pairs(libq.quality_modules) do
                             for module_count, _ in pairs(recipe_category_to_slots[recipe.category]) do
                                 local q_recipe = force.recipes[libq.name_with_quality_module(name, module_count, quality_module)]
                                 if not q_recipe then
-                                    return
+                                    goto continue
                                 end
                                 q_recipe.enabled = true
                                 local qem_name = libq.name_with_quality(libq.name_with_quality_module(effect.recipe, module_count, quality_module), quality)
@@ -172,7 +169,8 @@ local function handle_research(event)
                                 end
                             end
                         end
-                    end)()
+                    end
+                    :: continue ::
                 end
             end
         end
