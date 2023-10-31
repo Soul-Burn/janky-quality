@@ -9,7 +9,7 @@ local function handle_category(category_name)
     for _, assembler in pairs(data.raw[category_name]) do
         local item = data.raw.item[assembler.name]
         local name, module_count, module_name = libq.split_quality_modules(item.name)
-        if name ~= nil and module_count ~= nil and module_name ~= nil then
+        if name and module_count and module_name then
             local assembler_name_with_quality = libq.name_with_quality(name, libq.find_quality(item.name))
             local module_item_name = libq.qm_name_to_module_item(module_name)
             lib.add_prototype(

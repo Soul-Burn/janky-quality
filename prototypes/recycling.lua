@@ -117,7 +117,7 @@ function handle_item(item)
 
     local new_ingredients = { { type = "item", name = item.name, amount = 1 } }
     local recipe = data.raw.recipe[item.name]
-    if recipe == nil or (recipe.category and recyclable_categories[recipe.category] == nil) then
+    if not recipe or (recipe.category and not recyclable_categories[recipe.category]) then
         new_recipe.ingredients = new_ingredients
         new_recipe.results = { lib.normalize_probability({ type = "item", name = item.name, amount = 1, probability = recycling_probability, catalyst_amount = 0 }) }
         return
@@ -125,7 +125,7 @@ function handle_item(item)
     new_recipe.order = recipe.order
 
     function handle_root(root)
-        if root == nil or (root.result == nil and root.results == nil) then
+        if not root or (not root.result and not root.results) then
             return nil
         end
         local new_root = {

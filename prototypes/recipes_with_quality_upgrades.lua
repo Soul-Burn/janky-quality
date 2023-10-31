@@ -40,7 +40,7 @@ local function handle_recipe(recipe)
                     recipe_root.hide_from_player_crafting = true
                     recipe_root.allow_as_intermediate = false
 
-                    if ((new_recipe.icon == nil and new_recipe.icons == nil) or new_recipe.subgroup == nil) and recipe_root.main_product == nil then
+                    if ((not new_recipe.icon and not new_recipe.icons) or not new_recipe.subgroup) and not recipe_root.main_product then
                         if new_recipe.main_product then
                             recipe_root.main_product = new_recipe.main_product
                         elseif data.raw.fluid[libq.name_without_quality(recipe.name)] then

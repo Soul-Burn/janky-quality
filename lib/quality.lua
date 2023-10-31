@@ -145,7 +145,7 @@ function libq.copy_prototype(p, quality)
     end
 
     if string.find(new_p.type, "-equipment") and new_p.sprite then
-        if new_p.sprite.layers == nil then
+        if not new_p.sprite.layers then
             new_p.sprite.layers = { table.deepcopy(new_p.sprite) }
             new_p.sprite.height = nil
             new_p.sprite.width = nil
@@ -179,7 +179,7 @@ local function make_probabilities(effective_quality, max_quality)
 end
 
 function libq.transform_results_with_probabilities(results, module_count, quality_module)
-    if results == nil then
+    if not results then
         return
     end
     local new_results = {}

@@ -22,7 +22,7 @@ for _, p in pairs(data.raw.recipe) do
             end
 
             local function handle_recipe_part(parts)
-                if parts == nil then
+                if not parts then
                     return
                 end
                 for _, part in pairs(parts) do

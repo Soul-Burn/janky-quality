@@ -37,7 +37,7 @@ end
 
 local function handle_removal(event)
     local entity = event.entity
-    if entity == nil then
+    if not entity then
         return
     end
     if entity.type == "mining-drill" then
@@ -58,7 +58,7 @@ end
 
 local function handle_build(event)
     local ent = event.created_entity or event.entity or event.destination
-    if ent == nil then
+    if not ent then
         return
     end
     local found_quality = libq.find_quality(ent.name)

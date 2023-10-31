@@ -43,12 +43,12 @@ function lib.find_by_prop(t, name, value)
 end
 
 function lib.get_canonic_parts(parts)
-    if parts == nil then
+    if not parts then
         return nil
     end
     local new_parts = {}
     for _, part in ipairs(parts) do
-        if part.name == nil then
+        if not part.name then
             table.insert(new_parts, { type = "item", name = part[1], amount = part[2] })
         else
             local new_result = table.deepcopy(part)
@@ -62,7 +62,7 @@ end
 function lib.get_canonic_recipe(recipe_root)
     local ingredients = lib.get_canonic_parts(recipe_root.ingredients)
     local results = lib.get_canonic_parts(recipe_root.results)
-    if recipe_root.results == nil and recipe_root.result then
+    if not recipe_root.results and recipe_root.result then
         results = { { type = "item", name = recipe_root.result, amount = recipe_root.result_count or recipe_root.count or 1 } }
     end
     return ingredients, results
@@ -125,7 +125,7 @@ function lib.add_prototype(prototype)
 end
 
 function lib.flush_prototypes()
-    if next(new_prototypes) ~= nil then
+    if next(new_prototypes) then
         data:extend(new_prototypes)
         new_prototypes = {}
     end
