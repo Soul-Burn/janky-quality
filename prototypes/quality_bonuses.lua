@@ -1,6 +1,7 @@
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 local m = require(lib.p.prot .. "entity_mods.lua")
+local trigger_mods = require(lib.p.prot .. "trigger_mods.lua")
 
 return {
     ["lab"] = m.default_mod("researching_speed"),
@@ -25,7 +26,7 @@ return {
     ["solar-panel"] = m.default_energy_mod("production"),
     ["solar-panel-equipment"] = m.default_energy_mod("power"),
     ["generator-equipment"] = m.default_energy_mod("power"),
-    ["equipment-grid"] = m.mod{width = m.add(1), height = m.add(1)},
+    ["equipment-grid"] = m.mod { width = m.add(1), height = m.add(1) },
     ["construction-robot"] = m.default_energy_mod("max_energy"),
     ["logistic-robot"] = m.default_energy_mod("max_energy"),
     ["roboport"] = m.default_energy_mod("charging_energy"),
@@ -72,5 +73,18 @@ return {
     end,
     ["curved-rail"] = function(p, quality)
         p.minable.results[1].name = libq.name_with_quality("rail", quality)
+    end,
+    ["projectile"] = trigger_mods.action,
+    ["artillery-projectile"] = trigger_mods.action,
+    ["land-mine"] = trigger_mods.action,
+    ["ammo"] = trigger_mods.ammo,
+    ["stream"] = function(p, quality)
+        trigger_mods.trigger(p.initial_action, quality)
+        trigger_mods.trigger(p.action, quality)
+    end,
+    ["sticker"] = m.mod({ ["damage_per_tick.amount.?"] = m.mult(0.3) }),
+    ["fire"] = m.mod({ ["damage_per_tick.amount.?"] = m.mult(0.3) }),
+    ["capsule"] = function(p, quality)
+        trigger_mods.ammo(p.capsule_action.attack_parameters, quality)
     end,
 }

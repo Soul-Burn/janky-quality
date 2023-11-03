@@ -28,4 +28,5 @@ This mod has a modding interface, for simple addition of new quality bonuses. Se
 
 #Future plans
 
-* More quality bonuses (missing bonuses for ammo and land mines)
+* More SA quality bonuses (some capsules)
+* More extra non-SA quality bonuses (pipe length, vehicle speed, fuel values)

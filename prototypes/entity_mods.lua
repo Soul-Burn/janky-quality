@@ -10,10 +10,21 @@ function m.mod(names_and_modifiers)
         for name, modifier in pairs(names_and_modifiers) do
             local op = p
             local path = util.split(name, ".")
+            local skip_missing = false
+            if path[#path] == "?" then
+                skip_missing = true
+                path[#path] = nil
+            end
             for i = 1, #path - 1 do
                 op = op[path[i]]
+                if not op and skip_missing then
+                    return
+                end
             end
             local last = path[#path]
+            if not op[last] and skip_missing then
+                return
+            end
             op[last] = modifier(op[last], quality)
         end
     end

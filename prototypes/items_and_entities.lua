@@ -9,16 +9,16 @@ local cat_weird = {
 local cat_without_bonuses = {
     "arithmetic-combinator", "decider-combinator", "constant-combinator", "power-switch", "programmable-speaker",
     "rail-chain-signal", "rail-signal", "train-stop", "heat-interface", "electric-energy-interface", "spidertron-remote",
-    "item", "item-with-entity-data", "item-with-inventory", "selection-tool"
+    "item", "item-with-entity-data", "item-with-inventory", "selection-tool", "explosion", "belt-immunity-equipment",
 }
 
 local cat_without_sa_bonuses = {
     "container", "logistic-container", "storage-tank", "pipe", "pipe-to-ground", "pump", "offshore-pump", "heat-pipe",
     "splitter", "transport-belt", "underground-belt", "loader", "loader-1x1", "cargo-wagon", "fluid-wagon", "locomotive", "car",
-    "belt-immunity-equipment", "combat-robot", "capsule", "lamp",
+    "combat-robot", "capsule", "lamp",
 }
 
-local cat_with_sa_bonuses = { "ammo", "land-mine", "wall", "gate" }
+local cat_with_sa_bonuses = { "wall", "gate" }
 
 local all_cat_set = util.list_to_map(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses, cat_weird }))
 
