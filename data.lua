@@ -8,3 +8,5 @@ lib.table_update(jq_entity_mods.entity_mods, require(lib.p.prot .. "quality_bonu
 if settings.startup["jq-use-extra-bonuses"].value then
     lib.table_update(jq_entity_mods.entity_mods, require(lib.p.prot .. "quality_bonuses_extra.lua"))
 end
+
+require(lib.p.prot .. "tips_and_tricks.lua")

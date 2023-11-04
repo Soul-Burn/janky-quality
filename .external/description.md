@@ -2,8 +2,8 @@
 
 Quality modules inspired by FFF-375, but very janky!
 
-* Quality modules as items. Can't be placed directly in machines. Use module to select around relevant machines to insert, right click to remove.
-* Various crafting machine variations with baked in quality modules. Assemblers can craft these baked machines from base machine and modules.
+* Quality modules as items. Can't be placed directly in machines. Use module to drag around relevant machines to insert, right click drag to remove.
+* Various crafting machine variations with baked-in quality modules. For use with bots, assemblers can craft these from base machine and modules.
 * Quality upgrades for many items, inspired by the FFF.
 * Recycling according to FFF.
 
@@ -23,8 +23,9 @@ This mod has a modding interface, for simple addition of new quality bonuses. Se
 
 #Known issues
 
-* Researching all technologies (/cheat) takes time
-* Quality graphics do not appear on ghosts or GUIs
+* Researching all technologies (/cheat) is slow
+* Quality indicators do not appear on ghosts or GUIs
+* Some quality indicators look strange on recipes and equipment
 
 #Future plans
 
