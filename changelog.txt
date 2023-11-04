@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.1
+Date: 2023.11.04
+  Changes:
+    - Added ability to set max on m.add modifiers
+  Bug fixes:
+    - Fixed crash when trying to module building with 0 module slots
+    - Fixed downgrade losing quality of entities
+    - Fixed max value exceeded in power poles
+---------------------------------------------------------------------------------------------------
 Version: 0.1.0
 Date: 2023.11.04
   Info:
