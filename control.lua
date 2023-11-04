@@ -300,7 +300,7 @@ local function selected_downgrade(event)
             any_cant_build = true
         end
         local is_crafter = entity.type ~= "mining-drill"
-        local entity_name, module_count, quality_module = libq.split_quality_modules(libq.name_without_quality(entity.name))
+        local base_entity_name, module_count, quality_module = libq.split_quality_modules(libq.name_without_quality(entity.name))
         if allowed_quality_module_types[entity.type] and quality_module and player.can_reach_entity(entity) then
             local qm_name = libq.qm_name_to_module_item(quality_module)
             module_count = tonumber(module_count)
@@ -316,7 +316,7 @@ local function selected_downgrade(event)
             end
             local recipe = is_crafter and entity.get_recipe()
             local new_entity = entity.surface.create_entity {
-                name = entity_name,
+                name = libq.name_with_quality(base_entity_name, libq.find_quality(entity.name)),
                 position = entity.position,
                 direction = entity.direction,
                 recipe = recipe and libq.split_quality_modules(recipe.name) or nil,
