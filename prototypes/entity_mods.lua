@@ -38,9 +38,13 @@ function m.mult(modifier)
 end
 
 -- Additive modifier
-function m.add(modifier)
+function m.add(modifier, max_value)
     return function(value, quality)
-        return (value or 0) + modifier * quality.modifier
+        local new_value = (value or 0) + modifier * quality.modifier
+        if max_value and max_value < new_value then
+            return max_value
+        end
+        return new_value
     end
 end
 

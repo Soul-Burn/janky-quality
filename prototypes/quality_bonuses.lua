@@ -39,7 +39,7 @@ return {
     ["accumulator"] = m.default_energy_mod("energy_source.buffer_capacity"),
     ["spider-vehicle"] = m.mod({ inventory_size = m.add(10), equipment_grid = m.with_quality }),
     ["armor"] = m.mod({ inventory_size_bonus = m.add(10), durability = m.mult(0.3), equipment_grid = m.with_quality }),
-    ["electric-pole"] = m.mod({ supply_area_distance = m.add(1), maximum_wire_distance = m.add(2) }),
+    ["electric-pole"] = m.mod({ supply_area_distance = m.add(1, 64), maximum_wire_distance = m.add(2, 64) }),
     ["night-vision-equipment"] = function(p, quality)
         p.color_lookup[1][2] = lib.p.gfx .. "nv-quality-" .. quality.level .. ".png"
     end,
