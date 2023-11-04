@@ -223,7 +223,7 @@ local function selected_upgrade(event)
         end
         if allowed_quality_module_types[entity.type] and not libq.split_quality_modules(libq.name_without_quality(entity.name)) and can_reach then
             local module_inventory = entity.get_module_inventory()
-            if module_inventory and module_inventory.is_empty() then
+            if module_inventory and #module_inventory > 0 and module_inventory.is_empty() then
                 if inventory.get_item_count(event.item) + player.cursor_stack.count < #module_inventory then
                     player.create_local_flying_text { text = { "jq.not-enough-modules" }, position = entity.position }
                     any_cant_build = true
