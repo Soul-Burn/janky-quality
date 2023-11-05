@@ -5,6 +5,7 @@ Date: ???
     - Recycling items with multiple outputs recycle to self
     - Repair and science packs now get +100% quality bonuses
     - Support for recipes with single products named differently than their main product
+    - Better quality icons
   Bug fixes:
     - Modules can now be recycled
     - Fixed crash in upgrade where player cursor becomes invalid
