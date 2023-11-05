@@ -4,6 +4,7 @@ Date: ???
   Changes:
     - Recycling items with multiple outputs recycle to self
     - Repair and science packs now get +100% quality bonuses
+    - Support for recipes with single products named differently than their main product
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.1
 Date: 2023.11.04

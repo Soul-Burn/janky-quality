@@ -25,6 +25,7 @@ local function handle_recipe(recipe)
             for _, recipe_root in pairs({ new_recipe, new_recipe.normal, new_recipe.expensive }) do
                 if recipe_root then
                     recipe_root.ingredients, recipe_root.results = lib.get_canonic_recipe(recipe_root)
+                    local single_result = recipe_root.results and #recipe_root.results == 1 and recipe_root.results[1].name
                     if recipe_root.ingredients and recipe_root.results then
                         local non_catalyst_results, catalyst_results = lib.split_by_catalysts(recipe_root)
                         if not lib.find_by_prop(non_catalyst_results, "type", "item") then
@@ -45,6 +46,8 @@ local function handle_recipe(recipe)
                             recipe_root.main_product = new_recipe.main_product
                         elseif data.raw.fluid[libq.name_without_quality(recipe.name)] then
                             new_recipe.main_product = libq.name_without_quality(recipe.name)
+                        elseif single_result then
+                            new_recipe.main_product = single_result
                         else
                             new_recipe.main_product = recipe.name
                         end
