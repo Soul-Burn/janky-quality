@@ -233,7 +233,9 @@ local function selected_upgrade(event)
                     player.cursor_stack.count = player.cursor_stack.count - #module_inventory
                 else
                     inventory.remove({ name = event.item, count = #module_inventory - player.cursor_stack.count })
-                    player.cursor_stack.count = 0
+                    if player.cursor_stack.valid_for_read then
+                        player.cursor_stack.count = 0
+                    end
                     local new_stack, inventory_slot = inventory.find_item_stack(event.item)
                     if new_stack then
                         player.cursor_stack.swap_stack(new_stack)
