@@ -117,43 +117,48 @@ function handle_item(item)
 
     local new_ingredients = { { type = "item", name = item.name, amount = 1 } }
     local recipe = data.raw.recipe[item.name]
-    if not recipe or (recipe.category and not recyclable_categories[recipe.category]) then
+    local recycles_to_self = not recipe or (recipe.category and not recyclable_categories[recipe.category])
+
+    if not recycles_to_self then
+        new_recipe.order = recipe.order
+
+        function handle_root(root)
+            if not root or (not root.result and not root.results) then
+                return nil
+            end
+            local ingredients, results = lib.get_canonic_recipe(root)
+            if #results ~= 1 or results[1].name ~= item.name or results[1].type ~= "item" then
+                recycles_to_self = true
+                return nil
+            end
+            local new_root = {
+                hide_from_player_crafting = true,
+                allow_as_intermediate = false,
+                category = "jq-recycling",
+                ingredients = new_ingredients,
+                energy_required = 0.5,
+                results = {},
+            }
+            for _, ingredient in pairs(ingredients) do
+                if ingredient.type == "item" then
+                    local new_i = lib.normalize_probability({
+                        type = "item", name = ingredient.name, amount = ingredient.amount, probability = recycling_probability / results[1].amount, catalyst_amount = 0
+                    })
+                    table.insert(new_root.results, new_i)
+                end
+            end
+            return new_root
+        end
+
+        lib.table_update(new_recipe, handle_root(recipe) or {})
+        new_recipe.normal = handle_root(recipe.normal)
+        new_recipe.expensive = handle_root(recipe.expensive)
+    end
+
+    if recycles_to_self then
         new_recipe.ingredients = new_ingredients
         new_recipe.results = { lib.normalize_probability({ type = "item", name = item.name, amount = 1, probability = recycling_probability, catalyst_amount = 0 }) }
-        return
     end
-    new_recipe.order = recipe.order
-
-    function handle_root(root)
-        if not root or (not root.result and not root.results) then
-            return nil
-        end
-        local new_root = {
-            hide_from_player_crafting = true,
-            allow_as_intermediate = false,
-            category = "jq-recycling",
-            ingredients = new_ingredients,
-            energy_required = 0.5,
-        }
-        local ingredients, results = lib.get_canonic_recipe(root)
-        assert(#results == 1, "Recipe with too many results " .. serpent.block(results))
-        assert(results[1].name == item.name, "Wrong item name " .. serpent.block(item) .. " " .. serpent.block(results))
-        assert(results[1].type == "item", "Wrong item type " .. serpent.block(results))
-        new_root.results = {}
-        for _, ingredient in pairs(ingredients) do
-            if ingredient.type == "item" then
-                local new_i = lib.normalize_probability({
-                    type = "item", name = ingredient.name, amount = ingredient.amount, probability = recycling_probability / results[1].amount, catalyst_amount = 0
-                })
-                table.insert(new_root.results, new_i)
-            end
-        end
-        return new_root
-    end
-
-    lib.table_update(new_recipe, handle_root(recipe) or {})
-    new_recipe.normal = handle_root(recipe.normal)
-    new_recipe.expensive = handle_root(recipe.expensive)
 end
 
 for _, category in pairs({ "item", "capsule", "item-with-entity-data", "armor", "gun" }) do
