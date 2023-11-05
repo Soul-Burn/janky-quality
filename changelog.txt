@@ -3,6 +3,7 @@ Version: 0.1.2
 Date: ???
   Changes:
     - Recycling items with multiple outputs recycle to self
+    - Repair and science packs now get +100% quality bonuses
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.1
 Date: 2023.11.04

@@ -10,7 +10,7 @@ return {
     ["rocket-silo"] = m.default_mod("crafting_speed"),
     ["inserter"] = m.mod({ rotation_speed = m.mult(0.3), extension_speed = m.mult(0.3) }),
     ["repair-tool"] = m.default_mod("durability"),
-    ["tool"] = m.default_mod("durability"),
+    ["tool"] = m.mod({durability = m.mult(1.0)}),
     ["gun"] = m.default_attack_parameters,
     ["turret"] = m.default_attack_parameters,
     ["ammo-turret"] = m.default_attack_parameters,
