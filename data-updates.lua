@@ -11,10 +11,10 @@ end
 
 log("Recipe count before JQ: " .. lib.table_size(data.raw.recipe))
 
+require(lib.p.prot .. "quality_modules")
 require(lib.p.prot .. "recycling")
 require(lib.p.prot .. "resources")
 require(lib.p.prot .. "quality_enhancing_machines")
-require(lib.p.prot .. "quality_modules")
 require(lib.p.prot .. "recipe_qualities")
 require(lib.p.prot .. "items_and_entities")
 require(lib.p.prot .. "recipes_with_quality_upgrades")
