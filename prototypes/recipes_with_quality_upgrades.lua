@@ -27,15 +27,14 @@ local function handle_recipe(recipe)
                     recipe_root.ingredients, recipe_root.results = lib.get_canonic_recipe(recipe_root)
                     local single_result = recipe_root.results and #recipe_root.results == 1 and recipe_root.results[1].name
                     if recipe_root.ingredients and recipe_root.results then
-                        local non_catalyst_results, catalyst_results = lib.split_by_catalysts(recipe_root)
-                        if not lib.find_by_prop(non_catalyst_results, "type", "item") then
-                            -- To get quality upgrades, recipes must have at least one non-catalyst non-fluid result item
-                            return
-                        end
+                        -- we don't want to fluids to split into more output boxes so we split them early
+                        local fluid_results, item_results = lib.split_array(recipe_root.results, function(item)
+                            return item.type == "fluid"
+                        end)
+                        local non_catalyst_results, catalyst_results = lib.split_by_catalysts({ ingredients = recipe_root.ingredients, results = item_results })
                         recipe_root.results = catalyst_results
-                        for _, result in pairs(libq.transform_results_with_probabilities(non_catalyst_results, module_count, quality_module)) do
-                            table.insert(recipe_root.results, result)
-                        end
+                        lib.table_extend(recipe_root.results, libq.transform_results_with_probabilities(non_catalyst_results, module_count, quality_module))
+                        lib.table_extend(recipe_root.results, fluid_results)
                     end
 
                     recipe_root.hide_from_player_crafting = true

@@ -42,7 +42,7 @@ for _, p in pairs(data.raw.recipe) do
             for _, recipe_root in pairs({ new_recipe, new_recipe.normal, new_recipe.expensive }) do
                 if recipe_root then
                     recipe_root.ingredients, recipe_root.results = lib.get_canonic_recipe(recipe_root)
-                    if all_fluid(recipe_root.ingredients) or all_fluid(recipe_root.results) then
+                    if all_fluid(recipe_root.ingredients) then
                         add_prototype = false
                     end
                     handle_recipe_part(recipe_root.ingredients)

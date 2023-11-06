@@ -42,6 +42,15 @@ function lib.find_by_prop(t, name, value)
     end)
 end
 
+function lib.split_array(t, predicate)
+    local true_list = {}
+    local false_list = {}
+    for _, item in pairs(t) do
+        table.insert((predicate(item) and true_list or false_list), item)
+    end
+    return true_list, false_list
+end
+
 function lib.get_canonic_parts(parts)
     if not parts then
         return nil
