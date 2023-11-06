@@ -3,6 +3,8 @@ Version: 0.1.3
 Date: ???
   Changes:
     - Quality bonuses for vehicle guns and inventory
+  Bug fixes:
+    - Fixes for module definitions without slots
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.2
 Date: 2023.11.05

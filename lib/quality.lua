@@ -62,7 +62,7 @@ function libq.get_recipe_category_to_slots()
     local recipe_category_to_slots = {}
 
     local function add_to_category_to_slots(category, slots)
-        if slots > 0 then
+        if slots and slots > 0 then
             if not recipe_category_to_slots[category] then
                 recipe_category_to_slots[category] = {}
             end
@@ -84,7 +84,7 @@ function libq.get_recipe_category_to_slots()
         for _, entity in pairs(game.entity_prototypes) do
             if crafting_machines[entity.type] and entity.module_inventory_size and entity.module_inventory_size > 0 then
                 for category, _ in pairs(entity.crafting_categories) do
-                    add_to_category_to_slots(category, entity.module_inventory_size or 0)
+                    add_to_category_to_slots(category, entity.module_inventory_size)
                 end
             end
         end

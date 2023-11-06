@@ -4,7 +4,7 @@ local libq = require("__janky-quality__/lib/quality")
 
 local function handle_category(category_name)
     for _, machine in pairs(data.raw[category_name]) do
-        if machine.module_specification and machine.module_specification.module_slots > 0 then
+        if machine.module_specification and machine.module_specification.module_slots and machine.module_specification.module_slots > 0 then
             for _, qm in pairs(libq.quality_modules) do
                 local slots = machine.module_specification.module_slots
                 local new_machine = data_util.copy_prototype(machine, libq.name_with_quality_module(machine.name, slots, qm))
