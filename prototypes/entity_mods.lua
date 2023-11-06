@@ -22,10 +22,9 @@ function m.mod(names_and_modifiers)
                 end
             end
             local last = path[#path]
-            if not op[last] and skip_missing then
-                return
+            if op[last] or not skip_missing then
+                op[last] = modifier(op[last], quality)
             end
-            op[last] = modifier(op[last], quality)
         end
     end
 end
@@ -60,6 +59,17 @@ end
 -- Modifier that adds quality to property
 function m.with_quality(value, quality)
     return value and libq.name_with_quality(value, quality)
+end
+
+-- Modifier that applies func to an array
+function m.array(func)
+    return function(value, quality)
+        local result = {}
+        for _, entry in pairs(value) do
+            table.insert(result, func(entry, quality))
+        end
+        return result
+    end
 end
 
 -- Default high level modification function

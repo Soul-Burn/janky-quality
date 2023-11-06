@@ -10,7 +10,7 @@ return {
     ["rocket-silo"] = m.default_mod("crafting_speed"),
     ["inserter"] = m.mod({ rotation_speed = m.mult(0.3), extension_speed = m.mult(0.3) }),
     ["repair-tool"] = m.default_mod("durability"),
-    ["tool"] = m.mod({durability = m.mult(1.0)}),
+    ["tool"] = m.mod({ durability = m.mult(1.0) }),
     ["gun"] = m.default_attack_parameters,
     ["turret"] = m.default_attack_parameters,
     ["ammo-turret"] = m.default_attack_parameters,
@@ -37,7 +37,8 @@ return {
     ["artillery-wagon"] = m.mod({ gun = m.with_quality }),
     ["battery-equipment"] = m.default_energy_mod("energy_source.buffer_capacity"),
     ["accumulator"] = m.default_energy_mod("energy_source.buffer_capacity"),
-    ["spider-vehicle"] = m.mod({ inventory_size = m.add(10), equipment_grid = m.with_quality }),
+    ["spider-vehicle"] = m.mod({ inventory_size = m.add(10), equipment_grid = m.with_quality, ["guns.?"] = m.array(m.with_quality) }),
+    ["car"] = m.mod({ inventory_size = m.add(10), ["equipment_grid.?"] = m.with_quality, ["guns.?"] = m.array(m.with_quality) }),
     ["armor"] = m.mod({ inventory_size_bonus = m.add(10), durability = m.mult(0.3), equipment_grid = m.with_quality }),
     ["electric-pole"] = m.mod({ supply_area_distance = m.add(1, 64), maximum_wire_distance = m.add(2, 64) }),
     ["night-vision-equipment"] = function(p, quality)
