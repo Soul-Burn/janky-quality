@@ -3,6 +3,7 @@ Version: 0.1.3
 Date: ???
   Changes:
     - Quality bonuses for vehicle guns and inventory
+    - Support for "smoke-with-trigger"
   Bug fixes:
     - Fixes for module definitions without slots
 ---------------------------------------------------------------------------------------------------

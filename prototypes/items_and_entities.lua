@@ -15,7 +15,7 @@ local cat_without_bonuses = {
 local cat_without_sa_bonuses = {
     "container", "logistic-container", "storage-tank", "pipe", "pipe-to-ground", "pump", "offshore-pump", "heat-pipe",
     "splitter", "transport-belt", "underground-belt", "loader", "loader-1x1", "cargo-wagon", "fluid-wagon", "locomotive",
-    "combat-robot", "capsule", "lamp",
+    "combat-robot", "capsule", "lamp", "smoke-with-trigger",
 }
 
 local cat_with_sa_bonuses = { "wall", "gate" }
