@@ -111,6 +111,10 @@ function libq.copy_prototype(p, quality)
         new_p.place_result = libq.name_with_quality(new_p.place_result, quality)
     end
 
+    if new_p.place_as_tile then
+        new_p.place_as_tile.result = libq.name_with_quality(new_p.place_as_tile.result, quality)
+    end
+
     if new_p.placed_as_equipment_result then
         new_p.placed_as_equipment_result = libq.name_with_quality(new_p.placed_as_equipment_result, quality)
     end
