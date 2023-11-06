@@ -9,7 +9,7 @@ local cat_weird = {
 local cat_without_bonuses = {
     "arithmetic-combinator", "decider-combinator", "constant-combinator", "power-switch", "programmable-speaker",
     "rail-chain-signal", "rail-signal", "train-stop", "heat-interface", "electric-energy-interface", "spidertron-remote",
-    "item", "item-with-entity-data", "item-with-inventory", "selection-tool", "explosion", "belt-immunity-equipment",
+    "item", "item-with-entity-data", "item-with-inventory", "selection-tool", "explosion", "belt-immunity-equipment", "wall", "gate",
 }
 
 local cat_without_sa_bonuses = {
@@ -18,37 +18,22 @@ local cat_without_sa_bonuses = {
     "combat-robot", "capsule", "lamp", "smoke-with-trigger",
 }
 
-local cat_with_sa_bonuses = { "wall", "gate" }
+local all_cat_set = util.list_to_map(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_weird }))
+lib.table_update(all_cat_set, jq_entity_mods.entity_mods)
 
-local all_cat_set = util.list_to_map(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_with_sa_bonuses, cat_weird }))
-
-local function handle_category(category_name, func)
-    for _, p in pairs(data.raw[category_name]) do
+for category_name, _ in pairs(all_cat_set) do
+    local category = data.raw[category_name]
+    for _, p in pairs(category) do
         for _, quality in pairs(libq.qualities) do
             if quality.level ~= 1 then
-                local new_entity = lib.add_prototype(libq.copy_prototype(p, quality))
-                if new_entity.max_health then
-                    new_entity.max_health = new_entity.max_health * (1 + 0.3 * quality.modifier)
-                end
-                if new_entity.rocket_launch_product then
-                    new_entity.rocket_launch_product[1] = libq.name_with_quality(new_entity.rocket_launch_product[1], quality)
-                end
-                if func then
-                    assert(not all_cat_set[category_name], "Category '" .. category_name .. "' appears in auto items")
-                    func(new_entity, quality)
+                local new_p = lib.add_prototype(libq.copy_prototype(p, quality))
+                jq_entity_mods.all_entities_mod(new_p, quality)
+                if jq_entity_mods.entity_mods[category_name] then
+                    jq_entity_mods.entity_mods[category_name](new_p, quality)
                 end
             end
         end
     end
-end
-
-for category, func in pairs(jq_entity_mods.entity_mods) do
-    all_cat_set[category] = nil
-    handle_category(category, func)
-end
-
-for category, _ in pairs(all_cat_set) do
-    handle_category(category, nil)
 end
 
 lib.flush_prototypes()

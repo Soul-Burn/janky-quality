@@ -37,27 +37,24 @@ end
 
 function mods.trigger(trigger, quality)
     if not trigger then
-        return
+        return nil
     end
     for _, t in pairs(trigger.type and { trigger } or trigger) do
         mods.effect(t.range_effects, quality)
         mods.delivery(t.action_delivery, quality)
     end
+    return trigger
 end
 
 function mods.ammo(ammo, quality)
     if not ammo or not ammo.ammo_type then
-        return
+        return nil
     end
     local ammo_type = ammo.ammo_type
     for _, at in pairs(ammo_type.category and { ammo_type } or ammo_type) do
         mods.trigger(at.action, quality)
     end
-end
-
-function mods.action(p, quality)
-    mods.trigger(p.action, quality)
-    mods.trigger(p.final_action, quality)
+    return ammo
 end
 
 return mods

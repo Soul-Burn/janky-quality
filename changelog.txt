@@ -4,6 +4,7 @@ Date: ???
   Changes:
     - Quality bonuses for vehicle guns and inventory
     - Support for "smoke-with-trigger"
+    - Simplify quality bonus application
   Bug fixes:
     - Fixes for module definitions without slots
 ---------------------------------------------------------------------------------------------------

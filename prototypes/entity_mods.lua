@@ -15,16 +15,20 @@ function m.mod(names_and_modifiers)
                 skip_missing = true
                 path[#path] = nil
             end
+            for i, v in pairs(path) do
+                path[i] = tonumber(v) or v
+            end
             for i = 1, #path - 1 do
                 op = op[path[i]]
                 if not op and skip_missing then
-                    return
+                    goto continue
                 end
             end
             local last = path[#path]
             if op[last] or not skip_missing then
                 op[last] = modifier(op[last], quality)
             end
+            :: continue ::
         end
     end
 end
