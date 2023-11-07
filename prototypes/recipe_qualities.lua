@@ -17,7 +17,7 @@ for _, p in pairs(data.raw.recipe) do
     for _, quality in pairs(libq.qualities) do
         if quality.level ~= 1 then
             local new_recipe = libq.copy_prototype(p, quality)
-            if new_recipe.main_product and new_recipe.main_product ~= "" then
+            if new_recipe.main_product and new_recipe.main_product ~= "" and not data.raw.fluid[new_recipe.main_product] then
                 new_recipe.main_product = libq.name_with_quality(new_recipe.main_product, quality)
             end
 

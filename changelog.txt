@@ -10,6 +10,7 @@ Date: ???
     - Added quality table in description
   Bug fixes:
     - Fixes for module definitions without slots
+    - Fix for recipes with fluid main product
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.2
 Date: 2023.11.05
