@@ -27,6 +27,14 @@ function lib.table_extend(t, t2)
     end
 end
 
+function lib.map(t, func)
+    local new = {}
+    for _, v in pairs(t) do
+        new[#new + 1] = func(v)
+    end
+    return new
+end
+
 function lib.find_by_predicate(t, predicate)
     for _, item in pairs(t) do
         if predicate(item) then
@@ -42,7 +50,7 @@ function lib.find_by_prop(t, name, value)
     end)
 end
 
-function lib.split_array(t, predicate)
+function lib.partition_array(t, predicate)
     local true_list = {}
     local false_list = {}
     for _, item in pairs(t) do

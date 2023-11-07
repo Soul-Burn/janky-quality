@@ -28,7 +28,7 @@ local function handle_recipe(recipe)
                     local single_result = recipe_root.results and #recipe_root.results == 1 and recipe_root.results[1].name
                     if recipe_root.ingredients and recipe_root.results then
                         -- we don't want to fluids to split into more output boxes so we split them early
-                        local fluid_results, item_results = lib.split_array(recipe_root.results, function(item)
+                        local fluid_results, item_results = lib.partition_array(recipe_root.results, function(item)
                             return item.type == "fluid"
                         end)
                         local non_catalyst_results, catalyst_results = lib.split_by_catalysts({ ingredients = recipe_root.ingredients, results = item_results })

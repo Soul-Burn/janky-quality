@@ -95,90 +95,28 @@ for _, event in pairs({ "on_entity_died", "on_player_mined_entity", "on_robot_mi
     script.on_event(defines.events[event], handle_removal, { { filter = "type", type = "mining-drill" } })
 end
 
-local function get_max_quality_mod_level(force)
-    if force.technologies["quality-module-3"].researched then
-        return 3
-    end
-    if force.technologies["quality-module-2"].researched then
-        return 2
-    end
-    if force.technologies["quality-module"].researched then
-        return 1
-    end
-    return 0
-end
-
-local function quality_unlock(force)
-    local max_quality_level = get_max_quality_mod_level(force)
-    for _, recipe in pairs(force.recipes) do
-        local assembler_name = string.match(recipe.name, "programming%-quality%-(.+)%-qum%-")
-        if not recipe.enabled and assembler_name and force.recipes[assembler_name] and force.recipes[assembler_name].enabled then
-            local _, _, found_module = libq.split_quality_modules(libq.name_without_quality(recipe.name))
-            local level, _ = string.match(found_module, "(%d)@(%d)")
-            if tonumber(level) <= max_quality_level then
-                recipe.enabled = true
-            end
+local function research_event(event)
+    local technologies = (event.force or event.research.force).technologies
+    local max_level = 0
+    for i, tech in ipairs({"quality-module", "quality-module-2", "quality-module-3"}) do
+        if technologies[tech].researched then
+            max_level = i
         end
     end
-end
-
-local function handle_technology_reset(event)
-    quality_unlock(event.force)
-end
-
-local recipe_category_to_slots_cache
-local function get_recipe_category_to_slots()
-    if not recipe_category_to_slots_cache then
-        recipe_category_to_slots_cache = libq.get_recipe_category_to_slots()
-    end
-    return recipe_category_to_slots_cache
-end
-
-local function handle_research(event)
-    local tech = event.research
-    local force = tech.force
-
-    if string.match(tech.name, "quality%-module") then
-        quality_unlock(force)
-    end
-
-    local max_quality_level = get_max_quality_mod_level(force)
-    if tech.effects then
-        for _, effect in pairs(tech.effects) do
-            if effect.type == "unlock-recipe" then
-                for _, quality in pairs(libq.qualities) do
-                    local name = libq.name_with_quality(effect.recipe, quality)
-                    local recipe = force.recipes[name]
-                    if not recipe then
-                        break
-                    end
-                    recipe.enabled = true
-                    local recipe_category_to_slots = get_recipe_category_to_slots()
-                    if recipe_category_to_slots[recipe.category] then
-                        for _, quality_module in pairs(libq.quality_modules) do
-                            for module_count, _ in pairs(recipe_category_to_slots[recipe.category]) do
-                                local q_recipe = force.recipes[libq.name_with_quality_module(name, module_count, quality_module)]
-                                if not q_recipe then
-                                    goto continue
-                                end
-                                q_recipe.enabled = true
-                                local qem_name = libq.name_with_quality(libq.name_with_quality_module(effect.recipe, module_count, quality_module), quality)
-                                if quality_module.mod_level <= max_quality_level and force.recipes["programming-quality-" .. qem_name] then
-                                    force.recipes["programming-quality-" .. qem_name].enabled = true
-                                    force.recipes["deprogramming-quality-" .. qem_name].enabled = true
-                                end
-                            end
-                        end
-                    end
-                    :: continue ::
+    for tech_name, technology in pairs(technologies) do
+        if technology.researched then
+            for i = 1, max_level do
+                local tech_with_quality = technologies[tech_name .. "-with-quality-" .. i]
+                if tech_with_quality then
+                    tech_with_quality.researched = true
                 end
             end
         end
     end
 end
 
-script.on_event(defines.events.on_research_finished, handle_research)
-script.on_event(defines.events.on_technology_effects_reset, handle_technology_reset)
+script.on_event(defines.events.on_research_finished, research_event)
+script.on_event(defines.events.on_technology_effects_reset, research_event)
 
 local function transfer_from_entity_to_entity_or_player_or_spill(old_entity, new_entity, player)
     local inventory = player.get_main_inventory()

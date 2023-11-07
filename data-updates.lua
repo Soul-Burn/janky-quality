@@ -20,5 +20,6 @@ require(lib.p.prot .. "tiles")
 require(lib.p.prot .. "items_and_entities")
 require(lib.p.prot .. "recipes_with_quality_upgrades")
 require(lib.p.prot .. "quality_enhancing_machine_programming")
+require(lib.p.prot .. "technologies")
 
 log("Recipe count after JQ: " .. lib.table_size(data.raw.recipe))
