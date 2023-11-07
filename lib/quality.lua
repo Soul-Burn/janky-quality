@@ -37,7 +37,8 @@ for _, qm in pairs(libq.quality_modules) do
             local new_qm = table.deepcopy(qm)
             new_qm.name = new_qm.mod_level .. "@" .. quality.level
             new_qm.modifier = new_qm.modifier * (1.0 + 0.3 * quality.modifier)
-            new_qm.icon = lib.p.gfx .. "quality-module-" .. new_qm.name .. "-overlay.png",
+            new_qm.icon = lib.p.gfx .. "quality-module-" .. new_qm.name .. "-overlay.png"
+            new_qm.mod_quality = quality.level
             table.insert(qm_to_add, new_qm)
         end
     end
@@ -168,7 +169,7 @@ function libq.copy_prototype(p, quality)
     return new_p
 end
 
-local function make_probabilities(effective_quality, max_quality)
+function libq.make_probabilities(effective_quality, max_quality)
     if max_quality <= 1 then
         return { 1.0 }
     end
@@ -192,7 +193,7 @@ function libq.transform_results_with_probabilities(results, module_count, qualit
             table.insert(new_results, part)
         else
             local found_quality = libq.find_quality(part.name)
-            local probabilities = make_probabilities(module_count * quality_module.modifier, quality_module.max_quality - found_quality + 1)
+            local probabilities = libq.make_probabilities(module_count * quality_module.modifier, quality_module.max_quality - found_quality + 1)
             for i, prob in pairs(probabilities) do
                 local new_part = table.deepcopy(part)
                 new_part.name = libq.name_with_quality(libq.name_without_quality(new_part.name), found_quality - 1 + i)

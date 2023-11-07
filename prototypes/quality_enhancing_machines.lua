@@ -34,6 +34,19 @@ local function handle_category(category_name)
                     { "jq.with-quality", { "jq.quality-module-" .. qm.mod_level }, { "jq.quality-" .. qm.mod_quality } },
                 }
 
+                local description = { "", { "jq.qual-description" } }
+
+                for _, q in pairs(libq.qualities) do
+
+                    local probability_desc = {""}
+                    for i, prob in pairs(libq.make_probabilities(slots * qm.modifier, qm.max_quality - q.level + 1)) do
+                        table.insert(probability_desc, { "jq.qual-percent", prob * 100, i + q.level - 1 })
+                    end
+                    table.insert(description, {"", { "jq.qual-line", q.level, probability_desc }})
+                end
+
+                new_machine.localised_description = description
+
                 lib.add_prototype(new_machine)
 
                 local item = data.raw.item[machine.name]

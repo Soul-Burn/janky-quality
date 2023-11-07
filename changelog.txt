@@ -7,6 +7,7 @@ Date: ???
     - Simplify quality bonus application
     - Support tiles
     - Allow non-quality recipes in quality modules buildings and "dumping" quality items into fluid results
+    - Added quality table in description
   Bug fixes:
     - Fixes for module definitions without slots
 ---------------------------------------------------------------------------------------------------
