@@ -41,7 +41,9 @@ local function handle_category(category_name)
                     local probability_desc = {""}
                     for i, prob in pairs(libq.make_probabilities(slots * qm.modifier, qm.max_quality - q.level + 1)) do
                         table.insert(probability_desc, { "jq.qual-percent", prob * 100, i + q.level - 1 })
+                        table.insert(probability_desc, ", ")
                     end
+                    probability_desc[#probability_desc] = nil
                     table.insert(description, {"", { "jq.qual-line", q.level, probability_desc }})
                 end
 

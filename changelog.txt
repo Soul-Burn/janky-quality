@@ -3,6 +3,7 @@ Version: 0.1.4
 Date: ???
   Changes:
     - Recipe unlocks are now organized into hidden technologies
+    - Better quality probabilities description
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.3
 Date: 2023.11.07
