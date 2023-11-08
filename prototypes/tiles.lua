@@ -11,9 +11,11 @@ for _, p in pairs(data.raw.item) do
                     local tile = lib.add_prototype(libq.copy_prototype(data.raw.tile[tile_name], quality))
                     if tile.minable then
                         local _, results = lib.get_canonic_recipe(tile.minable)
-                        assert(#results == 1, "Tile with weird number of results: " .. #results)
-                        results[1].name = libq.name_with_quality(libq.name_without_quality(results[1].name), quality)
-                        tile.minable.results = results
+                        if results then
+                            assert(#results == 1, "Tile with weird number of results: " .. #results)
+                            results[1].name = libq.name_with_quality(libq.name_without_quality(results[1].name), quality)
+                            tile.minable.results = results
+                        end
                     end
                     handled[tile_name] = true
                     tile_name = tile.next_direction
