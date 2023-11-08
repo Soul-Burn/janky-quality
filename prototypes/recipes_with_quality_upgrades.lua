@@ -28,13 +28,13 @@ local function handle_recipe(recipe)
                     local single_result = recipe_root.results and #recipe_root.results == 1 and recipe_root.results[1].name
                     if recipe_root.ingredients and recipe_root.results then
                         -- we don't want to fluids to split into more output boxes so we split them early
-                        local fluid_results, item_results = lib.partition_array(recipe_root.results, function(item)
-                            return item.type == "fluid"
+                        local quality_forbidden_results, quality_results = lib.partition_array(recipe_root.results, function(item)
+                            return libq.forbids_quality(item.name)
                         end)
-                        local non_catalyst_results, catalyst_results = lib.split_by_catalysts({ ingredients = recipe_root.ingredients, results = item_results })
+                        local non_catalyst_results, catalyst_results = lib.split_by_catalysts({ ingredients = recipe_root.ingredients, results = quality_results })
                         recipe_root.results = catalyst_results
                         lib.table_extend(recipe_root.results, libq.transform_results_with_probabilities(non_catalyst_results, module_count, quality_module))
-                        lib.table_extend(recipe_root.results, fluid_results)
+                        lib.table_extend(recipe_root.results, quality_forbidden_results)
                     end
 
                     recipe_root.hide_from_player_crafting = true
@@ -43,7 +43,7 @@ local function handle_recipe(recipe)
                     if ((not new_recipe.icon and not new_recipe.icons) or not new_recipe.subgroup) and not recipe_root.main_product then
                         if new_recipe.main_product then
                             recipe_root.main_product = new_recipe.main_product
-                        elseif data.raw.fluid[libq.name_without_quality(recipe.name)] then
+                        elseif libq.forbids_quality(libq.name_without_quality(recipe.name)) then
                             new_recipe.main_product = libq.name_without_quality(recipe.name)
                         elseif single_result then
                             new_recipe.main_product = single_result

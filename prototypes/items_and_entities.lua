@@ -2,13 +2,9 @@ local flib_table = require("__flib__/table")
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
-local cat_weird = {
-    "player-port", "simple-entity-with-force", "simple-entity-with-owner", "infinity-container", "infinity-pipe", "linked-container", "linked-belt",
-}
-
 local cat_without_bonuses = {
     "arithmetic-combinator", "decider-combinator", "constant-combinator", "power-switch", "programmable-speaker",
-    "rail-chain-signal", "rail-signal", "train-stop", "heat-interface", "electric-energy-interface", "spidertron-remote",
+    "rail-chain-signal", "rail-signal", "train-stop", "heat-interface", "spidertron-remote",
     "item", "item-with-entity-data", "item-with-inventory", "selection-tool", "explosion", "belt-immunity-equipment", "wall", "gate",
 }
 
@@ -18,18 +14,20 @@ local cat_without_sa_bonuses = {
     "combat-robot", "capsule", "lamp", "smoke-with-trigger",
 }
 
-local all_cat_set = util.list_to_map(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses, cat_weird }))
+local all_cat_set = util.list_to_map(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses }))
 lib.table_update(all_cat_set, jq_entity_mods.entity_mods)
 
 for category_name, _ in pairs(all_cat_set) do
     local category = data.raw[category_name]
     for _, p in pairs(category) do
-        for _, quality in pairs(libq.qualities) do
-            if quality.level ~= 1 then
-                local new_p = lib.add_prototype(libq.copy_prototype(p, quality))
-                jq_entity_mods.all_entities_mod(new_p, quality)
-                if jq_entity_mods.entity_mods[category_name] then
-                    jq_entity_mods.entity_mods[category_name](new_p, quality)
+        if not libq.forbids_quality(p.name) then
+            for _, quality in pairs(libq.qualities) do
+                if quality.level ~= 1 then
+                    local new_p = lib.add_prototype(libq.copy_prototype(p, quality))
+                    jq_entity_mods.all_entities_mod(new_p, quality)
+                    if jq_entity_mods.entity_mods[category_name] then
+                        jq_entity_mods.entity_mods[category_name](new_p, quality)
+                    end
                 end
             end
         end

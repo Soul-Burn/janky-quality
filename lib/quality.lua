@@ -189,7 +189,7 @@ function libq.transform_results_with_probabilities(results, module_count, qualit
     end
     local new_results = {}
     for _, part in pairs(results) do
-        if part.type == "fluid" then
+        if libq.forbids_quality(part.name) then
             table.insert(new_results, part)
         else
             local found_quality = libq.find_quality(part.name)
@@ -203,6 +203,10 @@ function libq.transform_results_with_probabilities(results, module_count, qualit
         end
     end
     return new_results
+end
+
+function libq.forbids_quality(name)
+    return jq_entity_mods.no_quality[name]
 end
 
 return libq

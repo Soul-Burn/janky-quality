@@ -1,5 +1,5 @@
 local lib = require("__janky-quality__/lib/lib")
-local m = require(lib.p.prot .. "entity_mods.lua")
+local m = require(lib.p.prot .. "entity_mods")
 
 m.all_entities_mod = m.combine(m.all_entities_mod, m.mod { ["fuel_value.?"] = m.energy(0.3) })
 

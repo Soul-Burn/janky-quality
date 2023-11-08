@@ -96,4 +96,6 @@ function m.combine(mod1, mod2)
     end
 end
 
+m.no_quality = {}
+
 return m

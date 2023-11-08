@@ -1,7 +1,7 @@
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
-local m = require(lib.p.prot .. "entity_mods.lua")
-local trigger_mods = require(lib.p.prot .. "trigger_mods.lua")
+local trigger_mods = require(lib.p.prot .. "trigger_mods")
+local m = jq_entity_mods
 
 m.all_entities_mod = m.mod { ["max_health.?"] = m.mult(0.3), ["rocket_launch_product.1.?"] = m.with_quality }
 

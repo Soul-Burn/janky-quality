@@ -92,15 +92,7 @@ lib.flush_prototypes()
 local recyclable_categories = util.list_to_map({ "crafting", "basic-crafting", "advanced-crafting", "crafting-with-fluid" })
 local recycling_probability = 0.25
 
-local items_to_skip = util.list_to_map({
-    "player-port", "simple-entity-with-force", "simple-entity-with-owner", "simple-entity",
-    "infinity-chest", "infinity-pipe", "linked-chest", "linked-belt",
-})
-
 function handle_item(item)
-    if items_to_skip[item.name] then
-        return
-    end
     local new_recipe = {
         enabled = true,
         name = "jq-recycling-" .. item.name,
