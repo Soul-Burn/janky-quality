@@ -4,6 +4,7 @@ Date: ???
   Changes:
     - Recipe unlocks are now organized into hidden technologies
     - Better quality probabilities description
+    - Some extra non-SA bonuses
   Bug fixes:
     - Support tiles that are minable but return nothing
 ---------------------------------------------------------------------------------------------------

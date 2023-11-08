@@ -89,4 +89,11 @@ end
 -- Default high level modification function for attack_parameters
 m.default_attack_parameters = m.mod({ ["attack_parameters.range"] = m.mult(0.1) })
 
+function m.combine(mod1, mod2)
+    return function(value, quality)
+        mod1(value, quality)
+        mod2(value, quality)
+    end
+end
+
 return m
