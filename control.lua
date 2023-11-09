@@ -98,7 +98,7 @@ end
 local function research_event(event)
     local technologies = (event.force or event.research.force).technologies
     local max_level = 0
-    for i, tech in ipairs({"quality-module", "quality-module-2", "quality-module-3"}) do
+    for i, tech in ipairs({ "quality-module", "quality-module-2", "quality-module-3" }) do
         if technologies[tech].researched then
             max_level = i
         end
@@ -181,6 +181,17 @@ local function selected_upgrade(event)
                     end
                 end
                 local recipe = is_crafter and entity.get_recipe()
+                local new_recipe_name
+                if recipe then
+                    if libq.is_name_with_quality_forbidden(recipe.category) then
+                        new_recipe_name = recipe.name
+                    else
+                        new_recipe_name = libq.name_with_quality_module(
+                                libq.name_with_quality(libq.name_without_quality(recipe.name), libq.find_quality(recipe.name)),
+                                #module_inventory, quality_module
+                        )
+                    end
+                end
                 local new_entity = entity.surface.create_entity {
                     name = libq.name_with_quality(
                             libq.name_with_quality_module(libq.name_without_quality(entity.name), #module_inventory, quality_module),
@@ -188,10 +199,7 @@ local function selected_upgrade(event)
                     ),
                     position = entity.position,
                     direction = entity.direction,
-                    recipe = recipe and libq.name_with_quality_module(
-                            libq.name_with_quality(libq.name_without_quality(recipe.name), libq.find_quality(recipe.name)),
-                            #module_inventory, quality_module
-                    ) or nil,
+                    recipe = new_recipe_name,
                     force = player.force,
                     player = player,
                     raise_built = true,
@@ -255,11 +263,19 @@ local function selected_downgrade(event)
                 break
             end
             local recipe = is_crafter and entity.get_recipe()
+            local new_recipe_name
+            if recipe then
+                if libq.is_name_with_quality_forbidden(recipe.category) then
+                    new_recipe_name = recipe.name
+                else
+                    new_recipe_name = libq.split_quality_modules(recipe.name)
+                end
+            end
             local new_entity = entity.surface.create_entity {
                 name = libq.name_with_quality(base_entity_name, libq.find_quality(entity.name)),
                 position = entity.position,
                 direction = entity.direction,
-                recipe = recipe and libq.split_quality_modules(recipe.name) or nil,
+                recipe = new_recipe_name,
                 force = player.force,
                 player = player,
                 raise_built = true,

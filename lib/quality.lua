@@ -20,6 +20,15 @@ function libq.name_without_quality(name)
     return string.match(name, "(.+)-quality%-%d") or name
 end
 
+function libq.name_with_quality_forbidden(name)
+    return name .. "-with-quality-forbidden"
+end
+
+function libq.is_name_with_quality_forbidden(name)
+    return string.match(name, "%-with%-quality%-forbidden")
+end
+
+
 function libq.find_quality(name)
     return tonumber(string.match(name, "-quality%-(%d)")) or 1
 end
@@ -207,6 +216,14 @@ end
 
 function libq.forbids_quality(name)
     return jq_entity_mods.no_quality[name]
+end
+
+function libq.split_forbidden_and_catalysts(recipe_root)
+    local quality_forbidden_results, quality_results = lib.partition_array(recipe_root.results, function(item)
+        return libq.forbids_quality(item.name)
+    end)
+    local non_catalyst_results, catalyst_results = lib.split_by_catalysts({ ingredients = recipe_root.ingredients, results = quality_results })
+    return quality_forbidden_results, quality_results, non_catalyst_results, catalyst_results
 end
 
 return libq

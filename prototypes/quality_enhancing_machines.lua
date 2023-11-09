@@ -2,6 +2,12 @@ local data_util = require("__flib__/data-util")
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
+for recipe_category, _ in pairs(libq.get_recipe_category_to_slots()) do
+    lib.add_prototype { name = libq.name_with_quality_forbidden(recipe_category), type = "recipe-category" }
+end
+
+lib.flush_prototypes()
+
 local function handle_category(category_name)
     for _, machine in pairs(data.raw[category_name]) do
         if machine.module_specification and machine.module_specification.module_slots and machine.module_specification.module_slots > 0 then
@@ -9,9 +15,12 @@ local function handle_category(category_name)
                 local slots = machine.module_specification.module_slots
                 local new_machine = data_util.copy_prototype(machine, libq.name_with_quality_module(machine.name, slots, qm))
                 if new_machine.crafting_categories then
-                    for i, cat in pairs(new_machine.crafting_categories) do
-                        new_machine.crafting_categories[i] = libq.name_with_quality_module(cat, slots, qm)
+                    local new_crafting_categories = {}
+                    for _, cat in pairs(new_machine.crafting_categories) do
+                        table.insert(new_crafting_categories, libq.name_with_quality_module(cat, slots, qm))
+                        table.insert(new_crafting_categories, libq.name_with_quality_forbidden(cat))
                     end
+                    new_machine.crafting_categories = new_crafting_categories
                 elseif new_machine.resource_categories then
                     if new_machine.resource_categories[1] == "basic-solid" then
                         table.insert(new_machine.resource_categories, libq.name_with_quality_module("basic-solid", slots, qm))
@@ -38,13 +47,13 @@ local function handle_category(category_name)
 
                 for _, q in pairs(libq.qualities) do
 
-                    local probability_desc = {""}
+                    local probability_desc = { "" }
                     for i, prob in pairs(libq.make_probabilities(slots * qm.modifier, qm.max_quality - q.level + 1)) do
                         table.insert(probability_desc, { "jq.qual-percent", prob * 100, i + q.level - 1 })
                         table.insert(probability_desc, ", ")
                     end
                     probability_desc[#probability_desc] = nil
-                    table.insert(description, {"", { "jq.qual-line", q.level, probability_desc }})
+                    table.insert(description, { "", { "jq.qual-line", q.level, probability_desc } })
                 end
 
                 new_machine.localised_description = description
@@ -59,6 +68,7 @@ local function handle_category(category_name)
                 lib.add_prototype(new_item)
             end
         end
+        lib.table_extend(machine.crafting_categories, lib.map(machine.crafting_categories or {}, libq.name_with_quality_forbidden))
     end
 end
 
