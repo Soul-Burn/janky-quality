@@ -19,7 +19,6 @@ local imports = {
     "resources",
     "quality_enhancing_machines",
     "recipe_qualities",
-    "tiles",
     "items_and_entities",
     "recipes_with_quality_upgrades",
     "quality_enhancing_machine_programming",

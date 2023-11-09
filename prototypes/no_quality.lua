@@ -66,7 +66,7 @@ local entity_categories_with_minable = { "container", "tile" }
 
 for _, cat in pairs(entity_categories_with_minable) do
     for _, entity in pairs(data.raw[cat]) do
-        if not entity.minable or not (entity.minable.result or entity.minable.results) then
+        if (not entity.minable or not (entity.minable.result or entity.minable.results)) and not data.raw.item[entity.name] then
             nq[entity.name] = true
         end
     end
