@@ -9,6 +9,7 @@ Date: ???
     - Reduce more recipes
   Bug fixes:
     - Support tiles that are minable but return nothing
+    - Fix connections and fluids when upgrading/downgrading with quality
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.3
 Date: 2023.11.07

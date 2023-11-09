@@ -214,6 +214,9 @@ local function selected_upgrade(event)
                         end
                     end
                     transfer_from_entity_to_entity_or_player_or_spill(entity, new_entity, player)
+                    for fluid, amount in pairs(entity.get_fluid_contents()) do
+                        new_entity.insert_fluid { name = fluid, amount = amount }
+                    end
                 else
                     new_entity.mining_progress = entity.mining_progress
                 end
@@ -221,6 +224,9 @@ local function selected_upgrade(event)
                     player.opened = new_entity
                 end
                 entity.destroy { raise_destroy = true }
+                new_entity.update_connections()
+                new_entity.rotate()
+                new_entity.rotate { reverse = true }
                 any_modified = true
             end
         end
@@ -290,6 +296,9 @@ local function selected_downgrade(event)
                     end
                 end
                 transfer_from_entity_to_entity_or_player_or_spill(entity, new_entity, player)
+                for fluid, amount in pairs(entity.get_fluid_contents()) do
+                    new_entity.insert_fluid { name = fluid, amount = amount }
+                end
             else
                 new_entity.mining_progress = entity.mining_progress
             end
@@ -297,6 +306,9 @@ local function selected_downgrade(event)
                 player.opened = new_entity
             end
             entity.destroy { raise_destroy = true }
+            new_entity.update_connections()
+            new_entity.rotate()
+            new_entity.rotate { reverse = true }
             any_modified = true
         end
     end
