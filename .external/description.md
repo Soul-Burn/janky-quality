@@ -29,6 +29,5 @@ This mod has a modding interface, for simple addition of new quality bonuses. Se
 
 # Future plans
 
-* Simple modding interface
 * More SA quality bonuses (some capsules)
 * More extra non-SA quality bonuses (vehicle speed, tile speed)

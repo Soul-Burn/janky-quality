@@ -3,6 +3,7 @@ Version: 0.1.5
 Date: ???
   Changes:
     - Recipes are now unlocked more gradually
+    - Simple modding interface by a string in mod settings
   Bug fixes:
     - Removed quality of default recipes that unlocked prematurely
 ---------------------------------------------------------------------------------------------------

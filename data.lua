@@ -9,6 +9,8 @@ if settings.startup["jq-use-extra-bonuses"].value then
     jq_entity_mods.update_mods(require(lib.p.prot .. "quality_bonuses_extra"))
 end
 
+jq_entity_mods.import_mods(settings.startup["jq-quality-bonuses-import"].value)
+
 lib.table_update(jq_entity_mods.no_quality, require(lib.p.prot .. "no_quality"))
 
 require(lib.p.prot .. "tips_and_tricks")

@@ -1,4 +1,5 @@
 local data_util = require("__flib__/data-util")
+local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
 local m = {}
@@ -110,5 +111,32 @@ function m.update_mods(new_mods)
 end
 
 m.no_quality = {}
+
+local mod_params_counts = { add = { 1, 2 }, mult = { 1, 1 }, energy = { 1, 1 }, with_quality = { 0, 0 } }
+
+function m.import_mods(import_string)
+    local new_mods = {}
+    for _, full_cat in pairs(util.split(import_string, ";")) do
+        local cat, cat_definition = table.unpack(util.split(full_cat, ":"))
+        local paths_and_modifiers = {}
+        for _, part_definition in pairs(util.split(cat_definition, ",")) do
+            local path, mod_definition = table.unpack(util.split(part_definition, "="))
+            local mod_params = util.split(mod_definition, " ")
+            local mod_name = mod_params[1]
+            local param_count = #mod_params - 1
+            mod_params[1] = nil
+            local counts = mod_params_counts[mod_name]
+            assert(counts, "Invalid mod name " .. mod_name .. " in mod string " .. import_string)
+            assert(counts[1] <= param_count and param_count <= counts[2], "Invalid params " .. serpent.block(mod_params) .. " in mod string " .. import_string)
+            local mod = m[mod_name]
+            if counts[1] ~= 0 or counts[2] ~= 0 then
+                mod = mod(table.unpack(lib.map(mod_params, tonumber)))
+            end
+            paths_and_modifiers[path] = mod
+        end
+        new_mods[cat] = m.mod(paths_and_modifiers)
+    end
+    m.update_mods(new_mods)
+end
 
 return m
