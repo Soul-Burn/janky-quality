@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.5
-Date: ???
+Date: 2023.11.09
   Changes:
     - Recipes are now unlocked more gradually
     - Simple modding interface by a string in mod settings
