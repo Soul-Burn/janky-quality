@@ -2,7 +2,9 @@
 Version: 0.1.5
 Date: ???
   Changes:
-    -
+    - Recipes are now unlocked more gradually
+  Bug fixes:
+    - Removed quality of default recipes that unlocked prematurely
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.4
 Date: 2023.11.09

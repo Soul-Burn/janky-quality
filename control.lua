@@ -322,3 +322,9 @@ end
 
 script.on_event(defines.events.on_player_selected_area, selected_upgrade)
 script.on_event(defines.events.on_player_reverse_selected_area, selected_downgrade)
+
+script.on_init(function()
+    for _, force in pairs(game.forces) do
+        force.technologies["jq_default_recipes"].researched = true
+    end
+end)

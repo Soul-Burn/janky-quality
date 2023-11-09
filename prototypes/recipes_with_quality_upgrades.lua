@@ -24,6 +24,7 @@ local function handle_recipe(recipe)
 
             for _, recipe_root in pairs({ new_recipe, new_recipe.normal, new_recipe.expensive }) do
                 if recipe_root then
+                    recipe_root.enabled = false
                     recipe_root.ingredients, recipe_root.results = lib.get_canonic_recipe(recipe_root)
                     local single_result = recipe_root.results and #recipe_root.results == 1 and recipe_root.results[1].name
                     if recipe_root.ingredients and recipe_root.results then

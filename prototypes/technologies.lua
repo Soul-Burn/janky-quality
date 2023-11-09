@@ -2,6 +2,28 @@ local data_util = require("__flib__/data-util")
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
+local default_recipes, _ = lib.partition_array(data.raw.recipe, function(recipe)
+    if recipe.normal then
+        return recipe.normal.enabled ~= false
+    end
+    return recipe.enabled ~= false
+end)
+
+lib.add_prototype {
+    effects = lib.map(default_recipes, function(recipe)
+        return { type = "unlock-recipe", recipe = recipe.name }
+    end),
+    icon = "__core__/graphics/empty.png",
+    icon_size = 1,
+    enabled = true,
+    hidden = true,
+    name = "jq_default_recipes",
+    type = "technology",
+    unit = { count = 1, ingredients = {}, time = 1 },
+}
+
+lib.flush_prototypes()
+
 local recipe_category_to_slots = libq.get_recipe_category_to_slots()
 
 local quality_module_level_to_quality_modules = { }
@@ -43,7 +65,7 @@ for _, technology in pairs(data.raw.technology) do
 
             for _, recipe in pairs(recipes) do
                 local slots_list = recipe_category_to_slots[data.raw.recipe[recipe].category or "crafting"] or {}
-                for q_level = 1, #libq.qualities do
+                for q_level = 1, libq.quality_modules[qm_level].max_quality do
                     local name = libq.name_with_quality(recipe, q_level)
                     add_recipe(name)
                     for module_count, _ in pairs(slots_list) do
@@ -57,19 +79,16 @@ for _, technology in pairs(data.raw.technology) do
                 end
             end
 
-            lib.add_prototype(
-                    {
-                        effects = lib.map(new_recipes, function(recipe)
-                            return { type = "unlock-recipe", recipe = recipe }
-                        end),
-                        icons = data_util.create_icons(technology),
-                        hidden = true,
-                        name = technology.name .. "-with-quality-" .. qm_level,
-                        type = "technology",
-                        unit = { count = 1, ingredients = {}, time = 1 },
-                    }
-            )
-
+            lib.add_prototype {
+                effects = lib.map(new_recipes, function(recipe)
+                    return { type = "unlock-recipe", recipe = recipe }
+                end),
+                icons = data_util.create_icons(technology),
+                hidden = true,
+                name = technology.name .. "-with-quality-" .. qm_level,
+                type = "technology",
+                unit = { count = 1, ingredients = {}, time = 1 },
+            }
         end
     end
 end
