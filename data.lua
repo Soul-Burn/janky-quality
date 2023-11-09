@@ -6,7 +6,7 @@ jq_entity_mods = require(lib.p.prot .. "entity_mods")
 lib.table_update(jq_entity_mods.entity_mods, require(lib.p.prot .. "quality_bonuses"))
 
 if settings.startup["jq-use-extra-bonuses"].value then
-    lib.table_update(jq_entity_mods.entity_mods, require(lib.p.prot .. "quality_bonuses_extra"))
+    jq_entity_mods.update_mods(require(lib.p.prot .. "quality_bonuses_extra"))
 end
 
 lib.table_update(jq_entity_mods.no_quality, require(lib.p.prot .. "no_quality"))

@@ -89,10 +89,23 @@ end
 -- Default high level modification function for attack_parameters
 m.default_attack_parameters = m.mod({ ["attack_parameters.range"] = m.mult(0.1) })
 
+-- Combines 2 modifiers into one
 function m.combine(mod1, mod2)
     return function(value, quality)
         mod1(value, quality)
         mod2(value, quality)
+    end
+end
+
+-- Updates the modifier list with a new table. Prefix category with "-" to replace
+function m.update_mods(new_mods)
+    for cat, mod in pairs(new_mods) do
+        if cat:sub(1, 1) == "-" then
+            cat = cat:sub(2)
+        elseif m.entity_mods[cat] then
+            mod = m.combine(m.entity_mods[cat], mod)
+        end
+        m.entity_mods[cat] = mod
     end
 end
 

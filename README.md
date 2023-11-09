@@ -11,5 +11,7 @@ See the mod page on the [Mod portal](https://mods.factorio.com/mod/janky-quality
 
 ## Modding interface
 
-During data phase, use the "jq_entity_mods" global to define new quality bonuses. Update `jq_entity_mods.entity_mods` with modifier functions.
-See `entity_mods.lua` and `quality_bonuses.lua` for examples.
+During data phase, use the `jq_entity_mods` global to define new quality bonuses. Use `jq_entity_mods.update_mods` to update modifiers.
+See `quality_bonuses.lua` and `quality_bonuses_extras.lua` for examples, and `entity_mods.lua` for the library.
+The `__all__` category is applied to all relevant prototypes.
+By default, added modifiers are combined. Use the "-" to replace a modifier instead.
