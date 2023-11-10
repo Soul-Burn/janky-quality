@@ -104,6 +104,10 @@ function libq.get_recipe_category_to_slots()
 end
 
 function libq.copy_prototype(p, quality)
+    if not p.fast_replaceable_group then
+        p.fast_replaceable_group = p.name
+    end
+
     local new_p = table.deepcopy(p)
     local mid_name = { "?", { "item-name." .. new_p.name }, { "entity-name." .. new_p.name }, { "fluid-name." .. new_p.name }, new_p.name }
     if new_p.localised_name then

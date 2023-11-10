@@ -3,6 +3,7 @@ Version: 0.1.6
 Date: ???
   Changes:
     - Faster startup
+    - Support for fast replace and upgrades between quality entities
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.5
 Date: 2023.11.09
