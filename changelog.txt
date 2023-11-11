@@ -4,6 +4,8 @@ Date: ???
   Changes:
     - Faster startup
     - Support for fast replace and upgrades between quality entities
+  Bug fixes:
+    - Fix for upgrade planner jumping qualities
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.5
 Date: 2023.11.09
