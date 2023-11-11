@@ -81,4 +81,16 @@ return {
             effect.bonus = effect.bonus * (1 + 0.3 * quality.modifier)
         end
     end,
+    ["tile"] = function(p, quality)
+        if p.minable then
+            local _, results = lib.get_canonic_recipe(p.minable)
+            if results then
+                results[1].name = libq.name_with_quality(libq.name_without_quality(results[1].name), quality)
+                p.minable.results = results
+            end
+        end
+        if p.next_direction then
+            p.next_direction = libq.name_with_quality(p.next_direction, quality)
+        end
+    end,
 }
