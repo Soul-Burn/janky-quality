@@ -61,21 +61,6 @@ return {
         p.minable.results[1].name = libq.name_with_quality("rail", quality)
     end,
     ["module"] = function(p, quality)
-        if p.limitation then
-            local new_limitations = {}
-            for _, limitation in pairs(p.limitation) do
-                for _, q in pairs(libq.qualities) do
-                    local limitation_name = libq.name_with_quality(limitation, q)
-                    if q.level ~= 1 and data.raw.recipe[limitation_name] then
-                        table.insert(new_limitations, limitation_name)
-                    end
-                end
-            end
-            for _, limitation in pairs(new_limitations) do
-                table.insert(p.limitation, limitation)
-            end
-        end
-
         local effect = p.effect[p.category]
         if effect then
             effect.bonus = effect.bonus * (1 + 0.3 * quality.modifier)

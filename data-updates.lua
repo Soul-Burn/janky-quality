@@ -23,6 +23,7 @@ local imports = {
     "recipes_with_quality_upgrades",
     "quality_enhancing_machine_programming",
     "technologies",
+    "modules",
 }
 
 for _, import in pairs(imports) do
