@@ -19,10 +19,10 @@ for i = 1, 3 do
                 selection_cursor_box_type = "entity",
                 entity_type_filters = {"assembling-machine", "furnace", "mining-drill"},
 
-                alt_selection_mode = "nothing",
-                alt_selection_color = {1, 0, 0},
+                alt_selection_mode = "blueprint",
+                alt_selection_color = {0.75, 0, 0.75},
                 alt_selection_cursor_box_type = "entity",
-                alt_entity_type_filters = {},
+                alt_entity_type_filters = {"assembling-machine", "furnace", "mining-drill"},
 
                 reverse_selection_mode = "blueprint",
                 reverse_selection_color = {0.5, 0.5, 0.5},
