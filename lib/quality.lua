@@ -142,8 +142,9 @@ function libq.copy_prototype(p, quality)
     if new_p.minable then
         local _, results = lib.get_canonic_recipe(new_p.minable)
         if results then
+            local name_without_quality_module, _, _ = libq.split_quality_modules(p.name)
             for _, result in pairs(results) do
-                if result.name == p.name then
+                if result.name == p.name or result.name == name_without_quality_module then
                     result.name = libq.name_with_quality(result.name, quality)
                 end
             end
