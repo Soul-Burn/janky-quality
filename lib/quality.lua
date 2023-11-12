@@ -120,6 +120,15 @@ function libq.copy_prototype(p, quality)
     if new_p.icons and #new_p.icons == 3 then
         new_p.icons[1].scale = 0.5 -- This is a hack that makes icons actually stack correctly. No idea why it works.
     end
+    local dark_icon = new_p.dark_background_icons and new_p.dark_background_icons[1].icon or new_p.dark_background_icon
+    if dark_icon then
+        new_p.dark_background_icons = table.deepcopy(new_p.icons)
+        new_p.dark_background_icons[1].icon = dark_icon
+        for _, icon_spec in pairs(new_p.dark_background_icons) do
+            icon_spec.dark_background_icon = icon_spec.icon
+            icon_spec.icon = nil
+        end
+    end
 
     if new_p.place_result then
         new_p.place_result = libq.name_with_quality(new_p.place_result, quality)
