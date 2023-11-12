@@ -28,7 +28,6 @@ function libq.is_name_with_quality_forbidden(name)
     return string.match(name, "%-with%-quality%-forbidden")
 end
 
-
 function libq.find_quality(name)
     return tonumber(string.match(name, "-quality%-(%d)")) or 1
 end
@@ -182,7 +181,14 @@ function libq.copy_prototype(p, quality)
             new_p.sprite.hr_version = nil
             new_p.sprite.filename = nil
         end
-        table.insert(new_p.sprite.layers, { filename = quality.icon, height = 16, width = 16 })
+        local layer = new_p.sprite.layers[1]
+        table.insert(
+                new_p.sprite.layers,
+                {
+                    filename = quality.icon, height = 32, width = 32, scale = 0.5,
+                    shift = { -(layer.size or layer.width) / 2, (layer.size or layer.height) / 2 }
+                }
+        )
     end
 
     if new_p.order then
