@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.9
-Date: ???
+Date: 2023.11.12
   Changes:
     - Allow for 2x modules in AM3 to allow 2x prod/eff modules
     - More visible quality overlays
