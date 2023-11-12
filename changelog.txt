@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.9
 Date: ???
+  Changes:
+    - More visible quality overlays
   Bug fixes:
     - Fixed normal productivity modules not working for higher quality recipes
     - Support creative-mod
