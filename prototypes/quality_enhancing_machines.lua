@@ -2,7 +2,7 @@ local data_util = require("__flib__/data-util")
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
-for recipe_category, _ in pairs(libq.get_recipe_category_to_slots()) do
+for recipe_category, _ in pairs(data.raw["recipe-category"]) do
     lib.add_prototype { name = libq.name_with_quality_forbidden(recipe_category), type = "recipe-category" }
 end
 

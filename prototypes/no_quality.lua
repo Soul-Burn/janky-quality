@@ -13,7 +13,7 @@ for _, cat in pairs(cats) do
     end
 end
 
-local groups = { "other", "ee-tools" }
+local groups = { "other", "ee-tools", "creative-mod_creative-tools" }
 local subgroup_set = util.list_to_map { "textplates" }
 
 for _, group in pairs(groups) do

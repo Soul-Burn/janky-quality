@@ -3,6 +3,7 @@ Version: 0.1.9
 Date: ???
   Bug fixes:
     - Fixed normal productivity modules not working for higher quality recipes
+    - Support creative-mod
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.8
 Date: 2023.11.11
