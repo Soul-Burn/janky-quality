@@ -4,7 +4,8 @@ local nq = {}
 
 local cats = {
     "fluid", "player-port", "simple-entity-with-force", "simple-entity-with-owner", "infinity-container", "infinity-pipe",
-    "linked-container", "linked-belt", "electric-energy-interface",
+    "linked-container", "linked-belt", "electric-energy-interface", "blueprint", "copy-paste-tool", "deconstruction-item", "upgrade-item",
+    "blueprint-book", "mining-tool",
 }
 
 for _, cat in pairs(cats) do
@@ -24,13 +25,7 @@ for _, group in pairs(groups) do
     end
 end
 
-local categories_with_groups = {
-    "item-with-entity-data", "item-with-label", "item-with-inventory", "blueprint-book", "item-with-tags", "selection-tool", "blueprint",
-    "copy-paste-tool", "deconstruction-item", "upgrade-item", "module", "rail-planner", "spidertron-remote", "tool", "armor", "mining-tool",
-    "repair-tool", "item"
-}
-
-for _, cat in pairs(categories_with_groups) do
+for cat, _ in pairs(defines.prototypes.item) do
     for _, item in pairs(data.raw[cat]) do
         if subgroup_set[item.subgroup] then
             nq[item.name] = true

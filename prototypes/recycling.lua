@@ -153,7 +153,7 @@ local function handle_item(item)
     end
 end
 
-for _, category in pairs({ "item", "capsule", "item-with-entity-data", "armor", "gun", "module", "selection-tool" }) do
+for category, _ in pairs(defines.prototypes.item) do
     for _, item in pairs(data.raw[category]) do
         handle_item(item)
     end

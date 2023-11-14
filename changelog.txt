@@ -3,6 +3,7 @@ Version: 0.1.10
 Date: ???
   Bug fixes:
     - Fixed equipment quality overlays
+    - Fixed recycling of certain items
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.9
 Date: 2023.11.12
