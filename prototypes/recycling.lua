@@ -92,7 +92,7 @@ lib.flush_prototypes()
 local recyclable_categories = util.list_to_map({ "crafting", "basic-crafting", "advanced-crafting", "crafting-with-fluid" })
 local recycling_probability = 0.25
 
-function handle_item(item)
+local function handle_item(item)
     local new_recipe = {
         enabled = true,
         name = "jq-recycling-" .. item.name,
@@ -114,7 +114,7 @@ function handle_item(item)
     if not recycles_to_self then
         new_recipe.order = recipe.order
 
-        function handle_root(root)
+        local function handle_root(root)
             if not root or (not root.result and not root.results) then
                 return nil
             end
