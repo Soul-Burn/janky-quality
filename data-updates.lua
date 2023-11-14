@@ -24,6 +24,7 @@ local imports = {
     "quality_enhancing_machine_programming",
     "technologies",
     "modules",
+    "deleveling",
 }
 
 for _, import in pairs(imports) do

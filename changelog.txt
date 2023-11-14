@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.10
 Date: ???
+  Changes:
+    - Added deleveler and deleveling recipes
   Bug fixes:
     - Fixed equipment quality overlays
     - Fixed recycling of certain items
