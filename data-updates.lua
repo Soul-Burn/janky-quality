@@ -11,7 +11,7 @@ end
 
 lib.flush_prototypes()
 
-log("Recipe count before JQ: " .. lib.table_size(data.raw.recipe))
+log("Recipe count before JQ: " .. table_size(data.raw.recipe))
 
 local imports = {
     "quality_modules",
@@ -31,4 +31,4 @@ for _, import in pairs(imports) do
     require(lib.p.prot .. import)
 end
 
-log("Recipe count after JQ: " .. lib.table_size(data.raw.recipe))
+log("Recipe count after JQ: " .. table_size(data.raw.recipe))

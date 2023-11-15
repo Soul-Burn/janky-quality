@@ -7,14 +7,6 @@ lib.p = {
 
 local new_prototypes = {}
 
-function lib.table_size(t)
-    local size = 0
-    for _, _ in pairs(t) do
-        size = size + 1
-    end
-    return size
-end
-
 function lib.table_update(t, t2)
     for k, v in pairs(t2) do
         t[k] = v
