@@ -2,7 +2,7 @@
 Version: 0.1.12
 Date: ???
   Changes:
-    - ???
+    - Equipment quality pips returned to center to fix display when hovering
   Bug fixes:
     - Fixed personal roboports losing quality
     - Support for energy values with uppercase "K"

@@ -179,14 +179,7 @@ function libq.copy_prototype(p, quality)
             new_p.sprite.hr_version = nil
             new_p.sprite.filename = nil
         end
-        local layer = new_p.sprite.layers[1]
-        table.insert(
-                new_p.sprite.layers,
-                {
-                    filename = quality.icon, height = 32, width = 32, scale = 0.5,
-                    shift = { -(layer.size or layer.width) / 2, (layer.size or layer.height) / 2 }
-                }
-        )
+        table.insert(new_p.sprite.layers, { filename = quality.icon, height = 32, width = 32, scale = 0.5 })
     end
 
     return new_p
