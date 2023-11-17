@@ -1,4 +1,3 @@
-local data_util = require("__flib__/data-util")
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
@@ -56,7 +55,7 @@ end
 function m.energy(modifier)
     local mult = m.mult(modifier)
     return function(value, quality)
-        local clean_value, unit = data_util.get_energy_value(value)
+        local clean_value, unit = lib.get_energy_value(value)
         return mult(clean_value, quality) .. unit
     end
 end

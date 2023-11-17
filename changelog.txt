@@ -5,6 +5,7 @@ Date: ???
     - ???
   Bug fixes:
     - Fixed personal roboports losing quality
+    - Support for energy values with uppercase "K"
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.11
 Date: 2023.11.15

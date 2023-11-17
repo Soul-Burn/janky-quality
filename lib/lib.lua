@@ -51,6 +51,23 @@ function lib.partition_array(t, predicate)
     return true_list, false_list
 end
 
+local energy_chars = {
+    k = 10 ^ 3,
+    K = 10 ^ 3,
+    M = 10 ^ 6,
+    G = 10 ^ 9,
+    T = 10 ^ 12,
+    P = 10 ^ 15,
+    E = 10 ^ 18,
+    Z = 10 ^ 21,
+    Y = 10 ^ 24,
+}
+
+function lib.get_energy_value(energy)
+    local v, _, exp, unit = energy:match("([%-+]?[0-9]*%.?[0-9]+)((%D*)([WJ]))")
+    return tonumber(v) * energy_chars[exp], unit
+end
+
 function lib.get_canonic_parts(parts)
     if not parts then
         return nil
