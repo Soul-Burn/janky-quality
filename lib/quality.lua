@@ -129,16 +129,14 @@ function libq.copy_prototype(p, quality)
         end
     end
 
-    if new_p.place_result then
-        new_p.place_result = libq.name_with_quality(new_p.place_result, quality)
+    for _, field in pairs { "place_result", "placed_as_equipment_result", "take_result", "order" } do
+        if new_p[field] then
+            new_p[field] = libq.name_with_quality(new_p[field], quality)
+        end
     end
 
     if new_p.place_as_tile then
         new_p.place_as_tile.result = libq.name_with_quality(new_p.place_as_tile.result, quality)
-    end
-
-    if new_p.placed_as_equipment_result then
-        new_p.placed_as_equipment_result = libq.name_with_quality(new_p.placed_as_equipment_result, quality)
     end
 
     if new_p.placeable_by then
@@ -189,10 +187,6 @@ function libq.copy_prototype(p, quality)
                     shift = { -(layer.size or layer.width) / 2, (layer.size or layer.height) / 2 }
                 }
         )
-    end
-
-    if new_p.order then
-        new_p.order = libq.name_with_quality(new_p.order, quality)
     end
 
     return new_p

@@ -4,7 +4,7 @@ Date: ???
   Changes:
     - ???
   Bug fixes:
-    - ???
+    - Fixed personal roboports losing quality
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.11
 Date: 2023.11.15
