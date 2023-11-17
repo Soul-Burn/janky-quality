@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.11
-Date: ???
+Date: 2023.11.15
   Changes:
     - Added tooltips for quality modules
   Bug fixes:
