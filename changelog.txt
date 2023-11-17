@@ -3,6 +3,8 @@ Version: 0.1.11
 Date: ???
   Changes:
     - Added tooltips for quality modules
+  Bug fixes:
+    - Fixed technology unlocks causes a stack overflow in certain cases
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.10
 Date: 2023.11.14

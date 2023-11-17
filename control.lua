@@ -96,6 +96,9 @@ for _, event in pairs({ "on_entity_died", "on_player_mined_entity", "on_robot_mi
 end
 
 local function research_event(event)
+    if event.research and event.research.name:match("%-with%-quality%-") then
+        return
+    end
     local technologies = (event.force or event.research.force).technologies
     local max_level = 0
     for i, tech in ipairs({ "quality-module", "quality-module-2", "quality-module-3" }) do
