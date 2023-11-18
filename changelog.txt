@@ -3,6 +3,7 @@ Version: 0.1.13
 Date: ???
   Changes:
     - Personal shields recharge proportionally with hit points
+    - Moved quality enhancing machines to their own tab
   Bug fixes:
     - Fixed names of machines with quality modules
 ---------------------------------------------------------------------------------------------------

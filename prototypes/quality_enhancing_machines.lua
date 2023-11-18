@@ -8,6 +8,8 @@ end
 
 lib.flush_prototypes()
 
+local subgroups = {}
+
 local function make_machine(machine, slots, qm)
     local new_machine = data_util.copy_prototype(machine, libq.name_with_quality_module(machine.name, slots, qm))
     if new_machine.crafting_categories then
@@ -66,6 +68,8 @@ local function make_machine(machine, slots, qm)
     new_item.icons = data_util.create_icons(item, { { icon = qm.icon, icon_size = 64, scale = 0.5, icon_mipmaps = 0 } })
     new_item.order = libq.name_with_quality_module(item.order, 0, qm)
     new_item.localised_name = new_machine.localised_name
+    new_item.subgroup = "jq-quality-enhancing-" .. new_item.subgroup
+    subgroups[item.subgroup] = true
     lib.add_prototype(new_item)
 end
 
@@ -87,5 +91,27 @@ end
 handle_category("assembling-machine")
 handle_category("furnace")
 handle_category("mining-drill")
+
+lib.flush_prototypes()
+
+lib.add_prototype(
+        {
+            icon = lib.p.gfx .. "quality-module-1.png",
+            icon_size = 96,
+            name = "jq-quality-enhancing",
+            localised_name = { "jq.quality-enhancing" },
+            order = "z1",
+            type = "item-group",
+        }
+)
+
+for subgroup, _ in pairs(subgroups) do
+    lib.add_prototype {
+        group = "jq-quality-enhancing",
+        name = "jq-quality-enhancing-" .. subgroup,
+        order = data.raw["item-subgroup"][subgroup].order,
+        type = "item-subgroup",
+    }
+end
 
 lib.flush_prototypes()
