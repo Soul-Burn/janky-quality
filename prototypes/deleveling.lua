@@ -18,10 +18,10 @@ entity.source_inventory_size = 1
 entity.result_inventory_size = libq.qualities[#libq.qualities].modifier + 1
 entity.allowed_effects = { }
 entity.module_specification = { }
-entity.cant_insert_at_source_message_key = "jq.cant-delevel",
+entity.cant_insert_at_source_message_key = "jq.cant-delevel"
 lib.add_prototype(entity)
 
-lib.add_prototype({
+lib.add_prototype {
     icon = lib.p.gfx .. "deleveler.png",
     icon_size = 64,
     name = "jq-deleveler",
@@ -31,33 +31,32 @@ lib.add_prototype({
     stack_size = 50,
     subgroup = "production-machine",
     type = "item",
-})
+    order = "zz",
+}
 
-lib.add_prototype({ name = "jq-deleveling", type = "recipe-category" })
-lib.add_prototype({ group = "jq-deleveling", name = "jq-deleveling", type = "item-subgroup" })
-lib.add_prototype({
+lib.add_prototype { name = "jq-deleveling", type = "recipe-category" }
+lib.add_prototype { group = "jq-deleveling", name = "jq-deleveling", type = "item-subgroup" }
+lib.add_prototype {
     icon = lib.p.gfx .. "deleveler.png",
     icon_size = 64,
     name = "jq-deleveling",
     localised_name = { "jq.deleveling" },
     order = "z",
     type = "item-group"
-})
+}
 
-lib.add_prototype(
-        {
-            enabled = false,
-            energy_required = 0.5,
-            ingredients = {
-                { "iron-plate", 5 },
-                { "electronic-circuit", 5 },
-                { "iron-gear-wheel", 10 },
-            },
-            name = "jq-deleveler",
-            result = "jq-deleveler",
-            type = "recipe"
-        }
-)
+lib.add_prototype {
+    enabled = false,
+    energy_required = 0.5,
+    ingredients = {
+        { "iron-plate", 5 },
+        { "electronic-circuit", 5 },
+        { "iron-gear-wheel", 10 },
+    },
+    name = "jq-deleveler",
+    result = "jq-deleveler",
+    type = "recipe"
+}
 
 table.insert(data.raw.technology["quality-module"].effects, { recipe = "jq-deleveler", type = "unlock-recipe" })
 

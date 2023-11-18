@@ -4,6 +4,7 @@ Date: ???
   Changes:
     - Personal shields recharge proportionally with hit points
     - Moved quality enhancing machines to their own tab
+    - Moved deleveler to the end of its subgroup so buildings fit nicer
   Bug fixes:
     - Fixed names of machines with quality modules
 ---------------------------------------------------------------------------------------------------
