@@ -41,7 +41,7 @@ local function make_machine(machine, slots, qm)
     new_machine.localised_name = {
         "jq.with-qm",
         machine.localised_name or { "entity-name." .. machine.name },
-        { "jq.with-quality", { "jq.quality-module-" .. qm.mod_level }, { "jq.quality-" .. qm.mod_quality } },
+        { "jq.with-quality", { "jq.quality-module-name", qm.mod_level }, { "jq.quality-" .. qm.mod_quality } },
     }
 
     local description = { "", { "jq.qual-description" } }

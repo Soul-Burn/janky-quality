@@ -15,7 +15,7 @@ for _, resource in pairs(data.raw.resource) do
             new_resource.localised_name = {
                 "jq.with-qm",
                 resource.localised_name or { "entity-name." .. resource.name },
-                { "jq.with-quality", { "jq.quality-module-" .. qm.mod_level }, { "jq.quality-" .. qm.mod_quality } },
+                { "jq.with-quality", { "jq.quality-module-name", qm.mod_level }, { "jq.quality-" .. qm.mod_quality } },
             }
             new_resource.category = libq.name_with_quality_module("basic-solid", miner_slots, qm)
 

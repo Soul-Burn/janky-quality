@@ -3,6 +3,8 @@ Version: 0.1.13
 Date: ???
   Changes:
     - Personal shields recharge proportionally with hit points
+  Bug fixes:
+    - Fixed names of machines with quality modules
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.12
 Date: 2023.11.18
