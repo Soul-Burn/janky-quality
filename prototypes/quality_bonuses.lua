@@ -32,7 +32,7 @@ return {
     ["logistic-robot"] = m.default_energy_mod("max_energy"),
     ["roboport"] = m.default_roboport_mod,
     ["roboport-equipment"] = m.default_roboport_mod,
-    ["energy-shield-equipment"] = m.default_mod("max_shield_value"),
+    ["energy-shield-equipment"] = m.combine(m.mod { ["max_shield_value"] = m.mult(0.3) }, m.default_energy_source_mod),
     ["movement-bonus-equipment"] = m.default_mod("movement_bonus"),
     ["artillery-turret"] = m.mod { gun = m.with_quality },
     ["artillery-wagon"] = m.mod { gun = m.with_quality },

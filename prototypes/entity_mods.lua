@@ -76,6 +76,14 @@ function m.array(func)
     end
 end
 
+-- Combines 2 modifiers into one
+function m.combine(mod1, mod2)
+    return function(value, quality)
+        mod1(value, quality)
+        mod2(value, quality)
+    end
+end
+
 -- Default high level modification function
 function m.default_mod(name)
     return m.mod({ [name] = m.mult(0.3) })
@@ -86,24 +94,18 @@ function m.default_energy_mod(name)
     return m.mod({ [name] = m.energy(0.3) })
 end
 
--- Default roboport mod
-m.default_roboport_mod = m.mod {
-    ["charging_energy"] = m.energy(0.3),
+-- Default energy source mod
+m.default_energy_source_mod = m.mod {
     ["energy_source.buffer_capacity.?"] = m.energy(0.3),
     ["energy_source.input_flow_limit.?"] = m.energy(0.3),
     ["energy_source.output_flow_limit.?"] = m.energy(0.3),
 }
 
+-- Default roboport mod
+m.default_roboport_mod = m.combine(m.mod { ["charging_energy"] = m.energy(0.3) }, m.default_energy_source_mod)
+
 -- Default high level modification function for attack_parameters
 m.default_attack_parameters = m.mod { ["attack_parameters.range"] = m.mult(0.1) }
-
--- Combines 2 modifiers into one
-function m.combine(mod1, mod2)
-    return function(value, quality)
-        mod1(value, quality)
-        mod2(value, quality)
-    end
-end
 
 -- Updates the modifier list with a new table. Prefix category with "-" to replace
 function m.update_mods(new_mods)
