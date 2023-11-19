@@ -66,7 +66,7 @@ local function make_machine(machine, slots, qm)
     local item = data.raw.item[machine.name]
     local new_item = data_util.copy_prototype(item, libq.name_with_quality_module(machine.name, slots, qm), true)
     new_item.icons = data_util.create_icons(item, { { icon = qm.icon, icon_size = 64, scale = 0.5, icon_mipmaps = 0 } })
-    new_item.order = libq.name_with_quality_module(item.order, 0, qm)
+    new_item.order = libq.name_with_quality_module(item.order, slots, qm)
     new_item.localised_name = new_machine.localised_name
     new_item.subgroup = "jq-quality-enhancing-" .. new_item.subgroup
     subgroups[item.subgroup] = true

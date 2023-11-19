@@ -7,6 +7,7 @@ Date: ???
     - Moved deleveler to the end of its subgroup so buildings fit nicer
   Bug fixes:
     - Fixed names of machines with quality modules
+    - Fixed quality enhancing machines order
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.12
 Date: 2023.11.18
