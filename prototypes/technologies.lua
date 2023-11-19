@@ -72,8 +72,15 @@ for _, technology in pairs(data.raw.technology) do
                         for _, quality_module in pairs(quality_modules) do
                             add_recipe(libq.name_with_quality_module(name, module_count, quality_module))
                         end
-                        for i = 1, qm_level do
-                            for _, quality_module in pairs(quality_module_level_to_quality_modules[i]) do
+                    end
+                end
+
+                local entity_prototype = data.raw["assembling-machine"][recipe] or data.raw["furnace"][recipe] or data.raw["mining-drill"][recipe]
+                local slots = entity_prototype and entity_prototype.module_specification and entity_prototype.module_specification.module_slots
+                for module_count = 1, (slots or 0) do
+                    for i = 1, qm_level do
+                        for _, quality_module in pairs(quality_module_level_to_quality_modules[i]) do
+                            for q_level = 1, libq.quality_modules[qm_level].max_quality do
                                 local qem_name = libq.name_with_quality(libq.name_with_quality_module(recipe, module_count, quality_module), q_level)
                                 add_recipe("programming-quality-" .. qem_name)
                                 add_recipe("deprogramming-quality-" .. qem_name)
