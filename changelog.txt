@@ -8,6 +8,7 @@ Date: ???
   Bug fixes:
     - Fixed names of machines with quality modules
     - Fixed quality enhancing machines order
+    - Fixed quality enhancing machine programming unlocks
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.12
 Date: 2023.11.18

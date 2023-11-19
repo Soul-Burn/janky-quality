@@ -71,9 +71,13 @@ for _, technology in pairs(data.raw.technology) do
                     for module_count, _ in pairs(slots_list) do
                         for _, quality_module in pairs(quality_modules) do
                             add_recipe(libq.name_with_quality_module(name, module_count, quality_module))
-                            local qem_name = libq.name_with_quality(libq.name_with_quality_module(recipe, module_count, quality_module), q_level)
-                            add_recipe("programming-quality-" .. qem_name)
-                            add_recipe("deprogramming-quality-" .. qem_name)
+                        end
+                        for i = 1, qm_level do
+                            for _, quality_module in pairs(quality_module_level_to_quality_modules[i]) do
+                                local qem_name = libq.name_with_quality(libq.name_with_quality_module(recipe, module_count, quality_module), q_level)
+                                add_recipe("programming-quality-" .. qem_name)
+                                add_recipe("deprogramming-quality-" .. qem_name)
+                            end
                         end
                     end
                 end
