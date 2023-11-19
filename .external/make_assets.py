@@ -44,4 +44,4 @@ im = Image.new("RGBA", (108, 26), (0, 0, 0, 0))
 for i in range(3):
     im.alpha_composite(quality_tint, (i * 36 + 4, 12))
 im.save("hr-beacon-quality-mask-2.png")
-im.resize((54, 13)).save("beacon-quality-mask-2.png")
+im.resize((54, 14)).save("beacon-quality-mask-2.png")
