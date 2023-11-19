@@ -24,6 +24,7 @@ local function make_machine(machine, slots, qm)
             table.insert(new_machine.resource_categories, libq.name_with_quality_module("basic-solid", slots, qm))
         end
     end
+    new_machine.icons = data_util.create_icons(machine, { { icon = qm.icon, icon_size = 64, scale = 0.5, icon_mipmaps = 0 } })
 
     new_machine.module_specification.module_slots = new_machine.module_specification.module_slots - slots
 

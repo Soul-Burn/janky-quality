@@ -4,6 +4,7 @@ Date: ???
   Bug fixes:
     - Fixed low-resolution quality mask for beacons
     - Fixed programming not unlocking on some entities
+    - Fixed icons of quality machines in upgrade planner
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.13
 Date: 2023.11.19
