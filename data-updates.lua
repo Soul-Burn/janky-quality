@@ -14,6 +14,7 @@ lib.flush_prototypes()
 log("Recipe count before JQ: " .. table_size(data.raw.recipe))
 
 local imports = {
+    "beacons",
     "quality_modules",
     "recycling",
     "resources",

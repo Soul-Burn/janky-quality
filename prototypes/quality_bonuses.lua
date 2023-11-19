@@ -65,6 +65,9 @@ return {
         if effect then
             effect.bonus = effect.bonus * (1 + 0.3 * quality.modifier)
         end
+        if p.beacon_tint then
+            p.beacon_tint.tertiary = quality.color
+        end
     end,
     ["tile"] = function(p, quality)
         if p.minable then

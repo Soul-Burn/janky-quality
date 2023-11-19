@@ -5,6 +5,7 @@ Date: ???
     - Personal shields recharge proportionally with hit points
     - Moved quality enhancing machines to their own tab
     - Moved deleveler to the end of its subgroup so buildings fit nicer
+    - Added quality overlay for beacon modules
   Bug fixes:
     - Fixed names of machines with quality modules
     - Fixed quality enhancing machines order

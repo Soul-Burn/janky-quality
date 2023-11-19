@@ -4,11 +4,11 @@ local data_util = require("__flib__/data-util")
 local libq = {}
 
 libq.qualities = {
-    { level = 1, modifier = 0, icon = lib.p.gfx .. "quality-1.png", icon_overlay = lib.p.gfx .. "quality-1-overlay.png" },
-    { level = 2, modifier = 1, icon = lib.p.gfx .. "quality-2.png", icon_overlay = lib.p.gfx .. "quality-2-overlay.png" },
-    { level = 3, modifier = 2, icon = lib.p.gfx .. "quality-3.png", icon_overlay = lib.p.gfx .. "quality-3-overlay.png" },
-    { level = 4, modifier = 3, icon = lib.p.gfx .. "quality-4.png", icon_overlay = lib.p.gfx .. "quality-4-overlay.png" },
-    { level = 5, modifier = 5, icon = lib.p.gfx .. "quality-5.png", icon_overlay = lib.p.gfx .. "quality-5-overlay.png" },
+    { level = 1, modifier = 0, icon = lib.p.gfx .. "quality-1.png", icon_overlay = lib.p.gfx .. "quality-1-overlay.png", color = {0.73, 0.73, 0.73} },
+    { level = 2, modifier = 1, icon = lib.p.gfx .. "quality-2.png", icon_overlay = lib.p.gfx .. "quality-2-overlay.png", color = {0.24, 0.93, 0.35} },
+    { level = 3, modifier = 2, icon = lib.p.gfx .. "quality-3.png", icon_overlay = lib.p.gfx .. "quality-3-overlay.png", color = {0.13, 0.58, 1.0} },
+    { level = 4, modifier = 3, icon = lib.p.gfx .. "quality-4.png", icon_overlay = lib.p.gfx .. "quality-4-overlay.png", color = {0.77, 0.0, 1.0} },
+    { level = 5, modifier = 5, icon = lib.p.gfx .. "quality-5.png", icon_overlay = lib.p.gfx .. "quality-5-overlay.png", color = {1.0, 0.58, 0.0} },
 }
 
 function libq.name_with_quality(name, quality)
