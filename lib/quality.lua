@@ -58,7 +58,7 @@ function libq.name_with_quality_module(name, module_count, quality_module)
 end
 
 function libq.split_quality_modules(name)
-    return string.match(name, "(.+)-qum%-(%d)x(.+)")
+    return string.match(name, "(.+)-qum%-(%d)x(%d@%d)")
 end
 
 function libq.qm_name_to_module_item(qm_name)
