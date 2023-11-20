@@ -6,6 +6,7 @@ Quality modules inspired by FFF-375, but very janky!
 * Various crafting machine variations with baked-in quality modules. For use with bots, assemblers can craft these from base machine and modules.
 * Quality upgrades for many items, inspired by the FFF.
 * Recycling according to FFF.
+* Deleveling turns quality items into several normal items. Useful for utilizing quality science. 
 
 # Compatibility
 

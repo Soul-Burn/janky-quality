@@ -7,7 +7,7 @@ See the mod page on the [Mod portal](https://mods.factorio.com/mod/janky-quality
 * Quality modules as items - not actual modules you can put in machines
 * Various crafting machine variations with baked in quality modules, assemble from machine and modules
 * Quality upgrades for many items, inspired by the FFF
-* Recycling
+* Recycling and deleveling
 
 ## Modding interface
 
