@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.14
-Date: ???
+Date: 2023-11-20
   Bug fixes:
     - Fixed low-resolution quality mask for beacons
     - Fixed programming not unlocking on some entities
