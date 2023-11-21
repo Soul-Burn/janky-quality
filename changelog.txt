@@ -3,6 +3,7 @@ Version: 0.1.15
 Date: ???
   Changes:
     - Added information about the deleveler
+    - Refactored mods. Energy is now checked every time. Default mod accepts table.
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.14
 Date: 2023-11-20

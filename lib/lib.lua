@@ -64,8 +64,12 @@ local energy_chars = {
 }
 
 function lib.get_energy_value(energy)
-    local v, _, exp, unit = energy:match("([%-+]?[0-9]*%.?[0-9]+)((%D*)([WJ]))")
-    return tonumber(v) * energy_chars[exp], unit
+    if type(energy) == "string" then
+        local v, _, exp, unit = energy:match("([%-+]?[0-9]*%.?[0-9]+)((%D*)([WJ]))")
+        if v then
+            return tonumber(v) * energy_chars[exp], unit
+        end
+    end
 end
 
 function lib.get_canonic_parts(parts)

@@ -26,7 +26,12 @@ function m.mod(names_and_modifiers)
             end
             local last = path[#path]
             if op[last] or not skip_missing then
-                op[last] = modifier(op[last], quality)
+                local value, unit = lib.get_energy_value(op[last])
+                if value and unit then
+                    op[last] = modifier(value, quality) .. unit
+                else
+                    op[last] = modifier(op[last], quality)
+                end
             end
             :: continue ::
         end
@@ -37,6 +42,13 @@ end
 function m.mult(modifier)
     return function(value, quality)
         return (value or 0.0) * (1.0 + modifier * quality.modifier)
+    end
+end
+
+-- Division modifier
+function m.div(modifier)
+    return function(value, quality)
+        return (value or 0.0) / (1.0 + modifier * quality.modifier)
     end
 end
 
@@ -52,13 +64,8 @@ function m.add(modifier, max_value)
 end
 
 -- Energy modifier
-function m.energy(modifier)
-    local mult = m.mult(modifier)
-    return function(value, quality)
-        local clean_value, unit = lib.get_energy_value(value)
-        return mult(clean_value, quality) .. unit
-    end
-end
+-- deprecated
+m.energy = m.mult
 
 -- Modifier that adds quality to property
 function m.with_quality(value, quality)
@@ -68,11 +75,9 @@ end
 -- Modifier that applies func to an array
 function m.array(func)
     return function(value, quality)
-        local result = {}
-        for _, entry in pairs(value) do
-            table.insert(result, func(entry, quality))
-        end
-        return result
+        return lib.map(value, function(entry)
+            return func(entry, quality)
+        end)
     end
 end
 
@@ -85,24 +90,21 @@ function m.combine(mod1, mod2)
 end
 
 -- Default high level modification function
-function m.default_mod(name)
-    return m.mod({ [name] = m.mult(0.3) })
-end
-
--- Default high level modification function for energy objects
-function m.default_energy_mod(name)
-    return m.mod({ [name] = m.energy(0.3) })
+function m.default_mod(names)
+    local mods = {}
+    for _, name in pairs(names) do
+        mods[name] = m.mult(0.3)
+    end
+    return m.mod(mods)
 end
 
 -- Default energy source mod
-m.default_energy_source_mod = m.mod {
-    ["energy_source.buffer_capacity.?"] = m.energy(0.3),
-    ["energy_source.input_flow_limit.?"] = m.energy(0.3),
-    ["energy_source.output_flow_limit.?"] = m.energy(0.3),
+m.default_energy_source_mod = m.default_mod {
+    "energy_source.buffer_capacity.?", "energy_source.input_flow_limit.?", "energy_source.output_flow_limit.?"
 }
 
 -- Default roboport mod
-m.default_roboport_mod = m.combine(m.mod { ["charging_energy"] = m.energy(0.3) }, m.default_energy_source_mod)
+m.default_roboport_mod = m.combine(m.default_mod { "charging_energy" }, m.default_energy_source_mod)
 
 -- Default high level modification function for attack_parameters
 m.default_attack_parameters = m.mod { ["attack_parameters.range"] = m.mult(0.1) }

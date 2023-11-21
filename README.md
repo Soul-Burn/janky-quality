@@ -19,8 +19,9 @@ Common functions that are allowed are:
 
 * mult - A multiplicative modifier e.g. `mult 0.3` would increase values by 30% per quality modifier
 * add - An additive modifier e.g. `add 2` would increase values by 2 per quality modifier
-* energy - A multiplicative modifier, but supports energy values (W and J) e.g. `energy 0.3` could apply to battery capacity or consumption
 * with_quality - A special modifier that is applied to string references e.g. `with_quality` could choose a quality gun or equipment grid
+
+All operations resolve energy fields correctly
 
 Paths are separated with `.` symbols. A number can be used as entry into table. Finishing the path with `.?` considers the path optional.
 
