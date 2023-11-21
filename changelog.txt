@@ -4,6 +4,7 @@ Date: ???
   Changes:
     - Added information about the deleveler
     - Refactored mods. Energy is now checked every time. Default mod accepts table.
+    - Adjusted power for inserters and beacons
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.14
 Date: 2023-11-20
