@@ -16,7 +16,7 @@ Quality modules inspired by FFF-375, but very janky!
 # Settings
 
 * Show programming baked machines from base and module on player - Unneeded with selection tool.
-* Enabled/disable additional quality bonuses not in the FFF - reasonable upgrades like lamp range.
+* Enabled/disable additional quality bonuses not in the FFF - reasonable upgrades like lamp range and fuel values.
 
 # Modding interface
 
@@ -24,9 +24,10 @@ This mod has a modding interface, for simple addition of new quality bonuses. Se
 
 # Known issues
 
-* Researching all technologies (/cheat) is slow
-* Quality indicators do not appear on ghosts or GUIs
-* Some quality indicators look strange on recipes and equipment
+* Quality production works with probability recipes. Results can sometimes disappear or output several items. In large quantities this averages out.
+* Researching all technologies (/cheat) is slow. This is an engine issue.
+* Quality indicators do not appear on ghosts or GUIs.
+* Some quality indicators look strange on recipes and equipment.
 
 # Future plans
 
