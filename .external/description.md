@@ -17,6 +17,7 @@ Quality modules inspired by FFF-375, but very janky!
 
 * Show programming baked machines from base and module on player - Unneeded with selection tool.
 * Enabled/disable additional quality bonuses not in the FFF - reasonable upgrades like lamp range and fuel values.
+* Recycling efficiency - portion of ingredients of items returned by the recycler. Default: 0.25.
 
 # Modding interface
 

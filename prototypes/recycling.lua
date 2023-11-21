@@ -90,7 +90,7 @@ lib.add_prototype(
 lib.flush_prototypes()
 
 local recyclable_categories = util.list_to_map({ "crafting", "basic-crafting", "advanced-crafting", "crafting-with-fluid" })
-local recycling_probability = 0.25
+local recycling_probability = settings.startup["jq-recycling-efficiency"].value
 
 local function handle_item(item)
     local new_recipe = {
