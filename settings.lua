@@ -12,6 +12,12 @@ data:extend {
         default_value = false,
     },
     {
+        type = "bool-setting",
+        name = "jq-alt-overlay",
+        setting_type = "startup",
+        default_value = false,
+    },
+    {
         type = "string-setting",
         name = "jq-quality-bonuses-import",
         setting_type = "startup",

@@ -21,6 +21,11 @@ for i, q in enumerate(qualities):
     im.alpha_composite(q.resize((scale, scale)), (0, 64 - scale))
     im.save(f"quality-{i + 1}-overlay.png")
 
+    im = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    im.alpha_composite(q.resize((scale, scale)), (0, 0))
+    im.save(f"quality-{i + 1}-overlay-top.png")
+
+
 for i, qm in enumerate(quality_modules):
     for j, q in enumerate(qualities):
         im = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
