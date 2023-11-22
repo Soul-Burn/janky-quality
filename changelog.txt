@@ -3,6 +3,7 @@ Version: 0.1.17
 Date: ???
   Bug fixes:
     - Fixed missing optional energy source bonuses
+    - Fixed names of certain quality items and recipes
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.16
 Date: 2023-11-21

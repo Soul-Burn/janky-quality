@@ -116,9 +116,16 @@ function libq.copy_prototype(p, quality)
     end
 
     local new_p = table.deepcopy(p)
-    local mid_name = { "?", { "item-name." .. new_p.name }, { "entity-name." .. new_p.name }, { "fluid-name." .. new_p.name }, new_p.name }
+
+    local mid_name
     if new_p.localised_name then
         mid_name = { "", new_p.localised_name }
+    else
+        mid_name = { "?" }
+        for _, cat in pairs { "item", "equipment", "entity", "tile", "fluid", "recipe" } do
+            table.insert(mid_name, { cat .. "-name." .. new_p.name })
+        end
+        table.insert(mid_name, new_p.name)
     end
     new_p.localised_name = { "jq.with-quality", mid_name, { "jq.quality-" .. quality.level } }
     new_p.name = libq.name_with_quality(new_p.name, quality)
