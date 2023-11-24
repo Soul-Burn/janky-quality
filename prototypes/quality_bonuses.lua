@@ -47,6 +47,7 @@ return {
     ["artillery-projectile"] = m.mod { action = trigger_mods.trigger, final_action = trigger_mods.trigger },
     ["land-mine"] = m.mod { action = trigger_mods.trigger, final_action = trigger_mods.trigger },
     ["stream"] = m.mod { initial_action = trigger_mods.trigger, action = trigger_mods.trigger },
+    ["beam"] = m.mod { action = trigger_mods.trigger },
     ["sticker"] = m.default_mod { "damage_per_tick.amount.?" },
     ["fire"] = m.default_mod { "damage_per_tick.amount.?" },
     ["capsule"] = m.mod { ["capsule_action.attack_parameters.?"] = trigger_mods.ammo },

@@ -3,6 +3,7 @@ Version: 0.1.18
 Date: ???
   Bug fixes:
     - Fixed crash when trying to quality module programming of quality machines
+    - Fixed lasers not shooting correctly in extra range
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.17
 Date: 2023-11-24

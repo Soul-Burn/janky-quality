@@ -27,7 +27,10 @@ function mods.delivery(delivery, quality)
     for _, d in pairs(delivery.type and { delivery } or delivery) do
         mods.effect(d.source_effects, quality)
         mods.effect(d.target_effects, quality)
-        for _, name in pairs({ "projectile", "beam", "stream" }) do
+        if d.max_length then
+            d.max_length = d.max_length * (1.0 + 0.1 * quality.modifier) + 0.5 -- rounding up
+        end
+        for _, name in pairs { "projectile", "beam", "stream" } do
             if d[name] then
                 d[name] = libq.name_with_quality(libq.name_without_quality(d[name]), quality)
             end
@@ -48,7 +51,7 @@ end
 
 function mods.ammo(ammo, quality)
     if not ammo or not ammo.ammo_type then
-        return nil
+        return ammo
     end
     local ammo_type = ammo.ammo_type
     for _, at in pairs(ammo_type.category and { ammo_type } or ammo_type) do
