@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.17
-Date: ???
+Date: 2023-11-24
   Changes:
     - Small extra walking speed bonuses for quality tiles + tints
   Bug fixes:
