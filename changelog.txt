@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.17
 Date: ???
+  Changes:
+    - Small extra walking speed bonuses for quality tiles + tints
   Bug fixes:
     - Fixed missing optional energy source bonuses
     - Fixed names of certain quality items and recipes
