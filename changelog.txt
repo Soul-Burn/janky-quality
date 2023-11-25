@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.18
 Date: ???
+  Changes:
+    - Quality enhancing machines now have their module count in their localised names
   Bug fixes:
     - Fixed crash when trying to quality module programming of quality machines
     - Fixed lasers not shooting correctly in extra range
