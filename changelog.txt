@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.18
-Date: ???
+Date: 2023-11-25
   Changes:
     - Quality enhancing machines now have their module count in their localised names
   Bug fixes:
