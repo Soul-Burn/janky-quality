@@ -3,6 +3,7 @@ Version: 0.1.19
 Date: ???
   Changes:
     - Miners with quality should not accept speed bonuses
+    - Added virtual signals for qualities
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.18
 Date: 2023-11-25

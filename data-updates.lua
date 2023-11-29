@@ -27,6 +27,7 @@ local imports = {
     "technologies",
     "modules",
     "deleveling",
+    "signals",
 }
 
 for _, import in pairs(imports) do
