@@ -12,6 +12,7 @@ local subgroups = {}
 
 local function make_machine(machine, slots, qm)
     local new_machine = data_util.copy_prototype(machine, libq.name_with_quality_module(machine.name, slots, qm))
+
     if new_machine.crafting_categories then
         local new_crafting_categories = {}
         for _, cat in pairs(new_machine.crafting_categories) do
@@ -23,6 +24,7 @@ local function make_machine(machine, slots, qm)
         if new_machine.resource_categories[1] == "basic-solid" then
             table.insert(new_machine.resource_categories, libq.name_with_quality_module("basic-solid", slots, qm))
         end
+        new_machine.allowed_effects = {"productivity", "consumption", "pollution"}
     end
     new_machine.icons = data_util.create_icons(machine, { { icon = qm.icon, icon_size = 64, scale = 0.5, icon_mipmaps = 0 } })
 
