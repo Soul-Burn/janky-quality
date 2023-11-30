@@ -1,19 +1,11 @@
 local lib = require("__janky-quality__/lib/lib")
-local libq = require("__janky-quality__/lib/quality")
-
-for _, quality in pairs(libq.qualities) do
-    lib.add_prototype({ type = "sprite", name = "jq_quality_icon_" .. quality.level, filename = quality.icon, size = 32, scale = 0.5 })
-end
-
-for _, qm in pairs(libq.quality_modules) do
-    lib.add_prototype({ type = "sprite", name = "jq_quality_module_icon_" .. qm.name, filename = qm.icon, size = 64, scale = 0.5 })
-end
-
-lib.flush_prototypes()
 
 log("Recipe count before JQ: " .. table_size(data.raw.recipe))
 
+lib.table_update(jq_entity_mods.no_quality, require(lib.p.prot .. "no_quality"))
+
 local imports = {
+    "sprites",
     "armors",
     "beacons",
     "quality_modules",
@@ -24,8 +16,6 @@ local imports = {
     "items_and_entities",
     "recipes_with_quality_upgrades",
     "quality_enhancing_machine_programming",
-    "technologies",
-    "modules",
     "deleveling",
     "signals",
 }

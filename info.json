@@ -7,6 +7,7 @@
   "description": "Implements a janky version of Factorio Space Age quality",
   "dependencies": [
     "base >= 1.1.90",
-    "flib >= 0.12.9"
+    "flib >= 0.12.9",
+    "? CompressedFluids"
   ]
 }
