@@ -5,6 +5,8 @@ Date: ???
     - Miners with quality should not accept speed bonuses
     - Added virtual signals for qualities
     - Added better logging when prototype modification fails
+  Bug fixes:
+    - Fixed certain lamps failing bonuses
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.18
 Date: 2023-11-25
