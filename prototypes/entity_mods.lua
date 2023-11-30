@@ -21,8 +21,12 @@ function m.mod(names_and_modifiers)
             end
             for i = 1, #path - 1 do
                 op = op[path[i]]
-                if not op and skip_missing then
-                    goto continue
+                if not op then
+                    if skip_missing then
+                        goto continue
+                    end
+                    log(serpent.block(p))
+                    assert(false, "Failed modifying \"" .. p.name .. "\" with path \"" .. name .. "\"")
                 end
             end
             local last = path[#path]

@@ -4,6 +4,7 @@ Date: ???
   Changes:
     - Miners with quality should not accept speed bonuses
     - Added virtual signals for qualities
+    - Added better logging when prototype modification fails
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.18
 Date: 2023-11-25
