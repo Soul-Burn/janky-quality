@@ -5,6 +5,7 @@ Date: ???
     - Miners with quality should not accept speed bonuses
     - Added virtual signals for qualities
     - Added better logging when prototype modification fails
+    - Removed quality from item-with-tags
   Bug fixes:
     - Fixed certain lamps failing bonuses
 ---------------------------------------------------------------------------------------------------

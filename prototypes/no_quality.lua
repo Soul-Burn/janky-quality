@@ -5,7 +5,7 @@ local nq = {}
 local cats = {
     "fluid", "player-port", "simple-entity-with-force", "simple-entity-with-owner", "infinity-container", "infinity-pipe",
     "linked-container", "linked-belt", "electric-energy-interface", "blueprint", "copy-paste-tool", "deconstruction-item", "upgrade-item",
-    "blueprint-book", "mining-tool",
+    "blueprint-book", "mining-tool", "item-with-tags",
 }
 
 for _, cat in pairs(cats) do
