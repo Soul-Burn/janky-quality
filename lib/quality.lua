@@ -145,13 +145,13 @@ function libq.copy_prototype(p, quality)
     end
 
     for _, field in pairs { "place_result", "placed_as_equipment_result", "take_result", "order" } do
-        if new_p[field] then
-            new_p[field] = libq.name_with_quality(new_p[field], quality)
-        end
+        new_p[field] = new_p[field] and libq.name_with_quality(new_p[field], quality)
     end
 
     if new_p.place_as_tile then
-        new_p.place_as_tile.result = libq.name_with_quality(new_p.place_as_tile.result, quality)
+        if not libq.forbids_quality(new_p.place_as_tile.result) then
+            new_p.place_as_tile.result = libq.name_with_quality(new_p.place_as_tile.result, quality)
+        end
     end
 
     if new_p.placeable_by then
