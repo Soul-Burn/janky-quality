@@ -9,5 +9,10 @@
     "base >= 1.1.90",
     "flib >= 0.12.9",
     "? CompressedFluids"
-  ]
+  ],
+  "package": {
+    "git_publish_branch": "work",
+    "sync_portal_details": false,
+    "": ""
+  }
 }
