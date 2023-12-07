@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.20
-Date: ????
+Date: 2023-12-07
   Changes:
     - Reorganized data/updates/fixes to be more compatible with other mods
   Bug fixes:
