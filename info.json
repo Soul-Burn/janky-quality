@@ -8,7 +8,7 @@
   "dependencies": [
     "base >= 1.1.90",
     "flib >= 0.12.9",
-    "? CompressedFluids"
+    "(?) CompressedFluids"
   ],
   "package": {
     "git_publish_branch": "work",
