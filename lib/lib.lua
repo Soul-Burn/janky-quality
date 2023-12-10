@@ -19,6 +19,15 @@ function lib.table_extend(t, t2)
     end
 end
 
+function lib.contains(t, value)
+    for _, v in pairs(t) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
 function lib.map(t, func)
     local new = {}
     for _, v in pairs(t) do
