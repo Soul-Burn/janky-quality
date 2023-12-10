@@ -37,12 +37,14 @@ local entity_categories_with_placed = { "constant-combinator" }
 
 for _, cat in pairs(entity_categories_with_placed) do
     for _, entity in pairs(data.raw[cat]) do
-        local _, results = lib.get_canonic_recipe(entity.minable)
-        if results then
-            for _, result in pairs(results) do
-                if nq[result.name] then
-                    nq[entity.name] = true
-                    break
+        if entity.minable then
+            local _, results = lib.get_canonic_recipe(entity.minable)
+            if results then
+                for _, result in pairs(results) do
+                    if nq[result.name] then
+                        nq[entity.name] = true
+                        break
+                    end
                 end
             end
         end
