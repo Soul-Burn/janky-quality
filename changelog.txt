@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.22
-Date: ????
+Date: 2023-12-11
   Changes:
     - Support miners with different number of modules
     - Incompatible with "Shortcuts for 1.1" and "Module Inserter Simplified" due to crashes
