@@ -7,7 +7,6 @@ for i = 1, 3 do
                 icon = lib.p.gfx .. "quality-module-" .. i .. "-icon.png",
                 icon_size = 64,
                 localised_name = { "jq.quality-module-name", i },
-                localised_description = { "jq.quality-module-description" },
                 name = "quality-module-" .. i,
                 order = "c[quality]-a[quality-module-" .. i .. "]",
                 stack_size = 50,

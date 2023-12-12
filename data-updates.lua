@@ -18,6 +18,7 @@ local imports = {
     "quality_enhancing_machine_programming",
     "deleveling",
     "signals",
+    "quality_module_descriptions",
 }
 
 for _, import in pairs(imports) do
