@@ -4,7 +4,8 @@ local trigger_mods = require(lib.p.prot .. "trigger_mods")
 local m = jq_entity_mods
 
 return {
-    ["__all__"] = m.mod { ["max_health.?"] = m.mult(0.3), ["rocket_launch_product.1.?"] = m.with_quality, ["next_upgrade.?"] = m.with_quality },
+    ["__item__"] = m.mod { ["rocket_launch_product.1.?"] = m.with_quality },
+    ["__entity__"] = m.mod { ["max_health.?"] = m.mult(0.3), ["next_upgrade.?"] = m.with_quality },
     ["lab"] = m.default_mod { "researching_speed" },
     ["assembling-machine"] = m.default_mod { "crafting_speed" },
     ["furnace"] = m.default_mod { "crafting_speed" },

@@ -27,7 +27,9 @@ Paths are separated with `.` symbols. A number can be used as entry into table. 
 
 Usually, bonuses are added to the exiting modification, but using `-` as prefix to the category will override the existing modification.
 
-The special category `__all__` applies to all processed prototypes. This is useful for things like entity health. 
+The special category `__all__` applies to all processed prototypes.
+Other super categories are available as in `defines.prototypes` such as `__entity__` and `__item__` to applies to all entities or items.
+Useful for modifications like health or fuel values.
 
 ### Simple
 

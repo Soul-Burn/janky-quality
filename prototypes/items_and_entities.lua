@@ -16,19 +16,31 @@ local cat_without_sa_bonuses = {
 
 local all_cat_set = util.list_to_map(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses }))
 lib.table_update(all_cat_set, jq_entity_mods.entity_mods)
-all_cat_set["__all__"] = nil
-local all_entities_mod = jq_entity_mods.entity_mods["__all__"]
+for cat in pairs(all_cat_set) do
+    if cat:match("__") then
+        all_cat_set[cat] = nil
+    end
+end
 
-for category_name, _ in pairs(all_cat_set) do
+local all_entities_mod = jq_entity_mods.entity_mods["__all__"]
+local cat_to_super_cat_mod = {}
+for super_cat, cats in pairs(defines.prototypes) do
+    for cat in pairs(cats) do
+        cat_to_super_cat_mod[cat] = jq_entity_mods.entity_mods["__" .. super_cat .. "__"]
+    end
+end
+
+for category_name in pairs(all_cat_set) do
     local category = data.raw[category_name]
     for _, p in pairs(category) do
         if not libq.forbids_quality(p.name) then
             for _, quality in pairs(libq.qualities) do
                 if quality.level ~= 1 then
                     local new_p = lib.add_prototype(libq.copy_prototype(p, quality))
-                    all_entities_mod(new_p, quality)
-                    if jq_entity_mods.entity_mods[category_name] then
-                        jq_entity_mods.entity_mods[category_name](new_p, quality)
+                    for _, mod in pairs { all_entities_mod, cat_to_super_cat_mod[category_name], jq_entity_mods.entity_mods[category_name] } do
+                        if mod then
+                            mod(new_p, quality)
+                        end
                     end
                 end
             end
