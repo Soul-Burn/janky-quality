@@ -77,6 +77,13 @@ function m.with_quality(value, quality)
     return value and libq.name_with_quality(value, quality)
 end
 
+-- Adds flags
+function m.flags(flags)
+    return function(value, quality)
+        return lib.table_extend(value or {}, flags)
+    end
+end
+
 -- Modifier that applies func to an array
 function m.array(func)
     return function(value, quality)

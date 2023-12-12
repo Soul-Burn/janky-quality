@@ -3,6 +3,7 @@ Version: 0.1.23
 Date: ????
   Changes:
     - Added support for prototype categories in bonuses such as __item__ and __entity__
+    - Hid quality machines from showing up on bonuses and fuel values
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.22
 Date: 2023-12-11

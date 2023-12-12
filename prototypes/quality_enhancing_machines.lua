@@ -24,7 +24,7 @@ local function make_machine(machine, slots, qm)
         if new_machine.resource_categories[1] == "basic-solid" then
             table.insert(new_machine.resource_categories, libq.name_with_quality_module("basic-solid", slots, qm))
         end
-        new_machine.allowed_effects = {"productivity", "consumption", "pollution"}
+        new_machine.allowed_effects = { "productivity", "consumption", "pollution" }
     end
     new_machine.icons = data_util.create_icons(machine, { { icon = qm.icon, icon_size = 64, scale = 0.5, icon_mipmaps = 0 } })
 
@@ -49,6 +49,8 @@ local function make_machine(machine, slots, qm)
         slots,
         { "jq.with-quality", { "jq.quality-module-name", qm.mod_level }, { "jq.quality-" .. qm.mod_quality } },
     }
+
+    new_machine.flags = lib.table_extend(new_machine.flags or {}, { "hidden" })
 
     local description = { "", { "jq.qual-description" } }
 
