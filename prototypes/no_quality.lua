@@ -15,7 +15,7 @@ for _, cat in pairs(cats) do
 end
 
 local groups = { "other", "ee-tools", "creative-mod_creative-tools" }
-local subgroup_set = util.list_to_map { "textplates" }
+local subgroup_set = util.list_to_map { "textplates", "enemies" }
 
 for _, group in pairs(groups) do
     for _, subgroup in pairs(data.raw["item-subgroup"]) do
@@ -25,10 +25,12 @@ for _, group in pairs(groups) do
     end
 end
 
-for cat, _ in pairs(defines.prototypes.item) do
-    for _, item in pairs(data.raw[cat]) do
-        if subgroup_set[item.subgroup] then
-            nq[item.name] = true
+for _, supercat in pairs { "item", "entity" } do
+    for cat in pairs(defines.prototypes[supercat]) do
+        for _, proto in pairs(data.raw[cat]) do
+            if subgroup_set[proto.subgroup] then
+                nq[proto.name] = true
+            end
         end
     end
 end

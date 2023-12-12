@@ -1,0 +1,20 @@
+{
+  "entity": [
+    ["small-worm-turret-quality-2", "small-worm-turret"],
+    ["small-worm-turret-quality-3", "small-worm-turret"],
+    ["small-worm-turret-quality-4", "small-worm-turret"],
+    ["small-worm-turret-quality-5", "small-worm-turret"],
+    ["medium-worm-turret-quality-2", "medium-worm-turret"],
+    ["medium-worm-turret-quality-3", "medium-worm-turret"],
+    ["medium-worm-turret-quality-4", "medium-worm-turret"],
+    ["medium-worm-turret-quality-5", "medium-worm-turret"],
+    ["big-worm-turret-quality-2", "big-worm-turret"],
+    ["big-worm-turret-quality-3", "big-worm-turret"],
+    ["big-worm-turret-quality-4", "big-worm-turret"],
+    ["big-worm-turret-quality-5", "big-worm-turret"],
+    ["behemoth-worm-turret-quality-2", "behemoth-worm-turret"],
+    ["behemoth-worm-turret-quality-3", "behemoth-worm-turret"],
+    ["behemoth-worm-turret-quality-4", "behemoth-worm-turret"],
+    ["behemoth-worm-turret-quality-5", "behemoth-worm-turret"]
+  ]
+}
