@@ -28,7 +28,7 @@ end
 for _, supercat in pairs { "item", "entity" } do
     for cat in pairs(defines.prototypes[supercat]) do
         for _, proto in pairs(data.raw[cat]) do
-            if subgroup_set[proto.subgroup] then
+            if subgroup_set[proto.subgroup] or proto.flags and lib.contains(proto.flags, "only-in-cursor") then
                 nq[proto.name] = true
             end
         end

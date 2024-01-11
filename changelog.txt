@@ -4,6 +4,7 @@ Date: ????
   Changes:
     - Extras are now not enabled by default
     - Module effect bonuses now work on non-vanilla modules
+    - No quality on items with "only-in-cursor"
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.23
 Date: 2023-12-12
