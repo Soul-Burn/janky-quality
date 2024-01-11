@@ -63,9 +63,11 @@ return {
         p.minable.results[1].name = libq.name_with_quality("rail", quality)
     end,
     ["module"] = function(p, quality)
-        local effect = p.effect[p.category]
-        if effect then
-            effect.bonus = effect.bonus * (1 + 0.3 * quality.modifier)
+        for effect_name, sign in pairs { speed = 1, productivity = 1, consumption = -1, pollution = -1 } do
+            local effect = p.effect[effect_name]
+            if effect and effect.bonus * sign > 0 then
+                effect.bonus = effect.bonus * (1 + 0.3 * quality.modifier)
+            end
         end
         if p.beacon_tint then
             p.beacon_tint.tertiary = quality.color
