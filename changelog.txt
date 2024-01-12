@@ -2,6 +2,7 @@
 Version: 0.1.25
 Date: ????
   Changes:
+    - Handle recycling of items with non-stackable ingredients
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.24
 Date: 2024-01-11

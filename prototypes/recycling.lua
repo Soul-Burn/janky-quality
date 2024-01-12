@@ -1,10 +1,24 @@
 local lib = require("__janky-quality__/lib/lib")
 
+local item_stack_sizes = {}
+for category, _ in pairs(defines.prototypes.item) do
+    for _, item in pairs(data.raw[category]) do
+        item_stack_sizes[item.name] = item.stack_size
+    end
+end
+
 local max_ingredients = 1
 for _, recipe in pairs(data.raw.recipe) do
-    for _, recipe_root in pairs({recipe, recipe.normal, recipe.expensive}) do
-        if recipe_root.ingredients and #recipe_root.ingredients > max_ingredients then
-            max_ingredients = #recipe_root.ingredients
+    for _, recipe_root in pairs { recipe, recipe.normal, recipe.expensive } do
+        if recipe_root.ingredients then
+            local ingredients, _ = lib.get_canonic_recipe(recipe_root)
+            local ingredient_count = 0
+            for _, ingredient in pairs(ingredients) do
+                ingredient_count = ingredient_count + (item_stack_sizes[ingredient.name] == 1 and ingredient.amount or 1)
+            end
+            if ingredient_count > max_ingredients then
+                max_ingredients = ingredient_count
+            end
         end
     end
 end
@@ -19,7 +33,7 @@ entity.crafting_speed = 1
 entity.crafting_categories = { "jq-recycling" }
 entity.minable.result = "jq-recycler"
 entity.name = "jq-recycler"
-entity.localised_name = {"jq.recycler"}
+entity.localised_name = { "jq.recycler" }
 entity.next_upgrade = nil
 entity.type = "furnace"
 entity.source_inventory_size = 1
@@ -74,7 +88,7 @@ lib.add_prototype(
             icon_size = 64,
             scale = 1,
             name = "jq-recycler",
-            localised_name = {"jq.recycler"},
+            localised_name = { "jq.recycler" },
             order = "a-b-d",
             prerequisites = { "quality-module", "advanced-electronics-2" },
             type = "technology",
@@ -133,10 +147,19 @@ local function handle_item(item)
             }
             for _, ingredient in pairs(ingredients) do
                 if ingredient.type == "item" then
-                    local new_i = lib.normalize_probability({
-                        type = "item", name = ingredient.name, amount = ingredient.amount, probability = recycling_probability / results[1].amount, catalyst_amount = 0
-                    })
-                    table.insert(new_root.results, new_i)
+                    local probability = recycling_probability / results[1].amount
+                    if item_stack_sizes[ingredient.name] == 1 then
+                        -- Handles cases like armors or spiders used in ingredients
+                        local new_i = { type = "item", name = ingredient.name, amount = 1, probability = probability, catalyst_amount = 0 }
+                        for _ = 1, ingredient.amount do
+                            table.insert(new_root.results, new_i)
+                        end
+                    else
+                        local new_i = lib.normalize_probability {
+                            type = "item", name = ingredient.name, amount = ingredient.amount, probability = probability, catalyst_amount = 0
+                        }
+                        table.insert(new_root.results, new_i)
+                    end
                 end
             end
             return new_root
