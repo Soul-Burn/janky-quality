@@ -2,6 +2,10 @@ local lib = require("__janky-quality__/lib/lib")
 
 local nq = {}
 
+for _, item_name in pairs(util.split(settings.startup["jq-quality-no-quality-items"].value, ",")) do
+    nq[item_name] = true
+end
+
 local cats = {
     "fluid", "player-port", "simple-entity-with-force", "simple-entity-with-owner", "infinity-container", "infinity-pipe",
     "linked-container", "linked-belt", "electric-energy-interface", "blueprint", "copy-paste-tool", "deconstruction-item", "upgrade-item",
@@ -15,7 +19,12 @@ for _, cat in pairs(cats) do
 end
 
 local groups = { "other", "ee-tools", "creative-mod_creative-tools" }
+lib.table_extend(groups, util.split(settings.startup["jq-quality-no-quality-groups"].value, ","))
+
 local subgroup_set = util.list_to_map { "textplates", "enemies" }
+for _, subgroup in pairs(util.split(settings.startup["jq-quality-no-quality-subgroups"].value, ",")) do
+    subgroup_set[subgroup] = true
+end
 
 for _, group in pairs(groups) do
     for _, subgroup in pairs(data.raw["item-subgroup"]) do

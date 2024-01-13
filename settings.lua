@@ -25,6 +25,27 @@ data:extend {
         allow_blank = true,
     },
     {
+        type = "string-setting",
+        name = "jq-quality-no-quality-items",
+        setting_type = "startup",
+        default_value = "",
+        allow_blank = true,
+    },
+    {
+        type = "string-setting",
+        name = "jq-quality-no-quality-groups",
+        setting_type = "startup",
+        default_value = "",
+        allow_blank = true,
+    },
+    {
+        type = "string-setting",
+        name = "jq-quality-no-quality-subgroups",
+        setting_type = "startup",
+        default_value = "",
+        allow_blank = true,
+    },
+    {
         type = "double-setting",
         name = "jq-recycling-efficiency",
         setting_type = "startup",
