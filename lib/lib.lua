@@ -63,6 +63,7 @@ function lib.partition_array(t, predicate)
 end
 
 local energy_chars = {
+    [""] = 1,
     k = 10 ^ 3,
     K = 10 ^ 3,
     M = 10 ^ 6,

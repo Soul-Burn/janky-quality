@@ -6,6 +6,7 @@ Date: ????
     - Setting for "no quality" items/groups/subgroups for simpler interoperability
   Bug fixes:
     - Extra quality bonus for underground pipe now supports weird underground pipes
+    - Fixed handling of energy values without exponent
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.24
 Date: 2024-01-11
