@@ -4,6 +4,8 @@ Date: ????
   Changes:
     - Handle recycling of items with non-stackable ingredients
     - Setting for "no quality" items/groups/subgroups for simpler interoperability
+  Bug fixes:
+    - Extra quality bonus for underground pipe now supports weird underground pipes
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.24
 Date: 2024-01-11
