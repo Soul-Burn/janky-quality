@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.25
-Date: ????
+Date: 2024-01-16
   Changes:
     - Handle recycling of items with non-stackable ingredients
     - Setting for "no quality" items/groups/subgroups for simpler interoperability
