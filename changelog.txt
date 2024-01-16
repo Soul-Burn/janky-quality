@@ -7,6 +7,7 @@ Date: ????
   Bug fixes:
     - Extra quality bonus for underground pipe now supports weird underground pipes
     - Fixed handling of energy values without exponent
+    - Fixed "main product" issue when handling normal/expensive recipes
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.24
 Date: 2024-01-11

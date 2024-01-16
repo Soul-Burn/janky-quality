@@ -17,8 +17,9 @@ local function handle_recipe(recipe)
         return
     end
 
+    local main_product = recipe.name
     local recipe_proto = table.deepcopy(recipe)
-    for _, recipe_root in pairs({ recipe_proto, recipe_proto.normal, recipe_proto.expensive }) do
+    for _, recipe_root in pairs { recipe_proto, recipe_proto.normal, recipe_proto.expensive } do
         if recipe_root then
             recipe_root.enabled = false
             recipe_root.ingredients, recipe_root.results = lib.get_canonic_recipe(recipe_root)
@@ -37,16 +38,18 @@ local function handle_recipe(recipe)
             recipe_root.hide_from_player_crafting = true
             recipe_root.allow_as_intermediate = false
 
-            if ((not recipe_proto.icon and not recipe_proto.icons) or not recipe_proto.subgroup) and not recipe_root.main_product then
-                if recipe_proto.main_product then
-                    recipe_root.main_product = recipe_proto.main_product
-                elseif libq.forbids_quality(libq.name_without_quality(recipe.name)) then
-                    recipe_proto.main_product = libq.name_without_quality(recipe.name)
-                elseif single_result then
-                    recipe_proto.main_product = single_result
-                else
-                    recipe_proto.main_product = recipe.name
-                end
+            if libq.forbids_quality(libq.name_without_quality(recipe.name)) then
+                main_product = libq.name_without_quality(recipe.name)
+            elseif single_result then
+                main_product = single_result
+            end
+        end
+    end
+
+    if ((not recipe_proto.icon and not recipe_proto.icons) or not recipe_proto.subgroup) then
+        for _, recipe_root in pairs { recipe_proto, recipe_proto.normal, recipe_proto.expensive } do
+            if recipe_root and not recipe_root.main_product then
+                recipe_root.main_product = main_product
             end
         end
     end
