@@ -21,7 +21,7 @@ end
 local groups = { "other", "ee-tools", "creative-mod_creative-tools" }
 lib.table_extend(groups, util.split(settings.startup["jq-quality-no-quality-groups"].value, ","))
 
-local subgroup_set = util.list_to_map { "textplates", "enemies" }
+local subgroup_set = util.list_to_map { "textplates", "enemies", "factorissimo2" }
 for _, subgroup in pairs(util.split(settings.startup["jq-quality-no-quality-subgroups"].value, ",")) do
     subgroup_set[subgroup] = true
 end
