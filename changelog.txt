@@ -2,6 +2,7 @@
 Version: 0.1.26
 Date: ????
   Changes:
+    - Delevelers now default to reducing non-science pack items by one level. Added setting to control this.
     - Changed deleveler color to better fit the building
     - New calculation of quality module bonuses (supports quality bonus over 100%)
     - Support for quality virtual signals

@@ -84,14 +84,22 @@ local function handle_item(item)
     }
 
     local name_without_quality = libq.name_without_quality(item.name)
-    local result_count = libq.qualities[found_quality].modifier + 1
-    if item.stack_size == 1 then
-        for _ = 1, result_count do
-            table.insert(new_recipe.results, { type = "item", name = name_without_quality, amount = 1 })
+    if settings.startup["jq-delevel-to-normal"].value or item.durability then
+        local result_count = libq.qualities[found_quality].modifier + 1
+        if item.stack_size == 1 then
+            for _ = 1, result_count do
+                table.insert(new_recipe.results, { type = "item", name = name_without_quality, amount = 1 })
+            end
+        else
+            table.insert(new_recipe.results, { type = "item", name = name_without_quality, amount = result_count })
         end
     else
-        table.insert(new_recipe.results, { type = "item", name = name_without_quality, amount = result_count })
+        table.insert(
+            new_recipe.results,
+            { type = "item", name = libq.name_with_quality(name_without_quality, found_quality - 1), amount = 1 }
+        )
     end
+
 
     lib.add_prototype(new_recipe)
 end

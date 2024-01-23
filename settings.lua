@@ -53,4 +53,10 @@ data:extend {
         minimum_value = 0.0,
         maximum_value = 1.0,
     },
+    {
+        type = "bool-setting",
+        name = "jq-delevel-to-normal",
+        setting_type = "startup",
+        default_value = false,
+    },
 }
