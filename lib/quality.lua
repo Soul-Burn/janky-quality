@@ -204,15 +204,20 @@ function libq.make_probabilities(effective_quality, max_quality)
     if max_quality <= 1 then
         return { 1.0 }
     end
-    local probabilities = { 1.0 - effective_quality }
-    local left = effective_quality
-    for i = 2, (max_quality - 1) do
-        probabilities[i] = left * 0.9
-        left = left * 0.1
+    local factor = 10
+    local probabilities = {1.0, effective_quality}
+    for i = 3, max_quality do
+        probabilities[i] = probabilities[i - 1] / factor
     end
-    probabilities[max_quality] = left
+    for i = 1, max_quality do
+        probabilities[i] = math.min(probabilities[i], 1.0)
+    end
+    for i = 1, max_quality - 1 do
+        probabilities[i] = probabilities[i] - probabilities[i + 1]
+    end
     return probabilities
 end
+
 
 function libq.transform_results_with_probabilities(results, module_count, quality_module)
     if not results then
