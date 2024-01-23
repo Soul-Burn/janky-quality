@@ -3,6 +3,7 @@ Version: 0.1.26
 Date: ????
   Changes:
     - New calculation of quality module bonuses (supports quality bonus over 100%)
+    - Support for quality virtual signals
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.25
 Date: 2024-01-16

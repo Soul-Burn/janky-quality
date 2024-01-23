@@ -4,7 +4,7 @@ local libq = require("__janky-quality__/lib/quality")
 
 local cat_without_bonuses = {
     "arithmetic-combinator", "decider-combinator", "constant-combinator", "power-switch", "programmable-speaker",
-    "rail-chain-signal", "rail-signal", "train-stop", "heat-interface", "spidertron-remote",
+    "rail-chain-signal", "rail-signal", "train-stop", "heat-interface", "spidertron-remote", "virtual-signal",
     "item", "item-with-entity-data", "item-with-inventory", "selection-tool", "explosion", "belt-immunity-equipment", "wall", "gate",
 }
 
