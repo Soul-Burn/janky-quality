@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.26
-Date: ????
+Date: 2024-01-23
   Changes:
     - Delevelers now default to reducing non-science pack items by one level. Added setting to control this.
     - Changed deleveler color to better fit the building
