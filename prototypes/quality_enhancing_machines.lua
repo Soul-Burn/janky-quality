@@ -18,6 +18,9 @@ local function make_machine(machine, slots, qm)
         for _, cat in pairs(new_machine.crafting_categories) do
             table.insert(new_crafting_categories, libq.name_with_quality_module(cat, slots, qm))
             table.insert(new_crafting_categories, libq.name_with_quality_forbidden(cat))
+            for quality_level = qm.max_quality, #libq.qualities do
+                table.insert(new_crafting_categories, libq.name_with_quality(cat, quality_level))
+            end
         end
         new_machine.crafting_categories = new_crafting_categories
     elseif new_machine.resource_categories then
@@ -90,7 +93,16 @@ local function handle_category(category_name)
                 end
             end
         end
-        lib.table_extend(machine.crafting_categories, lib.map(machine.crafting_categories or {}, libq.name_with_quality_forbidden))
+        local machine_categories = machine.crafting_categories or {}
+        machine.crafting_categories = table.deepcopy(machine_categories)
+        for _, category in pairs(machine_categories) do
+            table.insert(machine.crafting_categories, libq.name_with_quality_forbidden(category))
+            for _, quality in pairs(libq.qualities) do
+                if quality.level ~= 1 then
+                    table.insert(machine.crafting_categories, libq.name_with_quality(category, quality))
+                end
+            end
+        end
     end
 end
 

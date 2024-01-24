@@ -1,6 +1,14 @@
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
+for recipe_category in pairs(data.raw["recipe-category"]) do
+    for _, quality in pairs(libq.qualities) do
+        if quality.level ~= 1 then
+            lib.add_prototype { name = libq.name_with_quality(recipe_category, quality), type = "recipe-category" }
+        end
+    end
+end
+
 local function all_forbidden_quality(recipe_part)
     if not recipe_part then
         return false
@@ -55,9 +63,7 @@ for _, recipe in pairs(data.raw.recipe) do
                 end
             end
             if add_prototype then
-                if all_forbidden_recipe_name then
-                    new_recipe.category = all_forbidden_recipe_name
-                end
+                new_recipe.category = all_forbidden_recipe_name or libq.name_with_quality(recipe.category or "crafting", quality)
                 lib.add_prototype(new_recipe)
             end
         end

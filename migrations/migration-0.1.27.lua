@@ -1,0 +1,1 @@
+game.print("Warning: Recipes that do not gain quality (e.g. legendary plate to legendary gear) were removed from machines with quality modules. Manual reapplication is required.")

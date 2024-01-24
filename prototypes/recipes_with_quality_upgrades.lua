@@ -4,9 +4,9 @@ local libq = require("__janky-quality__/lib/quality")
 local recipe_category_to_slots = libq.get_recipe_category_to_slots()
 
 for recipe_category, slots_counts in pairs(recipe_category_to_slots) do
-    for _, q in pairs(libq.quality_modules) do
-        for slot_count, _ in pairs(slots_counts) do
-            lib.add_prototype({ name = libq.name_with_quality_module(recipe_category, slot_count, q), type = "recipe-category" })
+    for _, qm in pairs(libq.quality_modules) do
+        for slot_count in pairs(slots_counts) do
+            lib.add_prototype { name = libq.name_with_quality_module(recipe_category, slot_count, qm), type = "recipe-category" }
         end
     end
 end
@@ -55,20 +55,24 @@ local function handle_recipe(recipe)
     end
 
     for _, quality_module in pairs(libq.quality_modules) do
-        for module_count, _ in pairs(recipe_category_to_slots[recipe_category]) do
+        for module_count in pairs(recipe_category_to_slots[recipe_category]) do
+            if libq.find_quality(recipe_proto.name) >= quality_module.max_quality then
+                goto continue
+            end
             local new_recipe = table.deepcopy(recipe_proto)
             new_recipe.name = libq.name_with_quality_module(new_recipe.name, module_count, quality_module)
-            new_recipe.category = libq.name_with_quality_module(recipe_category, module_count, quality_module)
-
-            for _, recipe_root in pairs({ new_recipe, new_recipe.normal, new_recipe.expensive }) do
+            new_recipe.category = libq.name_with_quality_module(libq.name_without_quality(recipe_category), module_count, quality_module)
+            for _, recipe_root in pairs { new_recipe, new_recipe.normal, new_recipe.expensive } do
                 if recipe_root and recipe_root.non_catalyst_results then
-                    local quality_results = libq.transform_results_with_probabilities(recipe_root.non_catalyst_results, module_count, quality_module)
-                    lib.table_extend(recipe_root.results, quality_results)
+                    lib.table_extend(
+                        recipe_root.results,
+                        libq.transform_results_with_probabilities(recipe_root.non_catalyst_results, module_count, quality_module)
+                    )
                 end
             end
-
             lib.add_prototype(new_recipe)
         end
+        :: continue ::
     end
 end
 

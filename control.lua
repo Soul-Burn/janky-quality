@@ -196,8 +196,8 @@ local function selected_upgrade(event)
         local new_machine_name, module_count
         for i = module_start, module_end, module_inc do
             new_machine_name = libq.name_with_quality(
-                    libq.name_with_quality_module(libq.name_without_quality(entity.name), i, quality_module),
-                    libq.find_quality(entity.name)
+                libq.name_with_quality_module(libq.name_without_quality(entity.name), i, quality_module),
+                libq.find_quality(entity.name)
             )
             if game.entity_prototypes[new_machine_name] then
                 module_count = i
@@ -233,10 +233,11 @@ local function selected_upgrade(event)
             if libq.is_name_with_quality_forbidden(recipe.category) then
                 new_recipe_name = recipe.name
             else
-                new_recipe_name = libq.name_with_quality_module(
-                        libq.name_with_quality(libq.name_without_quality(recipe.name), libq.find_quality(recipe.name)),
-                        module_count, quality_module
-                )
+                local found_quality = libq.find_quality(recipe.name)
+                new_recipe_name = libq.name_with_quality(libq.name_without_quality(recipe.name), found_quality)
+                if found_quality < quality_module.max_quality then
+                    new_recipe_name = libq.name_with_quality_module(new_recipe_name, module_count, quality_module)
+                end
             end
         end
         local new_entity = entity.surface.create_entity {
@@ -314,11 +315,7 @@ local function selected_downgrade(event)
             local recipe = is_crafter and entity.get_recipe()
             local new_recipe_name
             if recipe then
-                if libq.is_name_with_quality_forbidden(recipe.category) then
-                    new_recipe_name = recipe.name
-                else
-                    new_recipe_name = libq.split_quality_modules(recipe.name)
-                end
+                new_recipe_name = libq.split_quality_modules(recipe.name) or recipe.name
             end
             local new_entity = entity.surface.create_entity {
                 name = libq.name_with_quality(base_entity_name, libq.find_quality(entity.name)),
