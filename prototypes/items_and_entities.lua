@@ -14,7 +14,7 @@ local cat_without_sa_bonuses = {
     "combat-robot", "capsule", "lamp", "smoke-with-trigger", "mining-drill",
 }
 
-local all_cat_set = util.list_to_map(flib_table.array_merge({ cat_without_bonuses, cat_without_sa_bonuses }))
+local all_cat_set = util.list_to_map(flib_table.array_merge { cat_without_bonuses, cat_without_sa_bonuses })
 lib.table_update(all_cat_set, jq_entity_mods.entity_mods)
 for cat in pairs(all_cat_set) do
     if cat:match("__") then

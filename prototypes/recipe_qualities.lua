@@ -43,7 +43,7 @@ for _, recipe in pairs(data.raw.recipe) do
             end
 
             local add_prototype = true
-            for _, recipe_root in pairs({ new_recipe, new_recipe.normal, new_recipe.expensive }) do
+            for _, recipe_root in pairs { new_recipe, new_recipe.normal, new_recipe.expensive } do
                 if recipe_root then
                     recipe_root.enabled = false
                     recipe_root.ingredients, recipe_root.results = lib.get_canonic_recipe(recipe_root)

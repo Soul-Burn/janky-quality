@@ -35,7 +35,7 @@ for _, quality_module in pairs(libq.quality_modules) do
 end
 
 for _, quality_module in pairs(libq.quality_modules) do
-    for i, group in ipairs(quality_module_level_to_quality_modules) do
+    for i, group in pairs(quality_module_level_to_quality_modules) do
         if quality_module.mod_level <= i and quality_module.mod_quality <= libq.quality_modules[i].max_quality then
             table.insert(group, quality_module)
             break

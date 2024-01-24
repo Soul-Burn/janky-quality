@@ -75,7 +75,7 @@ function libq.qm_name_to_module_item(qm_name)
 end
 
 function libq.get_recipe_category_to_slots()
-    local crafting_machines = util.list_to_map({ "assembling-machine", "furnace" })
+    local crafting_machines = util.list_to_map { "assembling-machine", "furnace" }
     local recipe_category_to_slots = {}
 
     local function add_to_category_to_slots(category, slots)
@@ -205,7 +205,7 @@ function libq.make_probabilities(effective_quality, max_quality)
         return { 1.0 }
     end
     local factor = 10
-    local probabilities = {1.0, effective_quality}
+    local probabilities = { 1.0, effective_quality }
     for i = 3, max_quality do
         probabilities[i] = probabilities[i - 1] / factor
     end
@@ -217,7 +217,6 @@ function libq.make_probabilities(effective_quality, max_quality)
     end
     return probabilities
 end
-
 
 function libq.transform_results_with_probabilities(results, module_count, quality_module)
     if not results then
@@ -249,7 +248,7 @@ function libq.split_forbidden_and_catalysts(recipe_root)
     local quality_forbidden_results, quality_results = lib.partition_array(recipe_root.results, function(item)
         return libq.forbids_quality(item.name)
     end)
-    local non_catalyst_results, catalyst_results = lib.split_by_catalysts({ ingredients = recipe_root.ingredients, results = quality_results })
+    local non_catalyst_results, catalyst_results = lib.split_by_catalysts { ingredients = recipe_root.ingredients, results = quality_results }
     return quality_forbidden_results, quality_results, non_catalyst_results, catalyst_results
 end
 

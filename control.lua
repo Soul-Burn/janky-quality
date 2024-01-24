@@ -87,11 +87,11 @@ local function handle_build(event)
     end
 end
 
-for _, event in pairs({ "on_built_entity", "on_robot_built_entity", "on_entity_cloned", "script_raised_built", "script_raised_revive" }) do
+for _, event in pairs { "on_built_entity", "on_robot_built_entity", "on_entity_cloned", "script_raised_built", "script_raised_revive" } do
     script.on_event(defines.events[event], handle_build)
 end
 
-for _, event in pairs({ "on_entity_died", "on_player_mined_entity", "on_robot_mined_entity", "script_raised_destroy" }) do
+for _, event in pairs { "on_entity_died", "on_player_mined_entity", "on_robot_mined_entity", "script_raised_destroy" } do
     script.on_event(defines.events[event], handle_removal, { { filter = "type", type = "mining-drill" } })
 end
 
@@ -101,7 +101,7 @@ local function research_event(event)
     end
     local technologies = (event.force or event.research.force).technologies
     local max_level = 0
-    for i, tech in ipairs({ "quality-module", "quality-module-2", "quality-module-3" }) do
+    for i, tech in pairs { "quality-module", "quality-module-2", "quality-module-3" } do
         if technologies[tech].researched then
             max_level = i
         end
@@ -133,7 +133,7 @@ end
 
 local function transfer_from_entity_to_entity_or_player_or_spill(old_entity, new_entity, player)
     local inventory = player.get_main_inventory()
-    for _, getter in pairs({ inventory_getter(defines.inventory.assembling_machine_input), inventory_getter(defines.inventory.assembling_machine_output), module_inventory_getter }) do
+    for _, getter in pairs { inventory_getter(defines.inventory.assembling_machine_input), inventory_getter(defines.inventory.assembling_machine_output), module_inventory_getter } do
         local new_inventory = getter(new_entity)
         for item, count in pairs(getter(old_entity).get_contents()) do
             local count_left = count - new_inventory.insert { name = item, count = count }
@@ -147,7 +147,7 @@ local function transfer_from_entity_to_entity_or_player_or_spill(old_entity, new
     end
 end
 
-local allowed_quality_module_types = util.list_to_map({ "furnace", "assembling-machine", "mining-drill" })
+local allowed_quality_module_types = util.list_to_map { "furnace", "assembling-machine", "mining-drill" }
 
 local function selected_upgrade(event)
     local quality = libq.find_quality(event.item)

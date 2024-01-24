@@ -1,7 +1,7 @@
 for _, force in pairs(game.forces) do
     local technologies = force.technologies
     local max_level = 0
-    for i, tech in ipairs({"quality-module", "quality-module-2", "quality-module-3"}) do
+    for i, tech in pairs { "quality-module", "quality-module-2", "quality-module-3" } do
         if technologies[tech].researched then
             max_level = i
         end

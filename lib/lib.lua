@@ -15,7 +15,7 @@ function lib.table_update(t, t2)
 end
 
 function lib.table_extend(t, t2)
-    for _, v in ipairs(t2) do
+    for _, v in pairs(t2) do
         t[#t + 1] = v
     end
     return t

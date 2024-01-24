@@ -43,7 +43,7 @@ entity.module_specification = { module_slots = 4 }
 entity.cant_insert_at_source_message_key = "jq.cant-recycle",
 lib.add_prototype(entity)
 
-lib.add_prototype({
+lib.add_prototype {
     icon = lib.p.gfx .. "recycle.png",
     icon_size = 64,
     name = "jq-recycler",
@@ -53,57 +53,57 @@ lib.add_prototype({
     stack_size = 50,
     subgroup = "production-machine",
     type = "item",
-})
+}
 
-lib.add_prototype({ name = "jq-recycling", type = "recipe-category" })
-lib.add_prototype({ group = "jq-recycling", name = "jq-recycling", type = "item-subgroup" })
-lib.add_prototype({
+lib.add_prototype { name = "jq-recycling", type = "recipe-category" }
+lib.add_prototype { group = "jq-recycling", name = "jq-recycling", type = "item-subgroup" }
+lib.add_prototype {
     icon = lib.p.gfx .. "recycle.png",
     icon_size = 64,
     name = "jq-recycling",
     localised_name = { "jq.recycling" },
     order = "z",
     type = "item-group"
-})
+}
 
 lib.add_prototype(
-        {
-            enabled = false,
-            energy_required = 0.5,
-            ingredients = {
-                { "steel-plate", 5 },
-                { "advanced-circuit", 5 },
-                { "iron-gear-wheel", 10 },
-            },
-            name = "jq-recycler",
-            result = "jq-recycler",
-            type = "recipe"
-        }
+    {
+        enabled = false,
+        energy_required = 0.5,
+        ingredients = {
+            { "steel-plate", 5 },
+            { "advanced-circuit", 5 },
+            { "iron-gear-wheel", 10 },
+        },
+        name = "jq-recycler",
+        result = "jq-recycler",
+        type = "recipe"
+    }
 )
 
 lib.add_prototype(
-        {
-            effects = { { recipe = "jq-recycler", type = "unlock-recipe" } },
-            icon = lib.p.gfx .. "recycle.png",
-            icon_size = 64,
-            scale = 1,
-            name = "jq-recycler",
-            localised_name = { "jq.recycler" },
-            order = "a-b-d",
-            prerequisites = { "quality-module", "advanced-electronics-2" },
-            type = "technology",
-            unit = {
-                count = 75,
-                ingredients = { { "automation-science-pack", 1 }, { "logistic-science-pack", 1 }, { "chemical-science-pack", 1 } },
-                time = 30
-            },
-            upgrade = true
-        }
+    {
+        effects = { { recipe = "jq-recycler", type = "unlock-recipe" } },
+        icon = lib.p.gfx .. "recycle.png",
+        icon_size = 64,
+        scale = 1,
+        name = "jq-recycler",
+        localised_name = { "jq.recycler" },
+        order = "a-b-d",
+        prerequisites = { "quality-module", "advanced-electronics-2" },
+        type = "technology",
+        unit = {
+            count = 75,
+            ingredients = { { "automation-science-pack", 1 }, { "logistic-science-pack", 1 }, { "chemical-science-pack", 1 } },
+            time = 30
+        },
+        upgrade = true
+    }
 )
 
 lib.flush_prototypes()
 
-local recyclable_categories = util.list_to_map({ "crafting", "basic-crafting", "advanced-crafting", "crafting-with-fluid" })
+local recyclable_categories = util.list_to_map { "crafting", "basic-crafting", "advanced-crafting", "crafting-with-fluid" }
 local recycling_probability = settings.startup["jq-recycling-efficiency"].value
 
 local function handle_item(item)
@@ -172,7 +172,7 @@ local function handle_item(item)
 
     if recycles_to_self then
         new_recipe.ingredients = new_ingredients
-        new_recipe.results = { lib.normalize_probability({ type = "item", name = item.name, amount = 1, probability = recycling_probability, catalyst_amount = 0 }) }
+        new_recipe.results = { lib.normalize_probability { type = "item", name = item.name, amount = 1, probability = recycling_probability, catalyst_amount = 0 } }
     end
 end
 

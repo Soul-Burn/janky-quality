@@ -1,4 +1,4 @@
-data:extend({
+data:extend {
     {
         type = "tips-and-tricks-item",
         name = "jq-quality",
@@ -19,4 +19,4 @@ data:extend({
         },
         image = "__janky-quality__/graphics/tip-and-trick-recycling.png",
     },
-})
+}
