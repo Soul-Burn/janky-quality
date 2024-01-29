@@ -5,6 +5,7 @@ Date: ????
     - Ordered settings rather than random
   Bug fixes
     - Support "no quality" on armors
+    - Support "no quality" on quality enhancing buildings
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.27
 Date: 2024-01-27
