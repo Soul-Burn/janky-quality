@@ -3,6 +3,7 @@ Version: 0.1.28
 Date: ????
   Changes:
     - Ordered settings rather than random
+    - Support for quality on friendly units
   Bug fixes
     - Support "no quality" on armors
     - Support "no quality" on quality enhancing buildings
