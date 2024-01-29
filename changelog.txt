@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.28
-Date: ????
+Date: 2024-01-29
   Changes:
     - Ordered settings rather than random
     - Support for quality on friendly units
