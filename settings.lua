@@ -45,6 +45,13 @@ data:extend {
         order = "f",
     },
     {
+        type = "bool-setting",
+        name = "jq-beacon-overlay",
+        setting_type = "startup",
+        default_value = true,
+        order = "g",
+    },
+    {
         type = "string-setting",
         name = "jq-quality-no-quality-items",
         setting_type = "startup",

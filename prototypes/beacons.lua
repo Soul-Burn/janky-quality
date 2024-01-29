@@ -1,5 +1,9 @@
 local lib = require("__janky-quality__/lib/lib")
 
+if not settings.startup["jq-beacon-overlay"].value then
+    return
+end
+
 for _, beacon in pairs(data.raw.beacon) do
     if beacon.graphics_set and beacon.graphics_set.module_visualisations and beacon.graphics_set.module_visualisations[1].slots then
         for i, slot in pairs(beacon.graphics_set.module_visualisations[1].slots) do
