@@ -3,6 +3,8 @@ Version: 0.1.28
 Date: ????
   Changes:
     - Ordered settings rather than random
+  Bug fixes
+    - Support "no quality" on armors
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.27
 Date: 2024-01-27
