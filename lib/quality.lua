@@ -241,7 +241,7 @@ function libq.transform_results_with_probabilities(results, module_count, qualit
 end
 
 function libq.forbids_quality(name)
-    return jq_entity_mods.no_quality[name] or jq_entity_mods.no_quality[libq.split_quality_modules(name) or ""]
+    return jq_entity_mods.no_quality[libq.split_quality_modules(name) or name]
 end
 
 function libq.split_forbidden_and_catalysts(recipe_root)
