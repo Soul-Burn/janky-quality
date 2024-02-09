@@ -142,7 +142,7 @@ function m.import_mods(import_string)
     for _, full_cat in pairs(util.split(import_string, ";")) do
         local cat, cat_definition = table.unpack(util.split(full_cat, ":"))
         local paths_and_modifiers = {}
-        for _, part_definition in pairs(util.split(cat_definition, ",")) do
+        for _, part_definition in pairs(util.split(cat_definition or "", ",")) do
             local path, mod_definition = table.unpack(util.split(part_definition, "="))
             local mod_params = util.split(mod_definition, " ")
             local mod_name = mod_params[1]
