@@ -41,9 +41,9 @@ function libq.find_quality(name)
 end
 
 libq.quality_modules = {
-    { name = "1@1", mod_level = 1, mod_quality = 1, max_quality = 3, modifier = 0.0100, icon = lib.p.gfx .. "quality-module-1@1-overlay.png" },
-    { name = "2@1", mod_level = 2, mod_quality = 1, max_quality = 4, modifier = 0.0150, icon = lib.p.gfx .. "quality-module-2@1-overlay.png" },
-    { name = "3@1", mod_level = 3, mod_quality = 1, max_quality = 5, modifier = 0.0248, icon = lib.p.gfx .. "quality-module-3@1-overlay.png" },
+    { name = "1@1", mod_level = 1, mod_quality = 1, max_quality = 3, modifier = 0.010, icon = lib.p.gfx .. "quality-module-1@1-overlay.png" },
+    { name = "2@1", mod_level = 2, mod_quality = 1, max_quality = 4, modifier = 0.015, icon = lib.p.gfx .. "quality-module-2@1-overlay.png" },
+    { name = "3@1", mod_level = 3, mod_quality = 1, max_quality = 5, modifier = 0.025, icon = lib.p.gfx .. "quality-module-3@1-overlay.png" },
 }
 
 local qm_to_add = {}
@@ -52,7 +52,7 @@ for _, qm in pairs(libq.quality_modules) do
         if quality.level ~= 1 then
             local new_qm = table.deepcopy(qm)
             new_qm.name = new_qm.mod_level .. "@" .. quality.level
-            new_qm.modifier = new_qm.modifier * (1.0 + 0.3 * quality.modifier)
+            new_qm.modifier = math.floor(1000 * new_qm.modifier * (1.0 + 0.3 * quality.modifier)) / 1000
             new_qm.icon = lib.p.gfx .. "quality-module-" .. new_qm.name .. "-overlay.png"
             new_qm.mod_quality = quality.level
             table.insert(qm_to_add, new_qm)
