@@ -14,4 +14,10 @@ for _, character in pairs(data.raw.character) do
             animation.armors = new_armors
         end
     end
+    local new_categories = {}
+    for _, crafting_category in pairs(character.crafting_categories or {"crafting"}) do
+        table.insert(new_categories, crafting_category)
+        table.insert(new_categories, libq.name_with_quality_forbidden(crafting_category))
+    end
+    character.crafting_categories = new_categories
 end

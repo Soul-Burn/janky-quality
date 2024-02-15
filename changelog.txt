@@ -5,6 +5,7 @@ Date: ????
     - Correct rounding for quality bonuses
   Bug fixes:
     - Fix for empty quality bonus string
+    - Fix for hand-crafting recipes with forbidden quality
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.28
 Date: 2024-01-29

@@ -6,7 +6,7 @@ lib.table_update(jq_entity_mods.no_quality, require(lib.p.prot .. "no_quality"))
 
 local imports = {
     "sprites",
-    "armors",
+    "character",
     "beacons",
     "quality_modules",
     "recycling",
