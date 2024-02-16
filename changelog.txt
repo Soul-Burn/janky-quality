@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.29
-Date: ????
+Date: 2024-02-16
   Changes:
     - Correct rounding for quality bonuses
   Bug fixes:
