@@ -12,13 +12,23 @@ Quality modules inspired by FFF-375, but very janky!
 
 * Vanilla
 * Wasn't tested and probably won't work with any overhauls
+* Will not work with huge overhauls due to recipe counts
 
 # Settings
 
+## Startup
+
 * Show programming baked machines from base and module on player - Unneeded with selection tool.
-* Enabled/disable additional quality bonuses not in the FFF - reasonable upgrades like lamp range and fuel values.
-* Recycling efficiency - portion of ingredients of items returned by the recycler. Default: 0.25.
-* Alternate item quality icon position - Moves the quality icon to the top left, so it is more visible on compacted belts. 
+* Enabled/disable additional quality bonuses not in the FFF - Reasonable upgrades like lamp range and fuel values.
+* Extra quality bonuses string - A simple way to add extra quality bonuses. See source homepage for details.
+* Recycling efficiency - Portion of ingredients of items returned by the recycler. Default: 0.25.
+* Alternate item quality icon position - Moves the quality icon to the top left, so it is more visible on compacted belts.
+* No quality on item/subgroup/group - Used for compatibility with mods.
+
+## Runtime
+
+* Show quality only in certain proximity - Used in megabases where performance suffers due to overlay count
+* Tick rate for updating proximity overlays - Used in conjunction with the above to aid performance.
 
 # Modding interface
 
@@ -30,8 +40,9 @@ This mod has a modding interface, for simple addition of new quality bonuses. Se
 * Researching all technologies (/cheat) is slow. This is an engine issue.
 * Quality indicators do not appear on ghosts or GUIs.
 * Some quality indicators look strange on recipes and equipment.
+* Mining drills do not get the bonuses from the FFF.
 
 # Future plans
 
-* More SA quality bonuses (some capsules)
+* More SA quality bonuses (some capsules, miners)
 * More extra non-SA quality bonuses (vehicle speed, tile speed)
