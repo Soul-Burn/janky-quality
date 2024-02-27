@@ -75,4 +75,20 @@ data:extend {
         allow_blank = true,
         order = "zc",
     },
+    {
+        type = "int-setting",
+        name = "jq-indicator-proximity-distance",
+        setting_type = "runtime-global",
+        default_value = -1,
+        order = "oa",
+    },
+    {
+        type = "int-setting",
+        name = "jq-indicator-proximity-tick",
+        setting_type = "runtime-global",
+        default_value = 4,
+        minimum_value = 1,
+        order = "ob",
+    },
+
 }

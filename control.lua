@@ -2,6 +2,9 @@ require("util")
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
+local proximity_distance_setting_name = "jq-indicator-proximity-distance"
+local proximity_tick_setting_name = "jq-indicator-proximity-tick"
+
 local function make_area(bounding_box, radius)
     local bb = bounding_box
     local center_x, center_y = (bb.right_bottom.x + bb.left_top.x) / 2, (bb.right_bottom.y + bb.left_top.y) / 2
@@ -56,30 +59,50 @@ local function handle_removal(event)
     end
 end
 
+local function draw_quality_on_entity(entity)
+    local found_quality = libq.find_quality(entity.name)
+    if found_quality ~= 1 then
+        local bb = entity.bounding_box
+        local off_x = (bb.left_top.x - bb.right_bottom.x) / 2 + 0.15
+        local off_y = (bb.right_bottom.y - bb.left_top.y) / 2 - 0.15
+        rendering.draw_sprite {
+            target = entity,
+            surface = entity.surface,
+            sprite = ("jq_quality_icon_" .. found_quality),
+            target_offset = { off_x, off_y },
+            only_in_alt_mode = true,
+        }
+    end
+    local _, found_slots, found_module = libq.split_quality_modules(libq.name_without_quality(entity.name))
+    if found_slots and found_module then
+        found_slots = tonumber(found_slots)
+        local bb = entity.bounding_box
+        local off_y = (bb.right_bottom.y - bb.left_top.y) * 0.25
+        for i = 1, found_slots do
+            local off_x = 0.5 * (i - 0.5 * found_slots - 0.5)
+            rendering.draw_sprite {
+                target = entity,
+                surface = entity.surface,
+                sprite = ("jq_quality_module_icon_" .. found_module),
+                target_offset = { off_x, off_y },
+                only_in_alt_mode = true,
+            }
+        end
+    end
+end
+
 local function handle_build(event)
     local ent = event.created_entity or event.entity or event.destination
     if not ent then
         return
     end
-    local found_quality = libq.find_quality(ent.name)
-    if found_quality ~= 1 then
-        local bb = ent.bounding_box
-        local off_x = (bb.left_top.x - bb.right_bottom.x) / 2 + 0.15
-        local off_y = (bb.right_bottom.y - bb.left_top.y) / 2 - 0.15
-        rendering.draw_sprite { target = ent, surface = ent.surface, sprite = ("jq_quality_icon_" .. found_quality), target_offset = { off_x, off_y }, only_in_alt_mode = true }
-    end
-    local _, found_slots, found_module = libq.split_quality_modules(libq.name_without_quality(ent.name))
-    if found_slots and found_module then
-        found_slots = tonumber(found_slots)
-        local bb = ent.bounding_box
-        local off_y = (bb.right_bottom.y - bb.left_top.y) * 0.25
-        for i = 1, found_slots do
-            local off_x = 0.5 * (i - 0.5 * found_slots - 0.5)
-            rendering.draw_sprite { target = ent, surface = ent.surface, sprite = ("jq_quality_module_icon_" .. found_module), target_offset = { off_x, off_y }, only_in_alt_mode = true }
-        end
+
+    if settings.global[proximity_distance_setting_name].value == -1 then
+        draw_quality_on_entity(ent)
     end
 
     if ent.type == "mining-drill" then
+        local _, found_slots, found_module = libq.split_quality_modules(libq.name_without_quality(ent.name))
         if found_slots and found_module then
             local qm = lib.find_by_prop(libq.quality_modules, "name", found_module)
             set_resources_around_miner(ent, found_slots, qm)
@@ -367,5 +390,52 @@ script.on_event(defines.events.on_player_reverse_selected_area, selected_downgra
 script.on_init(function()
     for _, force in pairs(game.forces) do
         force.technologies["jq_default_recipes"].researched = true
+    end
+end)
+
+script.on_event(defines.events.on_tick, function(event)
+    if event.tick % settings.global[proximity_tick_setting_name].value ~= 0 then
+        return
+    end
+    local distance = settings.global[proximity_distance_setting_name].value
+    if distance > -1 then
+        rendering.clear("janky-quality")
+        local entities = {}
+        for _, player in pairs(game.players) do
+            if player.connected then
+                if player.selected then
+                    for _, entity in pairs(player.surface.find_entities_filtered { force = player.force, position = player.selected.position, radius = distance }) do
+                        entities[entity] = true
+                    end
+                end
+                for _, entity in pairs(player.surface.find_entities_filtered { force = player.force, position = player.position, radius = distance }) do
+                    entities[entity] = true
+                end
+            end
+        end
+        for entity in pairs(entities) do
+            draw_quality_on_entity(entity)
+        end
+    end
+end)
+
+script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
+    if event.setting == proximity_distance_setting_name then
+        local distance = settings.global[proximity_distance_setting_name].value
+        rendering.clear("janky-quality")
+        if distance == -1 then
+            local forces = {}
+            for _, force in pairs(game.forces) do
+                if #force.players > 0 then
+                    table.insert(forces, force)
+                end
+            end
+
+            for _, surface in pairs(game.surfaces) do
+                for _, entity in pairs(surface.find_entities_filtered { force = forces }) do
+                    draw_quality_on_entity(entity)
+                end
+            end
+        end
     end
 end)

@@ -2,6 +2,7 @@
 Version: 0.1.30
 Date: ????
   Changes:
+    - Added settings to draw quality on entities within a distance to the players or selected entities
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.29
 Date: 2024-02-16
