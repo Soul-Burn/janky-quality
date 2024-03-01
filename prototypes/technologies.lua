@@ -2,6 +2,24 @@ local data_util = require("__flib__/data-util")
 local lib = require("__janky-quality__/lib/lib")
 local libq = require("__janky-quality__/lib/quality")
 
+for _, technology in pairs(data.raw.technology) do
+    if technology.effects then
+        local new_effects = {}
+        for _, effect in pairs(technology.effects) do
+            if effect.type ==  "turret-attack" and not libq.forbids_quality(effect.turret_id) then
+                for _, quality in pairs(libq.qualities) do
+                    if quality.level ~= 1 then
+                        local ta_effect = table.deepcopy(effect)
+                        ta_effect.turret_id = libq.name_with_quality(ta_effect.turret_id, quality)
+                        table.insert(new_effects, ta_effect)
+                    end
+                end
+            end
+        end
+        lib.table_extend(technology.effects, new_effects)
+    end
+end
+
 local default_recipes, _ = lib.partition_array(data.raw.recipe, function(recipe)
     if recipe.normal then
         return recipe.normal.enabled ~= false
