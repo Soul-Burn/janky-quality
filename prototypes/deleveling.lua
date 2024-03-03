@@ -79,6 +79,7 @@ local function handle_item(item)
         category = "jq-deleveling",
         hide_from_player_crafting = true,
         allow_as_intermediate = false,
+        allow_decomposition = false,
         ingredients = { { type = "item", name = item.name, amount = 1 } },
         results = { },
     }

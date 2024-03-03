@@ -70,6 +70,7 @@ local function handle_recipe(recipe)
                     )
                 end
             end
+            new_recipe.allow_decomposition = false
             lib.add_prototype(new_recipe)
         end
         :: continue ::

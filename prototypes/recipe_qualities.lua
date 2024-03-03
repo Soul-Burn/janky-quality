@@ -59,6 +59,8 @@ for _, recipe in pairs(data.raw.recipe) do
                         handle_recipe_part(recipe_root.results)
                         recipe_root.hide_from_player_crafting = true
                         recipe_root.allow_as_intermediate = false
+                        recipe_root.allow_intermediates = false
+                        recipe_root.allow_decomposition = false
                     end
                 end
             end

@@ -25,6 +25,7 @@ local function handle_category(category_name)
                         enabled = false,
                         allow_as_intermediate = false,
                         allow_intermediates = false,
+                        allow_decomposition = false,
                         hide_from_stats = true,
                         hide_from_player_crafting = hide_player_programming_recipes,
                     }
@@ -42,6 +43,7 @@ local function handle_category(category_name)
                         enabled = false,
                         allow_as_intermediate = false,
                         allow_intermediates = false,
+                        allow_decomposition = false,
                         hide_from_stats = true,
                         hide_from_player_crafting = hide_player_programming_recipes,
                     }

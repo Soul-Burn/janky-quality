@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.31
 Date: ????
+  Changes:
+    - Disabled "total raw" from quality items to increase performance
   Bug fixes:
     - Turrets now get the expected damage bonuses from research
 ---------------------------------------------------------------------------------------------------

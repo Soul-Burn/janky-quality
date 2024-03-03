@@ -118,6 +118,7 @@ local function handle_item(item)
         category = "jq-recycling",
         hide_from_player_crafting = true,
         allow_as_intermediate = false,
+        allow_decomposition = false,
     }
     lib.add_prototype(new_recipe)
 
@@ -140,6 +141,7 @@ local function handle_item(item)
             local new_root = {
                 hide_from_player_crafting = true,
                 allow_as_intermediate = false,
+                allow_decomposition = false,
                 category = "jq-recycling",
                 ingredients = new_ingredients,
                 energy_required = 0.5,
