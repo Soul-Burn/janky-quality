@@ -60,18 +60,19 @@ local function handle_removal(event)
 end
 
 local function draw_quality_on_entity(entity)
+    local ids = {}
     local found_quality = libq.find_quality(entity.name)
     if found_quality ~= 1 then
         local bb = entity.bounding_box
         local off_x = (bb.left_top.x - bb.right_bottom.x) / 2 + 0.15
         local off_y = (bb.right_bottom.y - bb.left_top.y) / 2 - 0.15
-        rendering.draw_sprite {
+        table.insert(ids, rendering.draw_sprite {
             target = entity,
             surface = entity.surface,
             sprite = ("jq_quality_icon_" .. found_quality),
             target_offset = { off_x, off_y },
             only_in_alt_mode = true,
-        }
+        })
     end
     local _, found_slots, found_module = libq.split_quality_modules(libq.name_without_quality(entity.name))
     if found_slots and found_module then
@@ -80,15 +81,16 @@ local function draw_quality_on_entity(entity)
         local off_y = (bb.right_bottom.y - bb.left_top.y) * 0.25
         for i = 1, found_slots do
             local off_x = 0.5 * (i - 0.5 * found_slots - 0.5)
-            rendering.draw_sprite {
+            table.insert(ids, rendering.draw_sprite {
                 target = entity,
                 surface = entity.surface,
                 sprite = ("jq_quality_module_icon_" .. found_module),
                 target_offset = { off_x, off_y },
                 only_in_alt_mode = true,
-            }
+            })
         end
     end
+    return ids
 end
 
 local function handle_build(event)
@@ -393,28 +395,123 @@ script.on_init(function()
     end
 end)
 
-script.on_event(defines.events.on_tick, function(event)
-    if event.tick % settings.global[proximity_tick_setting_name].value ~= 0 then
-        return
+local update_block_size = 16
+
+local function get_chunk_top_left(pos, x_off, y_off)
+    return { pos.x - pos.x % update_block_size + x_off, pos.y - pos.y % update_block_size + y_off }
+end
+
+local function area_from_top_left(top_left)
+    return { top_left, { top_left[1] + update_block_size, top_left[2] + update_block_size } }
+end
+
+local debug_cycles = false
+
+local function find_chunks(index, distance)
+    local half_length = math.ceil(distance / update_block_size)
+    local side_length = half_length * 2 + 1
+
+    local x_off = (index % side_length - half_length) * update_block_size
+    local y_off = (math.floor(index / side_length) - half_length) * update_block_size
+
+    local chunks = {}
+    for _, player in pairs(game.players) do
+        if player.connected then
+            if player.selected then
+                table.insert(chunks, { player.surface, get_chunk_top_left(player.selected.position, x_off, y_off) })
+            end
+            table.insert(chunks, { player.surface, get_chunk_top_left(player.position, x_off, y_off) })
+        end
     end
-    local distance = settings.global[proximity_distance_setting_name].value
-    if distance > -1 then
-        rendering.clear("janky-quality")
-        local entities = {}
-        for _, player in pairs(game.players) do
-            if player.connected then
-                if player.selected then
-                    for _, entity in pairs(player.surface.find_entities_filtered { force = player.force, position = player.selected.position, radius = distance }) do
-                        entities[entity] = true
-                    end
-                end
-                for _, entity in pairs(player.surface.find_entities_filtered { force = player.force, position = player.position, radius = distance }) do
-                    entities[entity] = true
+    return chunks
+end
+
+local function do_for_index(overlay_data, index, distance, debug_data)
+    if index == 0 then
+        for _, overlays in pairs(overlay_data.last_cycle) do
+            for _, overlay in pairs(overlays) do
+                rendering.destroy(overlay)
+                if debug_data then
+                    debug_data.destroyed = debug_data.destroyed + 1
                 end
             end
         end
-        for entity in pairs(entities) do
-            draw_quality_on_entity(entity)
+        overlay_data.last_cycle = overlay_data.current_cycle
+        overlay_data.current_cycle = {}
+        overlay_data.visited_chunks = {}
+    end
+    local entities = {}
+    local forces = {}
+    for _, force in pairs(game.forces) do
+        table.insert(forces, force)
+    end
+    for _, chunk in pairs(find_chunks(index, distance)) do
+        local surface = chunk[1]
+        local top_left = chunk[2]
+        local area = area_from_top_left(top_left)
+        local chunk_name = surface.index .. ":" .. top_left[1] .. "," .. top_left[2]
+        if not overlay_data.visited_chunks[chunk_name] then
+            overlay_data.visited_chunks[chunk_name] = true
+            for _, entity in pairs(surface.find_entities_filtered { force = forces, area = area }) do
+                if entity.unit_number then
+                    entities[entity.unit_number] = entity
+                end
+            end
+            if debug_data then
+                table.insert(global.rects, rendering.draw_rectangle { surface = surface, color = { 1, 0, 0, 0 }, left_top = area[1], right_bottom = area[2] })
+            end
+        end
+    end
+    local last_cycle = overlay_data.last_cycle
+    local current_cycle = overlay_data.current_cycle
+    for unit_number, entity in pairs(entities) do
+        if not current_cycle[unit_number] then
+            current_cycle[unit_number] = last_cycle[unit_number] or draw_quality_on_entity(entity)
+            if debug_data then
+                if current_cycle[unit_number] and not last_cycle[unit_number] and next(current_cycle[unit_number]) then
+                    debug_data.created = debug_data.created + 1
+                    game.print("Created entity: " .. entity.name .. " @ " .. entity.gps_tag)
+                end
+            end
+            last_cycle[unit_number] = nil
+        end
+    end
+end
+
+script.on_event(defines.events.on_tick, function(event)
+    local ticks_per_cycle = settings.global[proximity_tick_setting_name].value
+    local distance = settings.global[proximity_distance_setting_name].value
+    if distance > -1 then
+        global.overlay_data = global.overlay_data or {}
+        local overlay_data = global.overlay_data
+        overlay_data.current_cycle = overlay_data.current_cycle or {}
+        overlay_data.last_cycle = overlay_data.last_cycle or {}
+        overlay_data.visited_chunks = overlay_data.visited_chunks or {}
+
+        local debug_data
+        if debug_cycles then
+            for _, id in pairs(global.rects or {}) do
+                rendering.destroy(id)
+            end
+            global.rects = {}
+            debug_data = { created = 0, destroyed = 0 }
+        end
+
+        local half_length = math.ceil(distance / update_block_size)
+        local side_length = half_length * 2 + 1
+        local cycle_length = side_length * side_length
+        local cycle_frames_per_tick = cycle_length / ticks_per_cycle
+
+        local current_float = event.tick * cycle_frames_per_tick
+        local current = math.floor(current_float - 0.0001)
+        local previous = math.ceil(current_float - cycle_frames_per_tick)
+
+        for index = previous, current do
+            do_for_index(overlay_data, index % cycle_length, distance, debug_data)
+        end
+
+        if debug_cycles and (debug_data.created > 0 or debug_data.destroyed > 0) then
+            game.print("Created: " .. debug_data.created .. " Destroyed: " .. debug_data.destroyed)
         end
     end
 end)
