@@ -5,6 +5,7 @@ Date: ????
     - Disabled "total raw" from quality items to increase performance
   Bug fixes:
     - Turrets now get the expected damage bonuses from research
+    - Energy and fluid turrets now do not get extra damage from quality
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.30
 Date: 2024-02-27

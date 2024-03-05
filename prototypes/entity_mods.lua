@@ -119,7 +119,10 @@ m.default_energy_source_mod = m.default_mod {
 m.default_roboport_mod = m.combine(m.default_mod { "charging_energy" }, m.default_energy_source_mod)
 
 -- Default high level modification function for attack_parameters
-m.default_attack_parameters = m.mod { ["attack_parameters.range"] = m.mult(0.1), attack_parameters = trigger_mods.ammo }
+m.default_attack_parameters = m.mod {
+    ["attack_parameters.range"] = m.mult(0.1),
+    attack_parameters = trigger_mods.ammo_suppressed,
+}
 
 -- Updates the modifier list with a new table. Prefix category with "-" to replace
 function m.update_mods(new_mods)
