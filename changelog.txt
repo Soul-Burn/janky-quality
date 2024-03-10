@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.32
-Date: ????
+Date: 2024-03-10
   Changelog:
     - Higher quality nightvision stays on longer
   Bug fixes:
