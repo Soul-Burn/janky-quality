@@ -502,7 +502,7 @@ script.on_event(defines.events.on_tick, function(event)
         local cycle_length = side_length * side_length
         local cycle_frames_per_tick = cycle_length / ticks_per_cycle
 
-        local current_float = event.tick * cycle_frames_per_tick
+        local current_float = (event.tick % (cycle_length * ticks_per_cycle)) * cycle_frames_per_tick
         local current = math.floor(current_float - 0.0001)
         local previous = math.ceil(current_float - cycle_frames_per_tick)
 
