@@ -54,6 +54,8 @@ return {
     ["capsule"] = m.mod { ["capsule_action.attack_parameters.?"] = trigger_mods.ammo },
     ["night-vision-equipment"] = function(p, quality)
         p.color_lookup[1][2] = lib.p.gfx .. "nv-quality-" .. quality.level .. ".png"
+        local ratio = quality.modifier / libq.max_modifier
+        p.darkness_to_turn_on = (1 - ratio) * p.darkness_to_turn_on
     end,
     ["rail-planner"] = m.mod { straight_rail = m.with_quality, curved_rail = m.with_quality },
     ["straight-rail"] = function(p, quality)

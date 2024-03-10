@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.32
 Date: ????
+  Changelog:
+    - Higher quality nightvision stays on longer
   Bug fixes:
     - Fixes to overlay optimizations in high game tick numbers
 ---------------------------------------------------------------------------------------------------

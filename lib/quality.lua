@@ -11,6 +11,13 @@ libq.qualities = {
     { modifier = 5, color = { 1.0, 0.58, 0.0 } },
 }
 
+libq.max_modifier = 0
+for _, quality in pairs(libq.qualities) do
+    if libq.max_modifier < quality.modifier then
+        libq.max_modifier = quality.modifier
+    end
+end
+
 local overlay_modifier = settings.startup["jq-alt-overlay"].value and "-top" or ""
 
 for i, q in pairs(libq.qualities) do
