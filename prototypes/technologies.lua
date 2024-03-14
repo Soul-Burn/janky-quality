@@ -16,7 +16,10 @@ for _, technology in pairs(data.raw.technology) do
                 end
             end
         end
-        lib.table_extend(technology.effects, new_effects)
+        if next(new_effects) then
+            technology.effects = table.deepcopy(technology.effects)
+            lib.table_extend(technology.effects, new_effects)
+        end
     end
 end
 
