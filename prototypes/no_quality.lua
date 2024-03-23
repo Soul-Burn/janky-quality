@@ -6,6 +6,11 @@ for _, item_name in pairs(util.split(settings.startup["jq-quality-no-quality-ite
     nq[item_name] = true
 end
 
+for _, i in pairs { 96, 64, 32, 16, 12, 10, 8, 6, 5, 4, 2, 1 } do
+    nq["constructron_pathing_proxy_" .. i] = true
+end
+nq["waterway"] = true
+
 local cats = {
     "fluid", "player-port", "simple-entity-with-force", "simple-entity-with-owner", "infinity-container", "infinity-pipe",
     "linked-container", "linked-belt", "electric-energy-interface", "blueprint", "copy-paste-tool", "deconstruction-item", "upgrade-item",
@@ -21,7 +26,7 @@ end
 local groups = { "other", "ee-tools", "creative-mod_creative-tools" }
 lib.table_extend(groups, util.split(settings.startup["jq-quality-no-quality-groups"].value, ","))
 
-local subgroup_set = util.list_to_map { "textplates", "enemies", "factorissimo2" }
+local subgroup_set = util.list_to_map { "textplates", "enemies", "factorissimo2", "programmable-structures" }
 for _, subgroup in pairs(util.split(settings.startup["jq-quality-no-quality-subgroups"].value, ",")) do
     subgroup_set[subgroup] = true
 end
@@ -44,7 +49,7 @@ for _, supercat in pairs { "item", "entity" } do
     end
 end
 
-local entity_categories_with_placed = { "constant-combinator" }
+local entity_categories_with_placed = { "constant-combinator", "straight-rail", "curved-rail", "container" }
 
 for _, cat in pairs(entity_categories_with_placed) do
     for _, entity in pairs(data.raw[cat]) do

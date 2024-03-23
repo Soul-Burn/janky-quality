@@ -59,10 +59,14 @@ return {
     end,
     ["rail-planner"] = m.mod { straight_rail = m.with_quality, curved_rail = m.with_quality },
     ["straight-rail"] = function(p, quality)
-        p.minable.results[1].name = libq.name_with_quality("rail", quality)
+        if p.minable and p.minable.results and p.minable.results[1] then
+            p.minable.results[1].name = libq.name_with_quality(p.minable.results[1].name, quality)
+        end
     end,
     ["curved-rail"] = function(p, quality)
-        p.minable.results[1].name = libq.name_with_quality("rail", quality)
+        if p.minable and p.minable.results and p.minable.results[1] then
+            p.minable.results[1].name = libq.name_with_quality(p.minable.results[1].name, quality)
+        end
     end,
     ["module"] = function(p, quality)
         for effect_name, sign in pairs { speed = 1, productivity = 1, consumption = -1, pollution = -1 } do

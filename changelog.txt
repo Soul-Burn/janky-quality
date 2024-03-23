@@ -2,7 +2,9 @@
 Version: 0.1.33
 Date: ????
   Bug fixes:
-    - Handle technologies that use shared tables
+    - Handle technologies that use shared tables (Compatibility with Warptorio 2)
+  Compatibility:
+     - Added compatibility with Cargo Ships, Constructron-Continued, AAI Programmable Vehicles
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.32
 Date: 2024-03-10
