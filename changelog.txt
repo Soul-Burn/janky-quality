@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.34
 Date: ????
+  Bug fixes:
+    - Fixed crash when removing quality modules from an assembler performing programming
   Compatibility:
     - Handle darkness_to_turn_on default value in night vision equipment
 ---------------------------------------------------------------------------------------------------

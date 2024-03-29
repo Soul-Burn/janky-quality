@@ -340,7 +340,11 @@ local function selected_downgrade(event)
             local recipe = is_crafter and entity.get_recipe()
             local new_recipe_name
             if recipe then
-                new_recipe_name = libq.split_quality_modules(recipe.name) or recipe.name
+                if string.match(recipe.name, "^programming%-quality%-") then
+                    new_recipe_name = recipe.name
+                else
+                    new_recipe_name = libq.split_quality_modules(recipe.name) or recipe.name
+                end
             end
             local new_entity = entity.surface.create_entity {
                 name = libq.name_with_quality(base_entity_name, libq.find_quality(entity.name)),
